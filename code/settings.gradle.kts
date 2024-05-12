@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CityConnnect"
+rootProject.name = "CityConnect"
 include(":app")
  
