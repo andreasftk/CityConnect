@@ -1,13 +1,21 @@
 package cityconnnect.app.data
 
 import cityconnnect.app.data.model.LoggedInUser
+
+
 import java.io.IOException
+
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
-class LoginDataSource {
 
+class LoginDataSource {
+//    init {
+//        val database = getDatabase()
+//        var collection = database.getCollection<Users>("Users")
+//    }
+//
     fun login(username: String, password: String): Result<LoggedInUser> {
         try {
             // TODO: handle loggedInUser authentication
@@ -17,7 +25,7 @@ class LoginDataSource {
             return Result.Error(IOException("Error logging in", e))
         }
     }
-
+//
     fun logout() {
         // TODO: revoke authentication
     }

@@ -10,11 +10,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import cityconnnect.app.databinding.ActivityLoginBinding
+import cityconnnect.app.data.LoginDataSource
 
 import cityconnnect.app.R
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -31,6 +34,8 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.password
         val login = binding.login
         val loading = binding.loading
+        var button = findViewById<Button>(R.id.login)
+
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
