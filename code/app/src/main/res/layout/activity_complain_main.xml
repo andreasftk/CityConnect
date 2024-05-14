@@ -9,48 +9,32 @@
     android:foregroundTint="#000000"
     tools:context=".ComplainMain">
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/feedWhite"
         android:layout_width="409dp"
-        android:layout_height="649dp"
+        android:layout_height="679dp"
         app:cardBackgroundColor="#FAFAFA"
         app:cardCornerRadius="40dp"
         app:cardElevation="0dp"
         app:cardForegroundColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="390dp"
-            android:layout_height="59dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            app:cardBackgroundColor="#DEDEDE"
-            app:cardCornerRadius="40dp"
-            app:cardElevation="0dp"
-            app:cardForegroundColor="#FFFFFF"
-
-            >
-
-            <SearchView
-                android:id="@+id/searchView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </androidx.cardview.widget.CardView>
-
     </androidx.cardview.widget.CardView>
-
 
     <Button
         android:id="@+id/btFeed"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="54dp"
         android:layout_marginBottom="-6dp"
         android:text="Feed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -63,7 +47,7 @@
     <Button
         android:id="@+id/btHistory"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="54dp"
         android:layout_marginBottom="-6dp"
         android:text="History"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -78,32 +62,66 @@
         android:background="@android:color/transparent"
         android:scaleType="centerInside"
         android:src="@drawable/add_sign"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btHistory"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.930" />
+        app:layout_constraintVertical_bias="0.99"/>
 
     <ImageView
         android:id="@+id/ivLogoMain"
-        android:layout_width="300dp"
+        android:layout_width="200dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/feedWhite"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivProfile"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_main" />
+        app:srcCompat="@drawable/logo_complain" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/ivBell"
         android:layout_width="40dp"
         android:layout_height="35dp"
         app:layout_constraintBottom_toTopOf="@+id/feedWhite"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivLogoMain"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_notifications_black_24dp"
-        app:layout_constraintHorizontal_bias="0.1"
-        />
+        app:srcCompat="@drawable/ic_notifications_black_24dp" />
+
+    <ImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/feedWhite"
+        app:layout_constraintEnd_toStartOf="@+id/swLanguage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/swLanguage"
+        android:layout_width="0dp"
+        android:layout_height="31dp"
+        android:checked="true"
+        android:text="GR"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/feedWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        tools:layout_editor_absoluteX="1dp" />
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/search_view_bg"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/feedWhite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

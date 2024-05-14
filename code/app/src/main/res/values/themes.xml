@@ -13,4 +13,13 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="buttonBlackBackground">
+        <item name="android:background">@drawable/button_enabled_color</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="buttonWhiteBackground">
+        <item name="android:background">@drawable/button_disabled_color</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
 </resources>

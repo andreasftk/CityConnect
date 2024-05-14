@@ -7,4 +7,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <!-- Style for titles -->
+    <style name="TitleTextStyle">
+        <item name="android:textSize">18sp</item>      <!-- Text size in scaled pixels -->
+        <item name="android:textStyle">bold</item>     <!-- Text style (bold) -->
+        <item name="android:textColor">@color/black</item> <!-- Text color (black) -->
+    </style>
+
 </resources>
+
