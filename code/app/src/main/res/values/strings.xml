@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">CityConnnect</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">\t Email</string>
+    <string name="prompt_password">\t Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="title_activity_main_page">MainPage</string>
+    <string name="barcode_amp_qr_code_scanner"><![CDATA[Barcode & QR Code Scanner]]></string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="scan">Scan</string>
+    <string name="result">Result:</string>
+
+        <string name="helper_activity">HelperActivity</string>
+        <string name="showing_code_in_fragment">Showing Code in Fragment</string>
+        <string name="scan_qr_code">SCAN QR CODE</string>
+        <string name="name">Name</string>
+        <string name="empty">---</string>
+        <string name="site_name">Site Name</string>
+        <string name="scan_a_code">Scan a QR Code</string>
+        <string name="result_not_found">Result Not Found</string>
+        <string name="show_scanner_from_fragment">Show Scanner From Fragment</string>
+    </resources>
