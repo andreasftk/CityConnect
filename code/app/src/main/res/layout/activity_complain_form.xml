@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:foregroundTint="#000000"
+    tools:context=".ComplainForm">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/feedWhite"
+        android:layout_width="409dp"
+        android:layout_height="679dp"
+        app:cardBackgroundColor="#FAFAFA"
+        app:cardCornerRadius="40dp"
+        app:cardElevation="0dp"
+        app:cardForegroundColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </androidx.cardview.widget.CardView>
+    <Button
+        android:id="@+id/btFeed"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="-6dp"
+        android:text="Feed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <!-- Button 2 - Positioned from the middle of the screen to the far right -->
+    <Button
+        android:id="@+id/btHistory"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="-6dp"
+        android:text="History"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline" />
+
+    <ImageView
+        android:id="@+id/ivLogoMain"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/feedWhite"
+        app:layout_constraintEnd_toStartOf="@+id/ivProfile"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_complain" />
+
+    <ImageView
+        android:id="@+id/ivBell"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        app:layout_constraintBottom_toTopOf="@+id/feedWhite"
+        app:layout_constraintEnd_toStartOf="@+id/ivLogoMain"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_notifications_black_24dp" />
+
+    <ImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/feedWhite"
+        app:layout_constraintEnd_toStartOf="@+id/swLanguage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/swLanguage"
+        android:layout_width="0dp"
+        android:layout_height="31dp"
+        android:checked="true"
+        android:text="UK"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/feedWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/search_view_bg"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/feedWhite" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Publish a new complain"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:textStyle="bold"
+        android:layout_margin="20dp"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
+    <TextView
+        android:id="@+id/tvDirection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fill the form"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:textStyle="bold"
+        android:layout_margin="20dp"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tvDirection"
+        tools:layout_editor_absoluteX="2dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/light_grey">
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:inputType="date"
+                android:text="" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/light_grey">
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:inputType="text"
+                android:text="" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/light_grey">
+
+            <TextView
+                android:id="@+id/tvFormTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etFormTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:inputType="text"
+                android:text="" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/light_grey">
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:inputType="text"
+                android:text="" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/light_grey">
+
+            <TextView
+                android:id="@+id/tvSolutions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Solutions*"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etSolutions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:inputType="text"
+                android:text="" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/light_grey">
+
+            <TextView
+                android:id="@+id/tvNotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notes*"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etNotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:inputType="text"
+                android:text="" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvSimiosi1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Fields "
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvSimiosi2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" with * are optional"
+                android:textSize="14sp" />
+
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/tvPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Photo"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+
+    <TextView
+        android:id="@+id/tvCurrentLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Location"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/tvPhoto" />
+
+    <ImageButton
+        android:id="@+id/ibCamera"
+        android:layout_width="48dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="20dp"
+        android:scaleType="centerInside"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
+        android:src="@drawable/ic_camera" />
+
+    <ImageButton
+        android:id="@+id/ibLocation"
+
+        android:layout_width="48dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:scaleType="centerInside"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentLocation"
+        app:layout_constraintTop_toBottomOf="@+id/ibCamera"
+        android:src="@drawable/ic_location" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btRate"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/submit_button"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ibLocation" />
+</androidx.constraintlayout.widget.ConstraintLayout>

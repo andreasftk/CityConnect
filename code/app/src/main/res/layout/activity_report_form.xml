@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,8 +6,7 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:foregroundTint="#000000"
-    tools:context=".ComplainMain">
-
+    tools:context=".ComplainForm">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/feedWhite"
@@ -24,7 +22,6 @@
         app:layout_constraintStart_toStartOf="parent">
 
     </androidx.cardview.widget.CardView>
-
     <Button
         android:id="@+id/btFeed"
         android:layout_width="0dp"
@@ -53,19 +50,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline" />
-
-    <ImageButton
-        android:id="@+id/btPlus"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="15dp"
-        android:background="@android:color/transparent"
-        android:scaleType="centerInside"
-        android:src="@drawable/add_sign"
-        app:layout_constraintBottom_toTopOf="@+id/btHistory"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.99"/>
 
     <ImageView
         android:id="@+id/ivLogoMain"
@@ -106,23 +90,77 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvComplains"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        tools:layout_editor_absoluteX="1dp" />
-
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/search_view_bg"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search"
+        android:layout_margin="20dp"
+        android:text="Explain your review"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/feedWhite" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Why did you rate this post with 1 star?"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_margin="40dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/black_frame"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+        tools:layout_editor_absoluteX="2dp">
+
+        <EditText
+            android:id="@+id/editTextTextMultiLine2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:ems="15"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:text="Type here..."
+            android:textColor="@color/dark_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="564dp" />
+    </FrameLayout>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I accept the terms and conditions"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btRate"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:background="@drawable/submit_button"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

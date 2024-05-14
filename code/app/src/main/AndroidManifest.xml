@@ -20,6 +20,15 @@
         android:theme="@style/Theme.CityConnect"
         tools:targetApi="31">
         <activity
+            android:name=".ReportForm"
+            android:exported="false" />
+        <activity
+            android:name=".ComplainForm"
+            android:exported="false" />
+        <activity
+            android:name=".PopRate"
+            android:exported="false" />
+        <activity
             android:name=".ComplainRate"
             android:exported="false" />
         <activity
