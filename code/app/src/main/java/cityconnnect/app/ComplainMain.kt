@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 class ComplainMain : AppCompatActivity() {
     private lateinit var buttonFeed: Button
     private lateinit var buttonHistory: Button
+    private lateinit var buttonPlus: Button
+    private lateinit var buttonRate: Button
     private lateinit var complainAdapter: ComplainAdapter
     private lateinit var rvComplains: RecyclerView
 
@@ -32,6 +34,9 @@ class ComplainMain : AppCompatActivity() {
 
         buttonFeed = findViewById(R.id.btFeed)
         buttonHistory = findViewById(R.id.btHistory)
+        buttonPlus = findViewById(R.id.btPlus)
+        buttonRate = findViewById(R.id.btRate)
+
 
 
 

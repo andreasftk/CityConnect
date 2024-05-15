@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="300dp">
+    android:layout_height="400dp">
 
-    <RatingBar
-        android:id="@+id/rbTotalRating"
-        style="?android:attr/ratingBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:numStars="1"
-        android:layout_margin="10dp"
+    <ImageView
+        android:id="@+id/ivTotalRating"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_rating_star"
         app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
@@ -29,7 +29,7 @@
     <ImageView
         android:id="@+id/ivComplain"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:src="@drawable/ic_rubish"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,15 +41,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="Desccription"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/ivComplain"
         app:layout_constraintTop_toBottomOf="@+id/ivComplain" />
 
-    <RatingBar
-        android:id="@+id/rbRate"
-        style="?android:attr/ratingBarStyleIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:numStars="1"
+    <ImageButton
+        android:id="@+id/ivRate"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerInside"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/ic_rating_star"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
@@ -81,7 +84,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:text="Rate"
-        app:layout_constraintEnd_toStartOf="@+id/rbRate"
+        android:textColor="@color/blue"
+        app:layout_constraintEnd_toStartOf="@+id/ivRate"
         app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
     <TextView
@@ -89,8 +93,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="4.2/5"
+        android:textColor="@color/black"
         android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/rbTotalRating"
+        app:layout_constraintEnd_toStartOf="@+id/ivTotalRating"
         app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

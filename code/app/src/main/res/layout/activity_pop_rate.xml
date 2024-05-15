@@ -5,30 +5,30 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".PopRate"
-    android:background="@drawable/pop_bg">
+    android:background="@drawable/pop_bg"
+    tools:context=".PopRate">
 
 
     <ImageButton
         android:id="@+id/ibCloseRate"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:src="@drawable/ic_close"
+        android:layout_margin="10dp"
         android:background="@android:color/transparent"
         android:scaleType="centerInside"
-        android:layout_margin="10dp"
+        android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvRate"
         style="@style/TextAppearance.Material3.HeadlineLarge"
-        android:textStyle ="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Rate this post"
         android:textColor="@color/white"
+        android:textStyle="bold"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,23 +39,23 @@
         style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="How important for resolution is this issue"
         android:textColor="@color/white"
-        android:layout_marginTop="10dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRate" />
 
     <RatingBar
-        android:id="@+id/rbRate"
+        android:id="@+id/ivRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:theme="@style/RatingBar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRevireExplaination" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCurRating" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btRate"
@@ -70,7 +70,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rbRate" />
+        app:layout_constraintTop_toBottomOf="@+id/ivRate" />
+
+    <TextView
+        android:id="@+id/tvCurRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRevireExplaination" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

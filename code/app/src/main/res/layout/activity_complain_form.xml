@@ -12,27 +12,19 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/feedWhite"
         android:layout_width="409dp"
-        android:layout_height="679dp"
+        android:layout_height="match_parent"
         app:cardBackgroundColor="#FAFAFA"
         app:cardCornerRadius="40dp"
+        android:layout_marginTop="60dp"
         app:cardElevation="0dp"
         app:cardForegroundColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </androidx.cardview.widget.CardView>
-    <Button
-        android:id="@+id/btFeed"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="-6dp"
-        android:text="Feed"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -42,15 +34,6 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <!-- Button 2 - Positioned from the middle of the screen to the far right -->
-    <Button
-        android:id="@+id/btHistory"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="-6dp"
-        android:text="History"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/guideline" />
 
     <ImageView
         android:id="@+id/ivLogoMain"
@@ -78,7 +61,7 @@
         app:layout_constraintBottom_toTopOf="@+id/feedWhite"
         app:layout_constraintEnd_toStartOf="@+id/swLanguage"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/baseline_account_circle_24" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/swLanguage"
@@ -90,216 +73,154 @@
         app:layout_constraintBottom_toTopOf="@+id/feedWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/tvDirection"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/search_view_bg"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp"
+        android:text="New Complain"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/feedWhite" />
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Publish a new complain"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:textStyle="bold"
-        android:layout_margin="20dp"
-        android:textColor="@color/dark_grey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
-
-    <TextView
-        android:id="@+id/tvDirection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fill the form"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:textStyle="bold"
-        android:layout_margin="20dp"
-        android:textColor="@color/dark_grey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
-    <TableLayout
+    <LinearLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tvDirection"
-        tools:layout_editor_absoluteX="2dp">
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDirection">
 
-        <TableRow
+        <!-- Date and Location Section -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/light_grey">
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:text="Date"
-                android:textSize="16sp" />
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/etDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_text_box"
                 android:ems="10"
                 android:inputType="date"
-                android:text="" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/light_grey">
+                android:text=""
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tvLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"
                 android:text="Location"
-                android:textSize="16sp" />
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/etLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_text_box"
                 android:ems="10"
                 android:inputType="text"
-                android:text="" />
-        </TableRow>
+                android:text=""
+                android:textColor="@color/black" />
+        </LinearLayout>
 
-        <TableRow
+        <!-- Other Form Fields -->
+        <TextView
+            android:id="@+id/tvFormTitle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/light_grey">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Title"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tvFormTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Title"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/etFormTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10"
-                android:inputType="text"
-                android:text="" />
-        </TableRow>
-
-        <TableRow
+        <EditText
+            android:id="@+id/etFormTitle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/light_grey">
+            android:layout_height="35dp"
+            android:background="@drawable/edit_text_box"
+            android:ems="10"
+            android:inputType="text"
+            android:text=""
+            android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/tvDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description"
-                android:textSize="16sp" />
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Description"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/etDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10"
-                android:inputType="text"
-                android:text="" />
-        </TableRow>
-
-        <TableRow
+        <EditText
+            android:id="@+id/etDescription"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/light_grey">
+            android:layout_height="75dp"
+            android:layout_weight="2"
+            android:background="@drawable/edit_text_box"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:maxHeight="65dp"
+            android:text=""
+            android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/tvSolutions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Solutions*"
-                android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/etSolutions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10"
-                android:inputType="text"
-                android:text="" />
-        </TableRow>
+        <TextView
+            android:id="@+id/tvSolutions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Suggestions*"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
-        <TableRow
+        <EditText
+            android:id="@+id/etSolutions"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/light_grey">
+            android:layout_height="65dp"
+            android:layout_weight="2"
+            android:background="@drawable/edit_text_box"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:text=""
+            android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/tvNotes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Notes*"
-                android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/etNotes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10"
-                android:inputType="text"
-                android:text="" />
-        </TableRow>
+        <TextView
+            android:id="@+id/tvSimiosi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="20dp"
+            android:text="Fields with * are optional"
+            android:textColor="@color/dark_grey"
+            android:textSize="14sp" />
+    </LinearLayout>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/tvSimiosi1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="Fields "
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tvSimiosi2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" with * are optional"
-                android:textSize="14sp" />
-
-        </TableRow>
-    </TableLayout>
 
     <TextView
         android:id="@+id/tvPhoto"
@@ -307,6 +228,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Photo"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
@@ -318,6 +240,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Location"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
