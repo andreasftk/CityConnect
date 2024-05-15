@@ -1,30 +1,45 @@
 package cityconnnect.app.ui.login
 
+import android.annotation.SuppressLint
 import android.app.Activity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
-import cityconnnect.app.databinding.ActivityLoginBinding
-import cityconnnect.app.data.LoginDataSource
-
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import cityconnnect.app.R
+import cityconnnect.app.data.User
+import cityconnnect.app.databinding.ActivityLoginBinding
+import cityconnnect.app.Citizen
+import cityconnnect.app.MainPage
 
 
-class LoginActivity : AppCompatActivity() {
+@SuppressLint("StaticFieldLeak")
+lateinit var username_input: EditText
+@SuppressLint("StaticFieldLeak")
+lateinit var password_input: EditText
+@SuppressLint("StaticFieldLeak")
+lateinit var login_btn: Button
+private var userslist: ArrayList<User> = ArrayList<User>()
+private var citizenslist: ArrayList<Citizen> = ArrayList<Citizen>()
+
+ class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
+    private var user_id: Int = 0
+     private var found: Int = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -35,6 +50,49 @@ class LoginActivity : AppCompatActivity() {
         val login = binding.login
         val loading = binding.loading
         var button = findViewById<Button>(R.id.login)
+
+        username_input = findViewById(R.id.username)
+        password_input = findViewById(R.id.password)
+
+         /* Click button, check credentials and take you to the correct page */
+         button.setOnClickListener {
+             userslist = User.getUsers(this)
+             citizenslist = Citizen.getCitizen(this)
+             var found = 0 // Initialize found inside the button click listener
+
+             for (user in userslist) {
+                 if (user.getUsernameUser() == username.text.toString() &&
+                     user.getPasswordUser() == password.text.toString()) {
+                     user_id = user.getIdUser()
+
+                     username.error = "print"
+
+                     found = 1
+
+                 }
+             }
+
+             if (found == 1) {
+                 for (c in citizenslist) {
+                     if (c.getUsernameCitizen() == username.text.toString()) {
+                         password.error = "Found"
+                         val intent = Intent(this, MainPage::class.java)
+                         val b = Bundle()
+                         b.putInt("id", user_id)
+                         intent.putExtras(b)
+                         startActivity(intent)
+
+                     }
+                 }
+             } else {
+                 for (user in userslist) {
+                     val test = user.joinToString()
+                     var test2 = user.getUsernameUser()
+                     username.error = test
+                     password.error = test2}
+             }
+         }
+
 
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
@@ -96,10 +154,10 @@ class LoginActivity : AppCompatActivity() {
                 false
             }
 
-            login!!.setOnClickListener {
-                loading!!.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
-            }
+//            login!!.setOnClickListener {
+//                loading!!.visibility = View.VISIBLE
+//                loginViewModel.login(username.text.toString(), password.text.toString())
+//            }
         }
     }
 
@@ -117,6 +175,8 @@ class LoginActivity : AppCompatActivity() {
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
+
+
 }
 
 /**
