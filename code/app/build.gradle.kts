@@ -5,6 +5,8 @@ plugins {
 
 }
 
+
+
 android {
     namespace = "cityconnnect.app"
     compileSdk = 34
@@ -107,5 +109,11 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("com.journeyapps:zxing-android-embedded:4.2.0")
     implementation ("androidx.appcompat:appcompat:1.3.1")
+    // Kotlin coroutine dependency
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
+    implementation ("com.android.volley:volley:1.2.1")
+
 
 }
+
