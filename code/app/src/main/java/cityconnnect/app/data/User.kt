@@ -1,19 +1,18 @@
 package cityconnnect.app.data
 
 import android.content.Context
-import android.database.Cursor
-import java.sql.SQLDataException
-
+import cityconnnect.app.data.ApiClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 open class User(
     val id: Int,
     val username: String,
     val email: String,
     val password: String,
-    val name: String?,
-
-
-    ) {
+    val name: String?
+) {
     @JvmName("getUsernameUser")
     fun getUsernameUser(): String {
         return username
@@ -44,44 +43,29 @@ open class User(
     }
 
     companion object {
+        fun getUsers(context: Context?, callback: (ArrayList<User>) -> Unit) {
+            val api = ApiClient.apiService
+            val call = api.fetchData()
 
-
-        fun getUsers(c: Context?): ArrayList<User> {
-            try {
-                val dbm: DatabaseManager = DatabaseManager(c)
-                dbm.open()
-                val cursor: Cursor? = dbm.fetchU()
-                val userlist = ArrayList<User>()
-
-                if (cursor != null) {
-                    val value = if (cursor.moveToFirst()) {
-                        do {
-                            userlist.add(
-                                User(
-                                    cursor.getInt(0),
-                                    cursor.getString(1),
-                                    cursor.getString(2),
-                                    cursor.getString(3),
-                                    cursor.getString(4)
-                                )
-                            )
-                        } while (cursor.moveToNext())
+            call?.enqueue(object : Callback<ArrayList<User?>?> {
+                override fun onResponse(
+                    call: Call<ArrayList<User?>?>,
+                    response: Response<ArrayList<User?>?>
+                ) {
+                    if (response.isSuccessful) {
+                        val userList = response.body()?.filterNotNull()?.let { ArrayList(it) } ?: ArrayList()
+                        callback(userList)
                     } else {
-
+                        // Handle the error appropriately
+                        callback(ArrayList()) // Return an empty list in case of an error
                     }
-                    cursor.close()
                 }
 
-                
-                dbm.close()
-                return userlist
-            } catch (e: SQLDataException) {
-                throw RuntimeException(e)
-            }
+                override fun onFailure(call: Call<ArrayList<User?>?>, t: Throwable) {
+                    // Handle failure appropriately
+                    callback(ArrayList()) // Return an empty list in case of failure
+                }
+            })
         }
-
-
-
     }
 }
-

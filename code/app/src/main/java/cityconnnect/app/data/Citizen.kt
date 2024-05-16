@@ -1,10 +1,13 @@
 package cityconnnect.app
 
 import android.content.Context
-import android.database.Cursor
-import cityconnnect.app.data.DatabaseManager
 import cityconnnect.app.data.User
-import java.sql.SQLDataException
+import cityconnnect.app.data.ApiClient
+
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.ArrayList
 
 class Citizen(
     id: Int,
@@ -40,39 +43,37 @@ class Citizen(
     }
 
     companion object {
+        fun getCitizen(context: Context?, callback: (ArrayList<Citizen>) -> Unit) {
+            val api = ApiClient.apiService
+            val call = api.fetchData()
 
-        fun getCitizen(c: Context?): ArrayList<Citizen> {
-            try {
-                val dbm = DatabaseManager(c!!)
-                dbm.open()
-                val cursor: Cursor? = dbm.fetchCitizens()
-                val cl = ArrayList<Citizen>()
-
-                if (cursor != null) {
-                    if (cursor.moveToFirst() == true) {
-                        do {
-                            cl.add(
-                                Citizen(
-                                    // First column (0-based) - username
-                                    cursor.getInt(0),
-                                    cursor.getString(1),  // Second column - email
-                                    cursor.getString(2),  // Third column - password
-                                    cursor.getString(3),
-                                    cursor.getString(4),   // Fourth column - name
-                                         // Fifth column - id
-                                )
+            call?.enqueue(object : Callback<ArrayList<User?>?> {
+                override fun onResponse(
+                    call: Call<ArrayList<User?>?>,
+                    response: Response<ArrayList<User?>?>
+                ) {
+                    if (response.isSuccessful) {
+                        val citizenList = response.body()?.filterNotNull()?.map { user ->
+                            Citizen(
+                                user.id,
+                                user.username,
+                                user.email,
+                                user.password,
+                                user.name
                             )
-
-                        } while (cursor.moveToNext())
+                        }?.let { ArrayList(it) } ?: ArrayList()
+                        callback(citizenList)
+                    } else {
+                        // Handle the error appropriately
+                        callback(ArrayList()) // Return an empty list in case of an error
                     }
-                    cursor.close()
                 }
 
-                dbm.close()
-                return cl
-            } catch (e: SQLDataException) {
-                throw RuntimeException(e)
-            }
+                override fun onFailure(call: Call<ArrayList<User?>?>, t: Throwable) {
+                    // Handle failure appropriately
+                    callback(ArrayList()) // Return an empty list in case of failure
+                }
+            })
         }
     }
 }

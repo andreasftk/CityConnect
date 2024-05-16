@@ -10,7 +10,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -22,24 +21,20 @@ import cityconnnect.app.databinding.ActivityLoginBinding
 import cityconnnect.app.Citizen
 import cityconnnect.app.MainPage
 
-
 @SuppressLint("StaticFieldLeak")
 lateinit var username_input: EditText
 @SuppressLint("StaticFieldLeak")
 lateinit var password_input: EditText
 @SuppressLint("StaticFieldLeak")
 lateinit var login_btn: Button
-private var userslist: ArrayList<User> = ArrayList<User>()
-private var citizenslist: ArrayList<Citizen> = ArrayList<Citizen>()
 
- class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
     private var user_id: Int = 0
-     private var found: Int = 0
 
-     override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -49,51 +44,21 @@ private var citizenslist: ArrayList<Citizen> = ArrayList<Citizen>()
         val password = binding.password
         val login = binding.login
         val loading = binding.loading
-        var button = findViewById<Button>(R.id.login)
+        val button = findViewById<Button>(R.id.login)
 
         username_input = findViewById(R.id.username)
         password_input = findViewById(R.id.password)
 
-         /* Click button, check credentials and take you to the correct page */
-         button.setOnClickListener {
-             userslist = User.getUsers(this)
-             citizenslist = Citizen.getCitizen(this)
-             var found = 0 // Initialize found inside the button click listener
-
-             for (user in userslist) {
-                 if (user.getUsernameUser() == username.text.toString() &&
-                     user.getPasswordUser() == password.text.toString()) {
-                     user_id = user.getIdUser()
-
-                     username.error = "print"
-
-                     found = 1
-
-                 }
-             }
-
-             if (found == 1) {
-                 for (c in citizenslist) {
-                     if (c.getUsernameCitizen() == username.text.toString()) {
-                         password.error = "Found"
-                         val intent = Intent(this, MainPage::class.java)
-                         val b = Bundle()
-                         b.putInt("id", user_id)
-                         intent.putExtras(b)
-                         startActivity(intent)
-
-                     }
-                 }
-             } else {
-                 for (user in userslist) {
-                     val test = user.joinToString()
-                     var test2 = user.getUsernameUser()
-                     username.error = test
-                     password.error = test2}
-             }
-         }
-
-
+        // Click button, check credentials and take you to the correct page
+        button.setOnClickListener {
+            loading?.visibility = View.VISIBLE
+            User.getUsers(this) { usersList ->
+                Citizen.getCitizen(this) { citizensList ->
+                    loading?.visibility = View.GONE
+                    handleLogin(username, password, usersList, citizensList)
+                }
+            }
+        }
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
@@ -101,8 +66,8 @@ private var citizenslist: ArrayList<Citizen> = ArrayList<Citizen>()
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
 
-            // disable login button unless both username / password is valid
-            login!!.isEnabled = loginState.isDataValid
+            // Disable login button unless both username / password is valid
+            login?.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
                 username.error = getString(loginState.usernameError)
@@ -115,7 +80,7 @@ private var citizenslist: ArrayList<Citizen> = ArrayList<Citizen>()
         loginViewModel.loginResult.observe(this@LoginActivity, Observer {
             val loginResult = it ?: return@Observer
 
-            loading!!.visibility = View.GONE
+            loading?.visibility = View.GONE
             if (loginResult.error != null) {
                 showLoginFailed(loginResult.error)
             }
@@ -124,7 +89,7 @@ private var citizenslist: ArrayList<Citizen> = ArrayList<Citizen>()
             }
             setResult(Activity.RESULT_OK)
 
-            //Complete and destroy login activity once successful
+            // Complete and destroy login activity once successful
             finish()
         })
 
@@ -153,18 +118,47 @@ private var citizenslist: ArrayList<Citizen> = ArrayList<Citizen>()
                 }
                 false
             }
+        }
+    }
 
-//            login!!.setOnClickListener {
-//                loading!!.visibility = View.VISIBLE
-//                loginViewModel.login(username.text.toString(), password.text.toString())
-//            }
+    private fun handleLogin(
+        username: EditText,
+        password: EditText,
+        usersList: ArrayList<User>,
+        citizensList: ArrayList<Citizen>
+    ) {
+        var found = false
+        for (user in usersList) {
+            if (user.getUsernameUser() == username.text.toString() &&
+                user.getPasswordUser() == password.text.toString()
+            ) {
+                user_id = user.getIdUser()
+                found = true
+                break
+            }
+        }
+
+        if (found) {
+            for (citizen in citizensList) {
+                if (citizen.getUsernameCitizen() == username.text.toString()) {
+                    val intent = Intent(this, MainPage::class.java)
+                    val bundle = Bundle()
+                    bundle.putInt("id", user_id)
+                    intent.putExtras(bundle)
+                    startActivity(intent)
+                    return
+                }
+            }
+            password.error = "Citizen not found"
+        } else {
+            username.error = "Invalid username or password"
         }
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
-        // TODO : initiate successful logged in experience
+        // Initiate successful logged-in experience
         Toast.makeText(
             applicationContext,
             "$welcome $displayName",
@@ -175,8 +169,6 @@ private var citizenslist: ArrayList<Citizen> = ArrayList<Citizen>()
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
-
-
 }
 
 /**
