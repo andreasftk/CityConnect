@@ -10,8 +10,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/feedWhite"
-        android:layout_width="match_parent"
-        android:layout_height="679dp"
+        android:layout_width="409dp"
+        android:layout_height="match_parent"
         app:cardBackgroundColor="#FAFAFA"
         app:cardCornerRadius="40dp"
         android:layout_marginTop="60dp"

@@ -4,21 +4,31 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.RatingBar
+import android.widget.Toast
+import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.SearchView
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class ComplainMain : AppCompatActivity() {
+class ComplainMain : AppCompatActivity(), ComplainAdapter.RateButtonClickListener {
     private lateinit var buttonFeed: Button
     private lateinit var buttonHistory: Button
     private lateinit var buttonPlus: Button
-    private lateinit var buttonRate: Button
+    //private lateinit var buttonRate: Button
     private lateinit var complainAdapter: ComplainAdapter
     private lateinit var rvComplains: RecyclerView
-
+    private lateinit var searchView: SearchView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,8 +45,8 @@ class ComplainMain : AppCompatActivity() {
         buttonFeed = findViewById(R.id.btFeed)
         buttonHistory = findViewById(R.id.btHistory)
         buttonPlus = findViewById(R.id.btPlus)
-        buttonRate = findViewById(R.id.btRate)
-
+        searchView = findViewById(R.id.searchView)
+        setupSearchView()
 
 
 
@@ -63,6 +73,7 @@ class ComplainMain : AppCompatActivity() {
         }
 
 
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -70,7 +81,78 @@ class ComplainMain : AppCompatActivity() {
 
         }
     }
+    private fun setupSearchView() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // This method is called when the user submits the query
+                // Perform search logic here (e.g., filter your data based on the query)
+                return false
+            }
 
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // This method is called when the text in the search view changes
+                // Perform live filtering as the user types
+                complainAdapter.filter.filter(newText)
+                return true
+            }
+        })
+    }
+    override fun onRateButtonClick(complain: Complain) {
+        showRate();
+    }
+
+    private fun showRate() {
+         val ratingBar: RatingBar = findViewById(R.id.ivRate)
+         val tvCurRating: TextView = findViewById(R.id.tvCurRating)
+        val btRate = findViewById<AppCompatButton>(R.id.btRate)
+
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.activity_complain_rate, null)
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
+
+        // Set the layout parameters
+        val layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        bottomSheetDialog.window?.setLayout(layoutParams.width, layoutParams.height)
+        bottomSheetDialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+        bottomSheetDialog.window?.setWindowAnimations(R.style.DialogAnimation)
+        bottomSheetDialog.window?.setGravity(Gravity.BOTTOM)
+
+        // Set listener on RatingBar to update the TextView
+        ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
+            if (rating > 0) {
+                btRate.isEnabled = true
+                btRate.setBackgroundResource(R.drawable.rate_button_enabled)
+
+                tvCurRating.visibility = TextView.VISIBLE
+
+                // Calculate the text size based on the rating (adjust multiplier for desired scaling effect)
+                val textSizeMultiplier = 10f // Adjust this value to control the scaling effect
+                val textSize = rating * textSizeMultiplier
+
+                // Update the text and set the text size
+                tvCurRating.text = String.format("%s / 5", rating)
+                tvCurRating.textSize = textSize
+            } else {
+                btRate.isEnabled = false
+                btRate.setBackgroundResource(R.drawable.rate_button)
+                // Rating is 0, hide the text view
+                tvCurRating.visibility = TextView.GONE
+            }
+        }
+
+        // Handle your rate button click here
+        btRate.setOnClickListener {
+            // Implement your rate button logic here
+            // For example, you can retrieve the current rating from 'ratingBar.rating'
+        }
+
+    }
+
+}
     private fun updateButtonBackground(button: Button) {
         if (button.isEnabled) {
             button.setTextAppearance(R.style.buttonBlackBackground)
@@ -87,4 +169,4 @@ class ComplainMain : AppCompatActivity() {
             // Add more complains as needed
         )
     }
-}
+

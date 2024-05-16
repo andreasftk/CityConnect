@@ -13,15 +13,17 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/feedWhite"
         android:layout_width="409dp"
-        android:layout_height="679dp"
+        android:layout_height="match_parent"
         app:cardBackgroundColor="#FAFAFA"
         app:cardCornerRadius="40dp"
+        android:layout_marginTop="60dp"
         app:cardElevation="0dp"
         app:cardForegroundColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </androidx.cardview.widget.CardView>
 
@@ -108,13 +110,13 @@
         android:layout_marginEnd="15dp"
         android:background="@android:color/transparent"
         android:scaleType="centerInside"
-        android:src="@drawable/add_sign"
+        android:src="@drawable/add_sign2"
         app:layout_constraintBottom_toTopOf="@+id/btHistory"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.99" />
 
-    <SearchView
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
