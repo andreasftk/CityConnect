@@ -17,14 +17,15 @@ class ComplainAdapter (
 
     private var filteredList: MutableList<Complain> = complains.toMutableList()
 
-    private var rateButtonClickListener: RateButtonClickListener? = null
+    private var imageRateButtonClickListener: ImageRateButtonClickListener? = null
 
-    interface RateButtonClickListener {
-        fun onRateButtonClick(complain: Complain)
+    interface ImageRateButtonClickListener {
+        fun onImageRateButtonClick(complain: Complain)
     }
-    fun setRateButtonClickListener(listener: RateButtonClickListener) {
-        rateButtonClickListener = listener
+    fun setImageRateButtonClickListener(listener: ImageRateButtonClickListener) {
+        imageRateButtonClickListener = listener
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComplainViewHolder {
         return ComplainViewHolder(
             LayoutInflater.from(parent.context).inflate(
@@ -51,15 +52,16 @@ class ComplainAdapter (
         private val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
         private val tvDescription: TextView = itemView.findViewById(R.id.tvDescription)
         private val tvTotalRating: TextView = itemView.findViewById(R.id.tvTotalRating)
-        private val buttonRate: ImageButton = itemView.findViewById(R.id.ivRate)
+        private val imageRateButton: ImageButton = itemView.findViewById(R.id.ivRate)
 
 
         fun bind(complain: Complain) {
             tvTitle.text = complain.title
             tvDescription.text = complain.description
             tvTotalRating.text = complain.totalRating.toString()
-            buttonRate.setOnClickListener {
-                rateButtonClickListener?.onRateButtonClick(complain)
+
+            imageRateButton.setOnClickListener {
+                imageRateButtonClickListener?.onImageRateButtonClick(complain)
             }
         }
     }

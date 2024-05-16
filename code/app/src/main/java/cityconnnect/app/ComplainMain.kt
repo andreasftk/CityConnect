@@ -21,10 +21,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class ComplainMain : AppCompatActivity(), ComplainAdapter.RateButtonClickListener {
+class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageRateButtonClickListener {
     private lateinit var buttonFeed: Button
     private lateinit var buttonHistory: Button
-    private lateinit var buttonPlus: Button
+    private lateinit var buttonPlus: ImageButton
     //private lateinit var buttonRate: Button
     private lateinit var complainAdapter: ComplainAdapter
     private lateinit var rvComplains: RecyclerView
@@ -97,14 +97,14 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.RateButtonClickListene
             }
         })
     }
-    override fun onRateButtonClick(complain: Complain) {
+    override fun onImageRateButtonClick(complain: Complain) {
         showRate();
     }
 
     private fun showRate() {
          val ratingBar: RatingBar = findViewById(R.id.ivRate)
          val tvCurRating: TextView = findViewById(R.id.tvCurRating)
-        val btRate = findViewById<AppCompatButton>(R.id.btRate)
+         val btRate: AppCompatButton = findViewById(R.id.btRate)
 
         val bottomSheetDialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.activity_complain_rate, null)
