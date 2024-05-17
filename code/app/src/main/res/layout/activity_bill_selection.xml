@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:text="CityConnect"
+        android:textAlignment="center"
+        android:textSize="34sp" />
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="135dp"
+        android:layout_height="39dp"
+        android:gravity="center"
+        android:text="Εκκρεμούν" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/billRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="154dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="152dp"
+        android:layout_height="36dp"
+        android:layout_gravity="right"
+        android:gravity="center"
+        android:text="Πληρωμή" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="38dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="145dp"
+        android:layout_height="37dp"
+        android:gravity="center"
+        android:text="Εξοφλημένα" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="116dp" />
+
+</LinearLayout>
