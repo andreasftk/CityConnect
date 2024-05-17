@@ -1,3 +1,36 @@
 package cityconnnect.app.data
+import java.util.*
+open class PendingBills(
+    var title: String,
+    var amount: Double,
+    var date: String,
+    var billId: Int,
+    var citizenId: Int
+) {
+    companion object {
+        val pendingBillsList = mutableListOf<PendingBills>()
 
-data class Bill(val id: Int, val name: String, val amount: Double)
+        fun addBill(bill: PendingBills) {
+            pendingBillsList.add(bill)
+        }
+
+        fun removeBill(billId: Int) {
+            val billToRemove = pendingBillsList.find { it.billId == billId }
+            if (billToRemove != null) {
+                pendingBillsList.remove(billToRemove)
+                println("Bill removed successfully.")
+            } else {
+                println("Bill with ID $billId not found.")
+            }
+        }
+    }
+}
+
+class PaidBills(
+    title: String,
+    amount: Double,
+    date: String,
+    billId: Int,
+    citizenId: Int,
+    var receipt: String
+) : PendingBills(title, amount, date, billId, citizenId)
