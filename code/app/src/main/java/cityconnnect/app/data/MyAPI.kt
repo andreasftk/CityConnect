@@ -1,5 +1,6 @@
 package cityconnect.app.data
 
+import cityconnnect.app.Parkings
 import cityconnnect.app.data.User
 import retrofit2.Call
 import retrofit2.http.Field
@@ -20,4 +21,7 @@ interface MyAPI {
 
     @GET("select.php")
     fun fetchData(): Call<ArrayList<User?>?>?
+
+    @GET("getParkings.php")
+    fun getParkings(): Call<ArrayList<Parkings?>?>?
 }

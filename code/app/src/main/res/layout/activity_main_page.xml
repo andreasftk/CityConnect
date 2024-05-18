@@ -80,7 +80,7 @@
           app:layout_constraintVertical_bias="0.448">
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/parking_btn"
             android:layout_width="206dp"
             android:layout_height="78dp"
             android:layout_marginStart="-1dp"
