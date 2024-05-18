@@ -109,5 +109,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation("org.osmdroid:osmdroid-android:6.1.2")
+    implementation("com.google.android.gms:play-services-location:18.0.0")
+
 
 }

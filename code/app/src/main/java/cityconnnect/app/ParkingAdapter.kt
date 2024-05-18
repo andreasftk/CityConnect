@@ -4,6 +4,7 @@ package cityconnnect.app
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -16,6 +17,7 @@ class ParkingAdapter(
 
     interface ItemClickListener {
         fun onItemClick(parking: Parkings)
+        fun onGoToPageClick(parking: Parkings)
     }
 
     fun setItemClickListener(listener: ItemClickListener) {
@@ -38,12 +40,17 @@ class ParkingAdapter(
 
     inner class ParkingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvParkingAddress: TextView = itemView.findViewById(R.id.tvAddress)
+        private val buttonGoToPage: Button = itemView.findViewById(R.id.go_to_page_list)
 
         fun bind(parking: Parkings) {
             tvParkingAddress.text = parking.address
             itemView.setOnClickListener {
                 itemClickListener?.onItemClick(parking)
             }
+            buttonGoToPage.setOnClickListener {
+                itemClickListener?.onGoToPageClick(parking)
+            }
         }
     }
 }
+
