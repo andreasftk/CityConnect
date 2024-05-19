@@ -13,6 +13,7 @@ class BillAdapter(private val bills: List<PendingBills>) : RecyclerView.Adapter<
     // ViewHolder class to hold references to the views
     class BillViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val billNameTextView: TextView = itemView.findViewById(R.id.billNameTextView)
+        val billDateTextView: TextView = itemView.findViewById(R.id.billDateTextView)
         val billAmountTextView: TextView = itemView.findViewById(R.id.billAmountTextView)
     }
 
@@ -30,7 +31,8 @@ class BillAdapter(private val bills: List<PendingBills>) : RecyclerView.Adapter<
 
         // Set the text for the TextViews in the ViewHolder
         holder.billNameTextView.text = bill.title
-        holder.billAmountTextView.text = "${bill.amount} USD" // Assuming you want to display the amount with a currency symbol
+        holder.billDateTextView.text = bill.date
+        holder.billAmountTextView.text = "${bill.amount} €" // Assuming you want to display the amount with a currency symbol
     }
 
     // Return the size of your dataset (invoked by the layout manager)
