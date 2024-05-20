@@ -1,5 +1,4 @@
 package cityconnnect.app.ui.qrscanner.zxinglibrary
-import cityconnnect.app.ui.qrscanner.zxinglibrary.IntegerRequest
 
 
 import android.content.Intent
@@ -75,9 +74,9 @@ class QrCodeMain: AppCompatActivity() {
 
     private fun sendDataToServer(qrData: String) {
         val requestQueue = Volley.newRequestQueue(this)
-        val selectUrl = "https://example.com/select_data.php"
-        val updateUrl = "https://example.com/update_data.php"
-
+        val selectUrl = "https://cityconnectapp.000webhostapp.com/student/select_user_bus_tickets.php"
+        val updateUrl = "https://cityconnectapp.000webhostapp.com/student/update_user_bus_tickets.php"
+        val insertUrl = "https://example.com/insert_data.php"
         val selectRequest = IntegerRequest(
             Method.POST, selectUrl,
             { result ->
@@ -125,7 +124,7 @@ class QrCodeMain: AppCompatActivity() {
 
 
     private fun performUpdate(qrData: String, updateUrl: String, requestQueue: RequestQueue) {
-        // Perform update query
+        val updateUrl = "https://cityconnectapp.000webhostapp.com/student/update_user_bus_tickets.php"
         val stringRequest = object : StringRequest(
             Request.Method.POST, updateUrl,
             Response.Listener<String> { response ->

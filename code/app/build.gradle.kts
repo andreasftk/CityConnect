@@ -82,6 +82,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.activity)
+    implementation(libs.play.services.wallet)
+    implementation(libs.androidx.activity.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -113,6 +115,16 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
     implementation ("com.android.volley:volley:1.2.1")
+
+        implementation ("androidx.appcompat:appcompat:1.3.0")
+        implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
+        implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+        implementation ("com.google.android.gms:play-services-wallet:18.1.0")
+        implementation ("com.google.android.gms:play-services-identity:18.0.0")
+        implementation ("com.google.android.gms:play-services-auth:20.0.0")
+        implementation ("com.google.android.gms:play-services-base:19.0.0")
+        implementation ("com.google.android.gms:play-services-tasks:17.2.1")
+
 
 
 }

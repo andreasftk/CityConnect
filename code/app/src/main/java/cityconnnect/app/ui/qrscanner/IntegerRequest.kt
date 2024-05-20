@@ -1,11 +1,10 @@
 package cityconnnect.app.ui.qrscanner.zxinglibrary
-
-
 import com.android.volley.NetworkResponse
+
 import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.VolleyError
+import com.android.volley.toolbox.HttpHeaderParser
 import java.io.UnsupportedEncodingException
 
 class IntegerRequest(
@@ -29,8 +28,6 @@ class IntegerRequest(
             Response.error(VolleyError(e))
         }
     }
-
-
 
     override fun deliverResponse(response: Int) {
         listener.onResponse(response)
