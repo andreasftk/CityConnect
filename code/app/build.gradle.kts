@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+
 }
 
 android {
@@ -22,6 +23,7 @@ android {
     }
 
     buildTypes {
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -33,6 +35,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -47,8 +50,11 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+
+
         }
     }
+
 
 }
 
@@ -71,7 +77,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.activity)
-    implementation(libs.play.services.location)
+    implementation(libs.volley)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -82,7 +88,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("com.github.sparrow007:carouselrecyclerview:1.2.6")
     implementation("com.github.bumptech.glide:glide:4.13.0")
-    implementation("com.google.mlkit:barcode-scanning:17.0.2")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -90,6 +95,16 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.2.1")
     implementation("androidx.camera:camera-view:1.2.1")
     implementation("com.google.android.material:material:1.4.0")
-    implementation ("com.google.android.gms:play-services-location:21.0.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.core:core-ktx:1.7.0")
+
+    implementation("com.google.android.material:material:1.9.0")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation("mysql:mysql-connector-java:8.0.23")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
 }

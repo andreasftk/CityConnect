@@ -11,9 +11,8 @@
     <color name="colorPrimary">#5271FF</color>
     <color name="colorPrimaryDark">#5271FF</color>
     <color name="colorAccent">#5271FF</color>
-    <color name="light_grey">#D1D1D1</color>
+    <color name="light_grey">#D3D3D3</color>
     <color name="dark_grey">#AEAEAE</color>
-    <color name="yellow">#FFCC00</color>
-    <color name="blue">#2196F3</color>
-    <color name="transparent">#00FFFFFF</color>
+    <color name="yellow">#FFEB3B</color>
+
 </resources>
