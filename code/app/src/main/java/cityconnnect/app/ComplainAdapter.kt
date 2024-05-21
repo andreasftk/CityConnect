@@ -3,12 +3,12 @@ package cityconnnect.app
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.ImageView
 import java.util.Locale
 
 class ComplainAdapter (
@@ -17,13 +17,16 @@ class ComplainAdapter (
 
     private var filteredList: MutableList<Complain> = complains.toMutableList()
 
-    private var imageRateButtonClickListener: ImageRateButtonClickListener? = null
-
-    interface ImageRateButtonClickListener {
-        fun onImageRateButtonClick(complain: Complain)
+    private var imageButtonClickListener: ImageButtonClickListener? = null
+    enum class ButtonType {
+        RATE,
+        COMMENT
     }
-    fun setImageRateButtonClickListener(listener: ImageRateButtonClickListener) {
-        imageRateButtonClickListener = listener
+    interface ImageButtonClickListener {
+        fun onImageButtonClick(complain: Complain, buttonType: ButtonType)
+    }
+    fun setImageButtonClickListener(listener: ImageButtonClickListener) {
+        imageButtonClickListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComplainViewHolder {
@@ -37,7 +40,7 @@ class ComplainAdapter (
     }
 
     override fun onBindViewHolder(holder: ComplainViewHolder, position: Int) {
-        val currentComplain= complains[position]
+        val currentComplain= filteredList[position]
         holder.itemView.apply {
             holder.bind(currentComplain)
 
@@ -52,17 +55,33 @@ class ComplainAdapter (
         private val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
         private val tvDescription: TextView = itemView.findViewById(R.id.tvDescription)
         private val tvTotalRating: TextView = itemView.findViewById(R.id.tvTotalRating)
-        private val imageRateButton: ImageButton = itemView.findViewById(R.id.ivRate)
+        private val ivComplain: ImageView = itemView.findViewById(R.id.ivComplain)
+        private val ibRate: ImageButton = itemView.findViewById(R.id.ibRate)
+        private val ibComment: ImageButton = itemView.findViewById(R.id.ibComment)
 
+        init {
+            ibRate.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val currentComplain = filteredList[position]
+                    imageButtonClickListener?.onImageButtonClick(currentComplain, ButtonType.RATE)
+                }
+            }
+            ibComment.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val currentComplain = filteredList[position]
+                    imageButtonClickListener?.onImageButtonClick(currentComplain, ButtonType.COMMENT)
+                }
+            }
+        }
 
         fun bind(complain: Complain) {
             tvTitle.text = complain.title
             tvDescription.text = complain.description
             tvTotalRating.text = complain.totalRating.toString()
+            ivComplain.setImageResource(complain.photo)
 
-            imageRateButton.setOnClickListener {
-                imageRateButtonClickListener?.onImageRateButtonClick(complain)
-            }
         }
     }
         override fun getFilter(): Filter {
@@ -77,10 +96,12 @@ class ComplainAdapter (
                         val filterPattern =
                             constraint.toString().lowercase(Locale.getDefault()).trim()
 
-                        for (complain in complains) {
-                            if (complain.title.lowercase(Locale.getDefault())
-                                    .contains(filterPattern)
-                            ) {
+                        for (complain in filteredList) {
+                            val title = complain.title.lowercase(Locale.getDefault())
+                            val description = complain.description.lowercase(Locale.getDefault())
+
+                            // Check if either the title or description contains the filter pattern
+                            if (title.contains(filterPattern) || description.contains(filterPattern)) {
                                 filteredResults.add(complain)
                             }
                         }

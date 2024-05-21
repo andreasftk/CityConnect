@@ -30,7 +30,7 @@
         android:id="@+id/ivComplain"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:src="@drawable/ic_rubish"
+        android:src="@drawable/logo_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
@@ -46,10 +46,10 @@
         app:layout_constraintTop_toBottomOf="@+id/ivComplain" />
 
     <ImageButton
-        android:id="@+id/ivRate"
+        android:id="@+id/ibRate"
         android:layout_width="60dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="60dp"
         android:background="@android:color/transparent"
         android:scaleType="fitEnd"
         android:src="@drawable/ic_rating_star"
@@ -83,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="90dp"
         android:text="Rate"
         android:textColor="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"

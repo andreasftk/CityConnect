@@ -12,7 +12,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/feedWhite"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardBackgroundColor="#FAFAFA"
         app:cardCornerRadius="40dp"
@@ -100,14 +100,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/btHistory"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        tools:layout_editor_absoluteX="1dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
     <ImageButton
         android:id="@+id/btPlus"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="10dp"
         android:background="@android:color/transparent"
         android:scaleType="centerInside"
         android:src="@drawable/add_sign"
@@ -116,7 +117,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.99" />
 
-    <androidx.appcompat.widget.SearchView
+    <SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -124,6 +125,9 @@
         android:background="@drawable/search_view_bg"
         android:iconifiedByDefault="false"
         android:queryHint="Search"
+        android:focusedByDefault="false"
+        app:queryBackground="@android:color/transparent"
+        app:closeIcon="@android:drawable/ic_notification_clear_all"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/feedWhite" />

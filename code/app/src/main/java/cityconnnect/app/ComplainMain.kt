@@ -4,31 +4,33 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.RatingBar
-import android.widget.Toast
-import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
-import androidx.appcompat.widget.SearchView
-import androidx.compose.ui.graphics.Color
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageRateButtonClickListener {
+class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListener  {
     private lateinit var buttonFeed: Button
     private lateinit var buttonHistory: Button
     private lateinit var buttonPlus: ImageButton
-    //private lateinit var buttonRate: Button
     private lateinit var complainAdapter: ComplainAdapter
     private lateinit var rvComplains: RecyclerView
     private lateinit var searchView: SearchView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -59,6 +61,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageRateButtonClickLi
 
 
         buttonFeed.setOnClickListener {
+            searchView.clearFocus()
             buttonFeed.isEnabled = false
             buttonHistory.isEnabled = true
             updateButtonBackground(buttonHistory)
@@ -66,13 +69,19 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageRateButtonClickLi
         }
 
         buttonHistory.setOnClickListener {
+            searchView.clearFocus()
             buttonHistory.isEnabled = false
             buttonFeed.isEnabled = true
             updateButtonBackground(buttonHistory)
             updateButtonBackground(buttonFeed)
         }
 
+        buttonPlus.setOnClickListener {
+            searchView.clearFocus()
+            showNewComplainForm()
+        }
 
+        complainAdapter.setImageButtonClickListener(this)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -97,19 +106,118 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageRateButtonClickLi
             }
         })
     }
-    override fun onImageRateButtonClick(complain: Complain) {
-        showRate();
+
+    private val mainHandler = Handler(Looper.getMainLooper())
+    private var isRateButtonClickable = true
+
+    override fun onImageButtonClick(complain: Complain, buttonType: ComplainAdapter.ButtonType) {
+        searchView.clearFocus()
+        if (isRateButtonClickable) {
+            // Check which button is clicked and show the respective bottom sheet
+            when (buttonType) {
+                ComplainAdapter.ButtonType.RATE -> showRate()
+                ComplainAdapter.ButtonType.COMMENT -> showComment()
+                else -> {
+
+                }
+            }
+
+            // Disable the button to prevent multiple clicks
+            isRateButtonClickable = false
+            // Re-enable the button after a delay
+            mainHandler.postDelayed({
+                isRateButtonClickable = true
+            }, 1000) // delay time (in milliseconds)
+        }
     }
-
-    private fun showRate() {
-         val ratingBar: RatingBar = findViewById(R.id.ivRate)
-         val tvCurRating: TextView = findViewById(R.id.tvCurRating)
-         val btRate: AppCompatButton = findViewById(R.id.btRate)
-
+    private fun showNewComplainForm() {
+        searchView.clearFocus()
+        val formCompleted = false
         val bottomSheetDialog = BottomSheetDialog(this)
-        val view = layoutInflater.inflate(R.layout.activity_complain_rate, null)
+        val view = layoutInflater.inflate(R.layout.activity_complain_form, null)
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.show()
+
+
+        // Find editText inside the activity_complain_form layout
+        val etDate: EditText = view.findViewById(R.id.etDate)
+        val etLocation: EditText = view.findViewById(R.id.etLocation)
+        val etFormTitle: EditText = view.findViewById(R.id.etFormTitle)
+        val etDescription: EditText = view.findViewById(R.id.etDescription)
+        val ibCamera: ImageButton = view.findViewById(R.id.ibCamera)
+        val ibLocation: ImageButton = view.findViewById(R.id.ibLocation)
+        val btSubmit: AppCompatButton = view.findViewById(R.id.btSubmit)
+
+
+        // Set the layout parameters
+        val layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        bottomSheetDialog.window?.setLayout(layoutParams.width, layoutParams.height)
+        bottomSheetDialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+        bottomSheetDialog.window?.setWindowAnimations(R.style.DialogAnimation)
+        bottomSheetDialog.window?.setGravity(Gravity.BOTTOM)
+
+        // Set listener on RatingBar to update the TextView
+        btSubmit.setOnClickListener {
+            if (formCompleted) {
+                bottomSheetDialog.dismiss()
+                Toast.makeText(this,"Complain Submitted",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this,"Required Fields are Empty",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+    private fun showReportForm() {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.activity_report_form, null)
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
+
+
+        // Find editText inside the activity_complain_form layout
+        val oneStarExlpaination: EditText = view.findViewById(R.id.editTextTextMultiLine2)
+        val acceptTerms: CheckBox = view.findViewById(R.id.checkBoxTerms)
+        val btSubmitReport: AppCompatButton = view.findViewById(R.id.btSubmitReport)
+
+
+        // Set the layout parameters
+        val layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        bottomSheetDialog.window?.setLayout(layoutParams.width, layoutParams.height)
+        bottomSheetDialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+        bottomSheetDialog.window?.setWindowAnimations(R.style.DialogAnimation)
+        bottomSheetDialog.window?.setGravity(Gravity.BOTTOM)
+
+        // Set listener on RatingBar to update the TextView
+        btSubmitReport.setOnClickListener {
+            if (acceptTerms.isChecked) {
+                bottomSheetDialog.dismiss()
+                Toast.makeText(this,"Review and Report Submitted",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this,"Please Accept Terms and Conditions",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+
+    }
+    private fun showRate() {
+        isRateButtonClickable = true
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.review_form, null)
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
+
+
+        // Find views inside the review_form layout
+        val ratingBar: RatingBar = view.findViewById(R.id.rbRate)
+        val tvCurRating: TextView = view.findViewById(R.id.tvNumberofStars)
+        val btRate: AppCompatButton = view.findViewById(R.id.acbRate)
 
         // Set the layout parameters
         val layoutParams = ViewGroup.LayoutParams(
@@ -130,11 +238,11 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageRateButtonClickLi
                 tvCurRating.visibility = TextView.VISIBLE
 
                 // Calculate the text size based on the rating (adjust multiplier for desired scaling effect)
-                val textSizeMultiplier = 10f // Adjust this value to control the scaling effect
-                val textSize = rating * textSizeMultiplier
+                val textSizeMultiplier = 5f // Adjust this value to control the scaling effect
+                val textSize = 10 +rating * textSizeMultiplier
 
                 // Update the text and set the text size
-                tvCurRating.text = String.format("%s / 5", rating)
+                tvCurRating.text = String.format("%s / 5", rating.toInt())
                 tvCurRating.textSize = textSize
             } else {
                 btRate.isEnabled = false
@@ -148,10 +256,42 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageRateButtonClickLi
         btRate.setOnClickListener {
             // Implement your rate button logic here
             // For example, you can retrieve the current rating from 'ratingBar.rating'
+
+            if (ratingBar.rating > 1) {
+                bottomSheetDialog.dismiss()
+                Toast.makeText(this, "Thanks for rating", Toast.LENGTH_SHORT).show();
+            }
+            else if (ratingBar.rating == 1.0f)
+            {
+                bottomSheetDialog.dismiss()
+                showReportForm()
+            }
         }
-
     }
+    private fun showComment() {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.activity_comment, null)
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
 
+        val btPublish: Button = view.findViewById(R.id.btPublish)
+        // Set the layout parameters
+        val layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        bottomSheetDialog.window?.setLayout(layoutParams.width, layoutParams.height)
+        bottomSheetDialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+        bottomSheetDialog.window?.setWindowAnimations(R.style.DialogAnimation)
+        bottomSheetDialog.window?.setGravity(Gravity.BOTTOM)
+
+        btPublish.setOnClickListener {
+
+            bottomSheetDialog.dismiss()
+            Toast.makeText(this, "We apologise Comments are not enabled", Toast.LENGTH_SHORT).show();
+
+        }
+    }
 }
     private fun updateButtonBackground(button: Button) {
         if (button.isEnabled) {
@@ -163,9 +303,9 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageRateButtonClickLi
     private fun getSampleComplains(): MutableList<Complain> {
         // Sample data for testing
         return mutableListOf(
-            Complain("Title 1", "Description 1","ic_rubbish.png" ,3.5f),
-            Complain("Title 2", "Description 2", "ic_rubbish.png",4.0f),
-            Complain("Title 3", "Description 3","ic_rubbish.png" ,2.0f)
+            Complain("andreas", "1234",R.drawable.photo_rubish,3.5f),
+            Complain("ilias", "567", R.drawable.photo_accident,4.0f),
+            Complain("Title", "876",R.drawable.photo_flood,2.0f)
             // Add more complains as needed
         )
     }
