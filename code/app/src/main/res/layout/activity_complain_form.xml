@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="false"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -205,28 +214,27 @@
 
     <ImageButton
         android:id="@+id/ibCamera"
-        android:layout_width="48dp"
+        android:layout_width="148dp"
         android:layout_height="40dp"
         android:layout_marginTop="18dp"
-        android:layout_marginStart="20dp"
-        android:scaleType="centerInside"
+        android:layout_marginStart="-25dp"
         android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
-        android:src="@drawable/ic_camera" />
+        android:scaleType="fitEnd"
+        android:src="@drawable/ic_camera"
+        app:layout_constraintStart_toStartOf="@+id/tvPhoto"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
     <ImageButton
         android:id="@+id/ibLocation"
 
-        android:layout_width="48dp"
+        android:layout_width="148dp"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="20dp"
-        android:scaleType="centerInside"
         android:background="@android:color/transparent"
-        app:layout_constraintStart_toEndOf="@+id/tvCurrentLocation"
-        app:layout_constraintTop_toBottomOf="@+id/ibCamera"
-        android:src="@drawable/ic_location" />
+        android:scaleType="fitEnd"
+        android:src="@drawable/ic_location"
+        app:layout_constraintStart_toStartOf="@+id/tvCurrentLocation"
+        app:layout_constraintTop_toBottomOf="@+id/ibCamera" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btSubmit"
@@ -240,5 +248,15 @@
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPhoto" />
+
+    <ImageView
+        android:id="@+id/ivPhoto"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/my_button_background_selector"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ibLocation" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>

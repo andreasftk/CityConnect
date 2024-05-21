@@ -1,5 +1,10 @@
 package cityconnnect.app
-
+import android.Manifest
+import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.ContentValues
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
@@ -7,6 +12,7 @@ import android.widget.RatingBar
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
 import android.os.Looper
+import android.provider.MediaStore
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.CheckBox
@@ -17,11 +23,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import android.location.Geocoder
+import android.net.Uri
+import android.util.Log
+import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import java.util.Locale
 
 class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListener  {
     private lateinit var buttonFeed: Button
@@ -30,6 +47,14 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
     private lateinit var complainAdapter: ComplainAdapter
     private lateinit var rvComplains: RecyclerView
     private lateinit var searchView: SearchView
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+
+    private lateinit var cameraPermissions: Array<String>
+    private lateinit var storagePermissions: Array<String>
+    private var imageUri: Uri? = null
+    private lateinit var ivPhoto: ImageView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +67,10 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
         //complainAdapter = ComplainAdapter(mutableListOf())
         rvComplains.adapter = complainAdapter
         rvComplains.layoutManager = LinearLayoutManager(this)
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        cameraPermissions = arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        storagePermissions = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
 
         buttonFeed = findViewById(R.id.btFeed)
@@ -147,7 +176,25 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
         val ibCamera: ImageButton = view.findViewById(R.id.ibCamera)
         val ibLocation: ImageButton = view.findViewById(R.id.ibLocation)
         val btSubmit: AppCompatButton = view.findViewById(R.id.btSubmit)
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        fetchCurrentLocation(etLocation)
+        ivPhoto = view.findViewById(R.id.ivPhoto)
 
+
+        ibCamera.setOnClickListener {
+            if (checkCameraPermissions()) {
+                pickImageCamera()
+            } else {
+                requestCameraPermission()
+            }
+
+        }
+
+    ibLocation.setOnClickListener {
+            // Handle click on location button (ibLocation)
+            // Fetch current location here
+            fetchCurrentLocation(etLocation)
+        }
 
         // Set the layout parameters
         val layoutParams = ViewGroup.LayoutParams(
@@ -170,6 +217,118 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
         }
 
     }
+
+
+    // This method will help to retrieve the image
+    val REQUEST_IMAGE_CAPTURE = 1
+
+    private fun dispatchTakePictureIntent() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        try {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+        } catch (e: ActivityNotFoundException) {
+            // display error state to the user
+        }
+    }
+
+    private fun pickImageCamera() {
+        val contentValues = ContentValues()
+        contentValues.put(MediaStore.Images.Media.TITLE, "Sample Image")
+        contentValues.put(MediaStore.Images.Media.DESCRIPTION, "Sample Image Description")
+        imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+        cameraActivityResultLauncher.launch(intent)
+    }
+    private val cameraActivityResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data
+            Log.d(TAG, "cameraActivityResultLauncher imageUri: $imageUri")
+            ivPhoto.setImageURI(imageUri)
+        }
+    }
+    private fun checkCameraPermissions(): Boolean {
+        return (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED)
+    }
+
+    private fun requestCameraPermission() {
+        ActivityCompat.requestPermissions(this, cameraPermissions, CAMERA_REQUEST_CODE)
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            CAMERA_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED
+                ) {
+                    pickImageCamera()
+                } else {
+                    showToast("Camera and Storage permissions are required")
+                }
+            }
+            STORAGE_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    pickImageCamera()
+                } else {
+                    showToast("Storage permission is required...")
+                }
+            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+
+
+
+    private fun fetchCurrentLocation(etLocation: EditText) {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+            return
+        }
+
+        fusedLocationProviderClient.lastLocation.addOnCompleteListener(this) { task: Task<android.location.Location> ->
+            if (task.isSuccessful && task.result != null) {
+                val currentLocation = task.result
+                val geocoder = Geocoder(this, Locale.getDefault())
+                val addresses = geocoder.getFromLocation(currentLocation.latitude, currentLocation.longitude, 1)
+
+                if (addresses != null) {
+                        val address = addresses[0]
+                        val addressLine = address.getAddressLine(0) // You can modify this index to get more detailed address lines if needed
+                        etLocation.setText(addressLine)
+
+                }
+                else {
+                    // Handle the case when the location couldn't be retrieved
+                    Toast.makeText(this, "Failed to fetch current address", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                // Handle the case when the location couldn't be retrieved
+                Toast.makeText(this, "Location unavailable", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+        private const val CAMERA_REQUEST_CODE = 100
+        private const val STORAGE_REQUEST_CODE = 101
+        private const val TAG = "MAIN_TAG"
+    }
+
     private fun showReportForm() {
         val bottomSheetDialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.activity_report_form, null)

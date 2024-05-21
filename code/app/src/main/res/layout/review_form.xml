@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="434dp"
-    android:background="@drawable/pop_bg"
+    android:background="@color/black"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     app:layout_constraintBottom_toBottomOf="parent"
