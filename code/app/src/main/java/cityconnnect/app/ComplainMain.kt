@@ -134,6 +134,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
             insets
 
         }
+
     }
 
     private fun refreshComplains() {

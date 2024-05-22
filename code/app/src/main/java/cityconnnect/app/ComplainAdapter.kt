@@ -23,6 +23,7 @@ class ComplainAdapter (
         RATE,
         COMMENT
     }
+
     interface ImageButtonClickListener {
         fun onImageButtonClick(complain: Complain, buttonType: ButtonType)
     }
