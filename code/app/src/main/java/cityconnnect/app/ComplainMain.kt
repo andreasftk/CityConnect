@@ -38,6 +38,7 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import cityconnnect.app.data.Complain
 import java.util.Locale
 
 class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListener  {
@@ -63,10 +64,25 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
 
         rvComplains = findViewById(R.id.rvComplains)
         rvComplains.setHasFixedSize(true) // Optional: Improve performance if size won't change
-        complainAdapter = ComplainAdapter(getSampleComplains()) // Pass your list of complains here
+        //complainAdapter = ComplainAdapter(getSampleComplains()) // Pass your list of complains here
         //complainAdapter = ComplainAdapter(mutableListOf())
-        rvComplains.adapter = complainAdapter
-        rvComplains.layoutManager = LinearLayoutManager(this)
+        // Fetch complains data using Retrofit
+
+
+        Complain.getComplains(this) { complains ->
+            // Initialize and set adapter with fetched complains data
+            Log.e("ComplainMain", "Parapona ${complains.size} complains")
+
+            val complainList = ArrayList(complains)
+            complainAdapter = ComplainAdapter(complainList)
+            rvComplains.adapter = complainAdapter
+            rvComplains.layoutManager = LinearLayoutManager(this)
+            complainAdapter.setImageButtonClickListener(this)
+        }
+
+
+       // rvComplains.adapter = complainAdapter
+        //rvComplains.layoutManager = LinearLayoutManager(this)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         cameraPermissions = arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -110,7 +126,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
             showNewComplainForm()
         }
 
-        complainAdapter.setImageButtonClickListener(this)
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -462,9 +478,9 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
     private fun getSampleComplains(): MutableList<Complain> {
         // Sample data for testing
         return mutableListOf(
-            Complain("andreas", "1234",R.drawable.photo_rubish,3.5f),
-            Complain("ilias", "567", R.drawable.photo_accident,4.0f),
-            Complain("Title", "876",R.drawable.photo_flood,2.0f)
+            Complain(1,"andreas", "1234","",R.drawable.photo_rubish,3.5f),
+            Complain(2,"ilias", "567","", R.drawable.photo_accident,4.0f),
+            Complain(3,"Title", "876","",R.drawable.photo_flood,2.0f)
             // Add more complains as needed
         )
     }

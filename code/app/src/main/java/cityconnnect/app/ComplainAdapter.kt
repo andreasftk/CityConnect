@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
+import cityconnnect.app.data.Complain
 import java.util.Locale
 
 class ComplainAdapter (
