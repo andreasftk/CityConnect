@@ -48,6 +48,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.converter.gson.GsonConverterFactory
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
 class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListener  {
     private lateinit var buttonFeed: Button
     private lateinit var buttonHistory: Button
@@ -56,6 +58,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
     private lateinit var rvComplains: RecyclerView
     private lateinit var searchView: SearchView
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
 
     private lateinit var cameraPermissions: Array<String>
@@ -79,7 +82,11 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
         //Log.e("photos", "Resource ID: $resourceId")
 
         refreshComplains()
-
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
+        // Initialize the SwipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener {
+            refreshComplains()
+        }
 
        // rvComplains.adapter = complainAdapter
         //rvComplains.layoutManager = LinearLayoutManager(this)
@@ -144,6 +151,8 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
             rvComplains.adapter = complainAdapter
             rvComplains.layoutManager = LinearLayoutManager(this)
             complainAdapter.setImageButtonClickListener(this)
+            swipeRefreshLayout.isRefreshing = false // Stop the refreshing animation
+
         }
     }
     private fun setupSearchView() {
