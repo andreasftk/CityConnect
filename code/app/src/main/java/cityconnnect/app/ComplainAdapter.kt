@@ -54,8 +54,10 @@ class ComplainAdapter (
     }
     inner class ComplainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
+        private val tvLocation: TextView = itemView.findViewById(R.id.tvLocation)
         private val tvDescription: TextView = itemView.findViewById(R.id.tvDescription)
         private val tvTotalRating: TextView = itemView.findViewById(R.id.tvTotalRating)
+        private val tvDate: TextView = itemView.findViewById(R.id.tvDate)
         private val ivComplain: ImageView = itemView.findViewById(R.id.ivComplain)
         private val ibRate: ImageButton = itemView.findViewById(R.id.ibRate)
         private val ibComment: ImageButton = itemView.findViewById(R.id.ibComment)
@@ -79,7 +81,9 @@ class ComplainAdapter (
 
         fun bind(complain: Complain) {
             tvTitle.text = complain.title
+            tvLocation.text = complain.location
             tvDescription.text = complain.description
+            tvDate.text = complain.date.toString()
             tvTotalRating.text = complain.totalRating.toString()
             ivComplain.setImageResource(complain.photo)
 

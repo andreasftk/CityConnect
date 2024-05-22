@@ -6,6 +6,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.util.Log
+import java.sql.Date
+import java.sql.Types.NULL
 
 data class Complain(
     val complainId: Int,
@@ -13,7 +15,9 @@ data class Complain(
     val description: String,
     val suggestions: String,
     val photo: Int, // Resource ID
-    var totalRating: Float
+    var totalRating: Float,
+    val date: String,
+    val location: String
 ) {
     companion object {
         private const val TAG = "Complain"
@@ -51,6 +55,37 @@ data class Complain(
                 }
             })
         }
+        fun insertComplain(
+            complainId: Int?,
+            title: String?,
+            description: String?,
+            suggestions: String?,
+            photo: Int?,
+            totalRating: Float?,
+            date: String?,
+            location: String?,
+            callback: (Boolean) -> Unit // Callback to handle success/failure
+        ) {
+            val api = ApiClient.apiService
+            val call = api.insertComplain(NULL, title, description, suggestions, photo, totalRating,"null",location)
+
+            call.enqueue(object : Callback<Complain> {
+                override fun onResponse(call: Call<Complain>, response: Response<Complain>) {
+                    if (response.isSuccessful) {
+                        callback(true) // Notify success
+                    } else {
+                        callback(false) // Notify failure
+                    }
+                }
+
+                override fun onFailure(call: Call<Complain>, t: Throwable) {
+                    Log.e("Complain", "Failed to insert complain", t)
+                    callback(false) // Notify failure
+                }
+            })
+        }
+
     }
+
 
 }

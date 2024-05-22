@@ -38,9 +38,16 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import cityconnect.app.data.MyAPI
 import cityconnnect.app.data.Complain
+import cityconnnect.app.data.Complain.Companion.insertComplain
+import com.google.gson.GsonBuilder
+import retrofit2.Retrofit
 import java.util.Locale
-
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.converter.gson.GsonConverterFactory
 class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListener  {
     private lateinit var buttonFeed: Button
     private lateinit var buttonHistory: Button
@@ -68,17 +75,10 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
         //complainAdapter = ComplainAdapter(mutableListOf())
         // Fetch complains data using Retrofit
 
+        //val resourceId = R.drawable.photo_flood
+        //Log.e("photos", "Resource ID: $resourceId")
 
-        Complain.getComplains(this) { complains ->
-            // Initialize and set adapter with fetched complains data
-            Log.e("ComplainMain", "Parapona ${complains.size} complains")
-
-            val complainList = ArrayList(complains)
-            complainAdapter = ComplainAdapter(complainList)
-            rvComplains.adapter = complainAdapter
-            rvComplains.layoutManager = LinearLayoutManager(this)
-            complainAdapter.setImageButtonClickListener(this)
-        }
+        refreshComplains()
 
 
        // rvComplains.adapter = complainAdapter
@@ -135,6 +135,16 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
 
         }
     }
+
+    private fun refreshComplains() {
+        Complain.getComplains(this) { complains ->
+            val complainList = ArrayList(complains)
+            complainAdapter = ComplainAdapter(complainList)
+            rvComplains.adapter = complainAdapter
+            rvComplains.layoutManager = LinearLayoutManager(this)
+            complainAdapter.setImageButtonClickListener(this)
+        }
+    }
     private fun setupSearchView() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -177,7 +187,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
     }
     private fun showNewComplainForm() {
         searchView.clearFocus()
-        val formCompleted = false
+        var formCompleted = false
         val bottomSheetDialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.activity_complain_form, null)
         bottomSheetDialog.setContentView(view)
@@ -185,10 +195,10 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
 
 
         // Find editText inside the activity_complain_form layout
-        val etDate: EditText = view.findViewById(R.id.etDate)
         val etLocation: EditText = view.findViewById(R.id.etLocation)
         val etFormTitle: EditText = view.findViewById(R.id.etFormTitle)
         val etDescription: EditText = view.findViewById(R.id.etDescription)
+        val etSuggestions: EditText = view.findViewById(R.id.etSuggestions)
         val ibCamera: ImageButton = view.findViewById(R.id.ibCamera)
         val ibLocation: ImageButton = view.findViewById(R.id.ibLocation)
         val btSubmit: AppCompatButton = view.findViewById(R.id.btSubmit)
@@ -196,6 +206,11 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
         fetchCurrentLocation(etLocation)
         ivPhoto = view.findViewById(R.id.ivPhoto)
 
+        fun isFormCompleted(): Boolean {
+            return etLocation.text.isNotEmpty() &&
+                    etFormTitle.text.isNotEmpty() &&
+                    etDescription.text.isNotEmpty()
+        }
 
         ibCamera.setOnClickListener {
             if (checkCameraPermissions()) {
@@ -224,15 +239,45 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
 
         // Set listener on RatingBar to update the TextView
         btSubmit.setOnClickListener {
+            formCompleted = isFormCompleted()
+
             if (formCompleted) {
-                bottomSheetDialog.dismiss()
-                Toast.makeText(this,"Complain Submitted",Toast.LENGTH_SHORT).show()
+                insertComplain(
+                    null,
+                    etFormTitle.text.toString(),
+                    etDescription.text.toString(),
+                    etSuggestions.text.toString(),
+                    R.drawable.logo_login, // Replace with the actual resource ID
+                    0.0f,
+                    null,
+                    etLocation.text.toString(),
+                    ) { isSuccess ->
+                    if (isSuccess) {
+                        // Complain successfully inserted
+                        Toast.makeText(
+                            this@ComplainMain,
+                            "Data successfully inserted",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        bottomSheetDialog.dismiss()
+                        refreshComplains()
+                    } else {
+                        // Failed to insert complain
+                        Toast.makeText(
+                            this@ComplainMain,
+                            "Failed to insert data",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             } else {
-                Toast.makeText(this,"Required Fields are Empty",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ComplainMain, "Required Fields are Empty", Toast.LENGTH_SHORT).show()
             }
         }
 
+
     }
+
 
 
     // This method will help to retrieve the image
@@ -475,13 +520,14 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
             button.setTextAppearance(R.style.buttonWhiteBackground)
         }
     }
+/*
     private fun getSampleComplains(): MutableList<Complain> {
         // Sample data for testing
         return mutableListOf(
-            Complain(1,"andreas", "1234","",R.drawable.photo_rubish,3.5f),
+            Complain(1,"andreas", "1234","",R.drawable.photo_rubish,3.5f,,"Patra"),
             Complain(2,"ilias", "567","", R.drawable.photo_accident,4.0f),
             Complain(3,"Title", "876","",R.drawable.photo_flood,2.0f)
             // Add more complains as needed
         )
     }
-
+*/
