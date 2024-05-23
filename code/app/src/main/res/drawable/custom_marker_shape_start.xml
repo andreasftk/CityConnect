@@ -1,0 +1,7 @@
+<!-- res/drawable/custom_marker_shape_start.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#4CAF50"/> <!-- Green color for the start marker -->
+    <corners android:radius="8dp"/>
+    <stroke android:width="2dp" android:color="#388E3C"/> <!-- Darker green stroke -->
+    <size android:width="24dp" android:height="24dp"/>
+</shape>

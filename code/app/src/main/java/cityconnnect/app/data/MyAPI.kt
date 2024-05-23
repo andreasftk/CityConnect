@@ -1,5 +1,7 @@
 package cityconnect.app.data
 
+import cityconnnect.app.BusLine
+import cityconnnect.app.BusStops
 import cityconnnect.app.Parkings
 import cityconnnect.app.data.User
 import retrofit2.Call
@@ -24,4 +26,8 @@ interface MyAPI {
 
     @GET("getParkings.php")
     fun getParkings(): Call<ArrayList<Parkings?>?>?
+    @GET("getBusStops.php")
+    fun getBusStops(): Call<ArrayList<BusStops?>?>?
+    @GET("getBusLines.php")
+    fun getBusLines(): Call<ArrayList<BusLine?>?>?
 }

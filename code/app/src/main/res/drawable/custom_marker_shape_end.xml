@@ -1,0 +1,25 @@
+<!-- res/drawable/custom_marker_shape_end.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#F44336"/>
+        </shape>
+    </item>
+
+
+    <item>
+        <bitmap
+            android:src="@drawable/ic_marker_outline"
+            android:gravity="center"/>
+    </item>
+
+
+    <item android:gravity="center">
+        <bitmap
+            android:src="@drawable/bus_stop_icon"
+            android:gravity="center"/>
+    </item>
+
+</layer-list>

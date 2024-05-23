@@ -39,7 +39,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".ui.MapsActivity"
+            android:name=".ui.MainBus"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,6 +47,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.SpecificParkingPage" />
+        <activity android:name=".ui.MapsActivity" />
 
 
     </application>
