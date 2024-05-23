@@ -17,10 +17,12 @@ data class Complain(
     val photo: Int, // Resource ID
     var totalRating: Float,
     val date: String,
-    val location: String
-) {
+    val location: String,
+    val userId: Int
+    ) {
     companion object {
         private const val TAG = "Complain"
+
 
         fun getComplains(context: Context?, callback: (ArrayList<Complain>) -> Unit) {
             val api = ApiClient.apiService
@@ -64,10 +66,11 @@ data class Complain(
             totalRating: Float?,
             date: String?,
             location: String?,
+            userId: Int?,
             callback: (Boolean) -> Unit // Callback to handle success/failure
         ) {
             val api = ApiClient.apiService
-            val call = api.insertComplain(NULL, title, description, suggestions, photo, totalRating,"null",location)
+            val call = api.insertComplain(NULL, title, description, suggestions, photo, totalRating,"null",location,userId)
 
             call.enqueue(object : Callback<Complain> {
                 override fun onResponse(call: Call<Complain>, response: Response<Complain>) {

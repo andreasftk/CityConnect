@@ -41,6 +41,9 @@ import androidx.core.content.ContextCompat
 import cityconnect.app.data.MyAPI
 import cityconnnect.app.data.Complain
 import cityconnnect.app.data.Complain.Companion.insertComplain
+import cityconnnect.app.Review.Companion.insertReview
+import cityconnnect.app.Review.Companion.getReview
+
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import java.util.Locale
@@ -66,6 +69,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
     private var imageUri: Uri? = null
     private lateinit var ivPhoto: ImageView
 
+    private var currentUser: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -145,6 +149,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
     }
 
     private fun refreshComplains() {
+
         Complain.getComplains(this) { complains ->
             val complainList = ArrayList(complains)
             complainAdapter = ComplainAdapter(complainList)
@@ -155,6 +160,20 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
 
         }
     }
+
+    private fun findReview(userId: Int, complainId: Int, ratingBar: RatingBar) {
+
+        getReview(this) { reviews ->
+            val matchingReview = reviews.find { it.userId == userId && it.complainId == complainId }
+            val star = matchingReview?.star
+            if (star != null) {
+                ratingBar.rating = star.toFloat()
+            } else {
+                ratingBar.rating = 0f
+            }
+        }
+    }
+
     private fun setupSearchView() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -180,7 +199,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
         if (isRateButtonClickable) {
             // Check which button is clicked and show the respective bottom sheet
             when (buttonType) {
-                ComplainAdapter.ButtonType.RATE -> showRate()
+                ComplainAdapter.ButtonType.RATE -> showRate(complain.complainId)
                 ComplainAdapter.ButtonType.COMMENT -> showComment()
                 else -> {
 
@@ -261,6 +280,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
                     0.0f,
                     null,
                     etLocation.text.toString(),
+                    currentUser
                     ) { isSuccess ->
                     if (isSuccess) {
                         // Complain successfully inserted
@@ -426,8 +446,9 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
         // Set listener on RatingBar to update the TextView
         btSubmitReport.setOnClickListener {
             if (acceptTerms.isChecked) {
+
                 bottomSheetDialog.dismiss()
-                Toast.makeText(this,"Review and Report Submitted",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Report Submitted",Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this,"Please Accept Terms and Conditions",Toast.LENGTH_SHORT).show()
             }
@@ -436,16 +457,20 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
 
 
     }
-    private fun showRate() {
+
+    private fun showRate(complainId: Int) {
         isRateButtonClickable = true
         val bottomSheetDialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.review_form, null)
+
+        val ratingBar: RatingBar = view.findViewById(R.id.rbRate)
+        findReview(currentUser, complainId, ratingBar)
+
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.show()
 
 
         // Find views inside the review_form layout
-        val ratingBar: RatingBar = view.findViewById(R.id.rbRate)
         val tvCurRating: TextView = view.findViewById(R.id.tvNumberofStars)
         val btRate: AppCompatButton = view.findViewById(R.id.acbRate)
 
@@ -488,13 +513,58 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
             // For example, you can retrieve the current rating from 'ratingBar.rating'
 
             if (ratingBar.rating > 1) {
-                bottomSheetDialog.dismiss()
-                Toast.makeText(this, "Thanks for rating", Toast.LENGTH_SHORT).show();
+
+                insertReview(
+                    currentUser,
+                    ratingBar.rating.toInt(),
+                    complainId
+                ) { isSuccess ->
+                    if (isSuccess) {
+                        // Complain successfully inserted
+                        Toast.makeText(
+                            this@ComplainMain,
+                            "Thanks for rating",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        bottomSheetDialog.dismiss()
+                        refreshComplains()
+                    } else {
+                        // Failed to insert complain
+                        Toast.makeText(
+                            this@ComplainMain,
+                            "Rating not available",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+               // bottomSheetDialog.dismiss()
+               // Toast.makeText(this, "Thanks for rating", Toast.LENGTH_SHORT).show();
+
             }
             else if (ratingBar.rating == 1.0f)
             {
-                bottomSheetDialog.dismiss()
-                showReportForm()
+                insertReview(
+                    currentUser,
+                    ratingBar.rating.toInt(),
+                    complainId
+                ) { isSuccess ->
+                    if (isSuccess) {
+                        // Complain successfully inserted
+                        bottomSheetDialog.dismiss()
+                        showReportForm()
+                        Toast.makeText(this, "Thanks for rating", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        // Failed to insert complain
+                        Toast.makeText(
+                            this@ComplainMain,
+                            "Rating not available",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
             }
         }
     }

@@ -19,6 +19,7 @@ class ComplainAdapter (
     private var filteredList: MutableList<Complain> = complains.toMutableList()
 
     private var imageButtonClickListener: ImageButtonClickListener? = null
+
     enum class ButtonType {
         RATE,
         COMMENT

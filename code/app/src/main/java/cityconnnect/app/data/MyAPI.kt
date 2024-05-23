@@ -1,6 +1,7 @@
 package cityconnect.app.data
 
 
+import cityconnnect.app.Review
 import cityconnnect.app.data.Complain
 import retrofit2.Call
 import retrofit2.http.Field
@@ -15,6 +16,9 @@ interface MyAPI {
     @GET("getComplains.php")
     fun getComplains(): Call<ArrayList<Complain?>?>?
 
+    @GET("getReview.php")
+    fun getReview(): Call<ArrayList<Review?>?>?
+
     @FormUrlEncoded
     @POST("insertComplain.php")
     fun insertComplain(
@@ -25,8 +29,20 @@ interface MyAPI {
         @Field("photo") photo: Int?,
         @Field("totalRating") totalRating: Float?,
         @Field("date") date: String?,
-        @Field("location") location: String?
+        @Field("location") location: String?,
+        @Field("userId") userId: Int?
 
-    ): Call<Complain>
+
+        ): Call<Complain>
+
+    @FormUrlEncoded
+    @POST("insertReview.php")
+    fun insertReview(
+        @Field("userId") userId: Int?,
+        @Field("star") star: Int?,
+        @Field("complainId") complainId: Int?
+
+
+    ): Call<Review>
 
 }
