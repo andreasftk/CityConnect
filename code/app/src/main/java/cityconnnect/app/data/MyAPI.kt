@@ -1,6 +1,8 @@
 package cityconnect.app.data
 
 import cityconnnect.app.data.User
+import cityconnnect.app.data.Bill
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -20,4 +22,13 @@ interface MyAPI {
 
     @GET("select.php")
     fun fetchData(): Call<ArrayList<User?>?>?
+
+    @GET("getPendingBills.php")
+    suspend fun getPendingBills(userId: Int): List<Bill>
+
+    @FormUrlEncoded
+    @POST("payBill.php")
+    suspend fun payBill(
+        @Field("billId") billId: Int
+    ): ResponseBody
 }

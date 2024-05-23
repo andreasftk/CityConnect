@@ -1,4 +1,4 @@
-package cityconnnect.app.data
+/*package cityconnnect.app.data
 import java.util.*
 open class PendingBills(
     var title: String,
@@ -33,4 +33,13 @@ class PaidBills(
     billId: Int,
     citizenId: Int,
     var receipt: String
-) : PendingBills(title, amount, date, billId, citizenId)
+) : PendingBills(title, amount, date, billId, citizenId)*/
+
+package cityconnnect.app.data
+data class Bill(
+    val title: String,
+    val amount: Double,
+    val date: String,
+    val billId: Int,
+    val citizenId: Int
+)

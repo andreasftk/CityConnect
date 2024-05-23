@@ -1,42 +1,34 @@
-package cityconnnect.app.ui.bills
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import cityconnnect.app.R
-import cityconnnect.app.data.PendingBills
+import cityconnnect.app.data.Bill
 
-class BillAdapter(private val bills: List<PendingBills>) : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
+class PendingBillsAdapter(private val pendingBills: List<Bill>) :
+    RecyclerView.Adapter<PendingBillsAdapter.ViewHolder>() {
 
-    // ViewHolder class to hold references to the views
-    class BillViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val billNameTextView: TextView = itemView.findViewById(R.id.billNameTextView)
-        val billDateTextView: TextView = itemView.findViewById(R.id.billDateTextView)
-        val billAmountTextView: TextView = itemView.findViewById(R.id.billAmountTextView)
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val titleTextView: TextView = itemView.findViewById(R.id.billNameTextView)
+        val amountTextView: TextView = itemView.findViewById(R.id.billAmountTextView)
+        val dateTextView: TextView = itemView.findViewById(R.id.billDateTextView)
     }
 
-    // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BillViewHolder {
-        // Create a new view
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_bill, parent, false)
-        return BillViewHolder(itemView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_bill, parent, false)
+        return ViewHolder(view)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(holder: BillViewHolder, position: Int) {
-        // Get the bill at the specified position
-        val bill = bills[position]
-
-        // Set the text for the TextViews in the ViewHolder
-        holder.billNameTextView.text = bill.title
-        holder.billDateTextView.text = bill.date
-        holder.billAmountTextView.text = "${bill.amount} €" // Assuming you want to display the amount with a currency symbol
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val bill = pendingBills[position]
+        holder.titleTextView.text = bill.title
+        holder.amountTextView.text = "Amount: ${bill.amount}"
+        holder.dateTextView.text = "Date: ${bill.date}"
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount(): Int {
-        return bills.size
+        return pendingBills.size
     }
 }

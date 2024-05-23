@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:foregroundTint="#000000"
-    tools:context=".MainPage">
+    tools:context=".ui.bills.BillSelectionActivity">
 
 
     <androidx.cardview.widget.CardView
@@ -78,42 +78,6 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="401dp"
-                android:layout_height="216dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0">
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="145dp"
-                    android:layout_height="37dp"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center"
-                    android:text="Paid"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.003"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="402dp"
-                    android:layout_height="135dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.837" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
