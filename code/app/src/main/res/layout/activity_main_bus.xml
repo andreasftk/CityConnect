@@ -12,16 +12,17 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/feedWhite"
-        android:layout_width="397dp"
-        android:layout_height="683dp"
-        android:layout_marginBottom="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
         app:cardBackgroundColor="#FAFAFA"
         app:cardCornerRadius="40dp"
         app:cardElevation="0dp"
         app:cardForegroundColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

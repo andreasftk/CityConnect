@@ -118,7 +118,7 @@ class MainBus : AppCompatActivity() {
         } else if (busStop.endPointBS() == 1) {
             marker.icon = ContextCompat.getDrawable(this, R.drawable.custom_marker_shape_end)
         } else {
-            marker.icon = ContextCompat.getDrawable(this, R.drawable.custom_marker_shape)
+            marker.icon = ContextCompat.getDrawable(this, R.drawable.custom_marker_shape_clicked)
 
         }
 
@@ -152,7 +152,16 @@ class MainBus : AppCompatActivity() {
     }
 
     private fun resetSelectedMarker() {
-        selectedMarker?.icon = ContextCompat.getDrawable(this, R.drawable.custom_marker_shape)
+        val busStop = selectedMarker!!.relatedObject as? BusStops
+        if (busStop!!.startPointBS() == 1 ) {
+            selectedMarker?.icon = ContextCompat.getDrawable(this, R.drawable.custom_marker_shape_start)
+        } else if (busStop.endPointBS() == 1) {
+            selectedMarker?.icon = ContextCompat.getDrawable(this, R.drawable.custom_marker_shape_end)
+        } else {
+            selectedMarker?.icon =
+                ContextCompat.getDrawable(this, R.drawable.custom_marker_shape_clicked)
+
+        }
         selectedMarker = null
     }
 
