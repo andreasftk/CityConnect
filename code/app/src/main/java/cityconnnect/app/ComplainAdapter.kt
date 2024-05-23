@@ -63,6 +63,7 @@ class ComplainAdapter (
         private val ivComplain: ImageView = itemView.findViewById(R.id.ivComplain)
         private val ibRate: ImageButton = itemView.findViewById(R.id.ibRate)
         private val ibComment: ImageButton = itemView.findViewById(R.id.ibComment)
+        private val tvTotalReview: TextView = itemView.findViewById(R.id.tvTotalReview)
 
         init {
             ibRate.setOnClickListener {
@@ -88,6 +89,7 @@ class ComplainAdapter (
             tvDate.text = complain.date.toString()
             tvTotalRating.text = complain.totalRating.toString()
             ivComplain.setImageResource(complain.photo)
+            tvTotalReview.text = complain.totalReviews.toString()
 
         }
     }

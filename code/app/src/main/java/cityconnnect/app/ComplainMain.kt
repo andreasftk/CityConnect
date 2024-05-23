@@ -280,7 +280,8 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
                     0.0f,
                     null,
                     etLocation.text.toString(),
-                    currentUser
+                    currentUser,
+                    0
                     ) { isSuccess ->
                     if (isSuccess) {
                         // Complain successfully inserted

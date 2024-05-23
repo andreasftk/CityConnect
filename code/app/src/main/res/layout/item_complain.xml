@@ -135,4 +135,13 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTotalRating"
         app:srcCompat="@drawable/drop_down_bar" />
 
+    <TextView
+        android:id="@+id/tvTotalReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(0)"
+        app:layout_constraintEnd_toEndOf="@+id/ivTotalRating"
+        app:layout_constraintStart_toStartOf="@+id/tvTotalRating"
+        app:layout_constraintTop_toBottomOf="@+id/ivTotalRating" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

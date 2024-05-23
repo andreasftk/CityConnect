@@ -18,8 +18,10 @@ data class Complain(
     var totalRating: Float,
     val date: String,
     val location: String,
-    val userId: Int
-    ) {
+    val userId: Int,
+    val totalReviews: Int
+
+) {
     companion object {
         private const val TAG = "Complain"
 
@@ -67,6 +69,7 @@ data class Complain(
             date: String?,
             location: String?,
             userId: Int?,
+            totalReviews: Int?,
             callback: (Boolean) -> Unit // Callback to handle success/failure
         ) {
             val api = ApiClient.apiService
