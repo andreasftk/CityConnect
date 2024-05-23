@@ -38,19 +38,14 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import cityconnect.app.data.MyAPI
 import cityconnnect.app.data.Complain
 import cityconnnect.app.data.Complain.Companion.insertComplain
 import cityconnnect.app.Review.Companion.insertReview
 import cityconnnect.app.Review.Companion.getReview
+import cityconnnect.app.Report.Companion.insertReport
+import cityconnnect.app.Report.Companion.getReport
 
-import com.google.gson.GsonBuilder
-import retrofit2.Retrofit
 import java.util.Locale
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.converter.gson.GsonConverterFactory
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListener  {
@@ -171,6 +166,14 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
             } else {
                 ratingBar.rating = 0f
             }
+        }
+    }
+
+    private fun findReport(userId: Int, complainId: Int, oneStarExplanation: EditText) {
+        getReport(this) { reports ->
+            val matchingReport = reports.find { it.userId == userId && it.complainId == complainId }
+            val text = matchingReport?.text
+            oneStarExplanation.hint = text ?: "Type here"
         }
     }
 
@@ -421,15 +424,17 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
         private const val TAG = "MAIN_TAG"
     }
 
-    private fun showReportForm() {
+    private fun showReportForm(complainId: Int) {
         val bottomSheetDialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.activity_report_form, null)
+        val oneStarExplanation: EditText = view.findViewById(R.id.editTextTextMultiLine2)
+        findReport(currentUser,complainId,oneStarExplanation)
+
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.show()
 
 
         // Find editText inside the activity_complain_form layout
-        val oneStarExlpaination: EditText = view.findViewById(R.id.editTextTextMultiLine2)
         val acceptTerms: CheckBox = view.findViewById(R.id.checkBoxTerms)
         val btSubmitReport: AppCompatButton = view.findViewById(R.id.btSubmitReport)
 
@@ -447,9 +452,30 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
         // Set listener on RatingBar to update the TextView
         btSubmitReport.setOnClickListener {
             if (acceptTerms.isChecked) {
-                Toast.makeText(this,"Report and Rate Submitted",Toast.LENGTH_SHORT).show()
-                bottomSheetDialog.dismiss()
-                refreshComplains()
+                insertReport(
+                    complainId,
+                    currentUser,
+                    oneStarExplanation.text.toString()
+                ) { isSuccess ->
+                    if (isSuccess) {
+                        // Complain successfully inserted
+                        Toast.makeText(
+                            this@ComplainMain,
+                            "Report and Rate Submitted",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        bottomSheetDialog.dismiss()
+                        refreshComplains()
+                    } else {
+                        // Failed to insert complain
+                        Toast.makeText(
+                            this@ComplainMain,
+                            "Report not available",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
             } else {
                 Toast.makeText(this,"Please Accept Terms and Conditions",Toast.LENGTH_SHORT).show()
             }
@@ -553,7 +579,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
                     if (isSuccess) {
                         // Complain successfully inserted
                         bottomSheetDialog.dismiss()
-                        showReportForm()
+                        showReportForm(complainId)
 
                     } else {
                         // Failed to insert complain
