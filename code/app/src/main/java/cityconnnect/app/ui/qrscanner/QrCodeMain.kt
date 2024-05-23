@@ -1,33 +1,24 @@
 package cityconnnect.app.ui.qrscanner.zxinglibrary
 
-
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import cityconnnect.app.R
 import com.google.zxing.integration.android.IntentIntegrator
-
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import cityconnnect.app.databinding.QrCodeMainBinding
-import org.json.JSONException
-import org.json.JSONObject
+import cityconnnect.app.ui.qrscanner.ApiService
+import cityconnnect.app.ui.qrscanner.QrDataRequest
+import cityconnnect.app.ui.qrscanner.ServerResponse
+import cityconnnect.app.ui.qrscanner.Update_Single_Bus_Ticket
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.android.volley.Request.Method
-
-import com.android.volley.NetworkResponse
-
-import com.android.volley.toolbox.HttpHeaderParser
-import java.io.UnsupportedEncodingException
-
-
-
-class QrCodeMain: AppCompatActivity() {
+class QrCodeMain : AppCompatActivity() {
 
     private lateinit var binding: QrCodeMainBinding
     private var qrScanIntegrator: IntentIntegrator? = null
@@ -41,6 +32,7 @@ class QrCodeMain: AppCompatActivity() {
         setOnClickListener()
         setupScanner()
     }
+
     private fun setupScanner() {
         qrScanIntegrator = IntentIntegrator(this)
     }
@@ -53,7 +45,6 @@ class QrCodeMain: AppCompatActivity() {
         }
     }
 
-
     private fun performAction() {
         qrScanIntegrator?.initiateScan()
     }
@@ -64,88 +55,92 @@ class QrCodeMain: AppCompatActivity() {
             if (result.contents == null) {
                 Toast.makeText(this, getString(R.string.result_not_found), Toast.LENGTH_LONG).show()
             } else {
-                // If QRCode contains data, send it to the PHP script for insertion
-                sendDataToServer(result.contents)
+                // QR Code scan result obtained here
+                val qrContent = result.contents
+                val userId = "21" // Replace with actual user ID
+                sendDataToServer(qrContent, userId) // Pass the result to sendDataToServer method
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
     }
 
-    private fun sendDataToServer(qrData: String) {
-        val requestQueue = Volley.newRequestQueue(this)
-        val selectUrl = "https://cityconnectapp.000webhostapp.com/student/select_user_bus_tickets.php"
-        val updateUrl = "https://cityconnectapp.000webhostapp.com/student/update_user_bus_tickets.php"
-        val insertUrl = "https://example.com/insert_data.php"
-        val selectRequest = IntegerRequest(
-            Method.POST, selectUrl,
-            { result ->
-                if (result == 0) {
-                    // Data does not exist, perform insertion
-                    performInsertion(qrData, updateUrl, requestQueue)
+    private fun sendDataToServer(scanData: String, userId: String) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://cityconnectapp.000webhostapp.com/student/") // Replace with your server's base URL
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val apiService = retrofit.create(ApiService::class.java)
+        val qrDataRequest = QrDataRequest(qrData = scanData, userId = userId)
+
+        val call = apiService.sendQrCodeData(qrDataRequest)
+        call.enqueue(object : Callback<ServerResponse> {
+            override fun onResponse(call: Call<ServerResponse>, response: Response<ServerResponse>) {
+                if (response.isSuccessful) {
+                    val result = response.body()?.result
+                    when (result) {
+                        1 -> confirmMonthly()
+                        2 -> confirmWeekly()
+                        3 -> confirmSingle(scanData,userId)
+                        else -> buyTicket()
+                    }
                 } else {
-                    // Data exists, perform update
-                    performUpdate(qrData, updateUrl, requestQueue)
+                    Toast.makeText(this@QrCodeMain, "Failed to send data", Toast.LENGTH_LONG).show()
                 }
-            },
-            { error ->
-                // Handle errors
-                Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_LONG).show()
             }
-        )
 
-        // Add select request to the queue
-        requestQueue.add(selectRequest)
+
+            override fun onFailure(call: Call<ServerResponse>, t: Throwable) {
+                Toast.makeText(this@QrCodeMain, "Error: " + t.message, Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
 
-    private fun performInsertion(qrData: String, updateUrl: String, requestQueue: RequestQueue) {
-        val insertUrl = "https://example.com/insert_data.php"
-        // Perform insertion query
-        val stringRequest = object : StringRequest(
-            Request.Method.POST, insertUrl,
-            Response.Listener<String> { response ->
-                // Handle the response from the server
-                Toast.makeText(this, response, Toast.LENGTH_LONG).show()
-            },
-            Response.ErrorListener { error ->
-                // Handle errors
-                Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_LONG).show()
-            }) {
-            override fun getParams(): Map<String, String> {
-                // Add parameters to your request (e.g., the QR data)
-                val params = HashMap<String, String>()
-                params["qr_data"] = qrData
-                return params
+private fun confirmMonthly() {
+
+}
+
+private fun confirmWeekly() {
+    // Call your confirm_weekly function here
+}
+
+    private fun confirmSingle(scanData: String, userId: String) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://cityconnectapp.000webhostapp.com/student/") // Replace with your server's base URL
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val updateSingleBusTicket = retrofit.create(Update_Single_Bus_Ticket::class.java)
+        val qrDataRequest = QrDataRequest(qrData = scanData, userId = userId)
+
+        val call = updateSingleBusTicket.confirmSingle(qrDataRequest)
+        call.enqueue(object : Callback<ServerResponse> {
+            override fun onResponse(call: Call<ServerResponse>, response: Response<ServerResponse>) {
+                if (response.isSuccessful) {
+                    val result = response.body()?.result
+
+                    when (result) {
+                        9 -> Toast.makeText(this@QrCodeMain, "Monthly ticket is valid", Toast.LENGTH_LONG).show()
+                        2 -> Toast.makeText(this@QrCodeMain, "Weekly ticket is valid", Toast.LENGTH_LONG).show()
+                        3 -> Toast.makeText(this@QrCodeMain, "Single ticket is valid", Toast.LENGTH_LONG).show()
+                        else -> Toast.makeText(this@QrCodeMain, "No valid ticket found $result", Toast.LENGTH_LONG).show()
+                    }
+
+                }   else {
+                    Toast.makeText(this@QrCodeMain, "Failed to send data", Toast.LENGTH_LONG).show()
+                }
             }
-        }
-        requestQueue.add(stringRequest)
+
+            override fun onFailure(call: Call<ServerResponse>, t: Throwable) {
+                Toast.makeText(this@QrCodeMain, "Error: " + t.message, Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
 
-    private fun performUpdate(qrData: String, updateUrl: String, requestQueue: RequestQueue) {
-        val updateUrl = "https://cityconnectapp.000webhostapp.com/student/update_user_bus_tickets.php"
-        val stringRequest = object : StringRequest(
-            Request.Method.POST, updateUrl,
-            Response.Listener<String> { response ->
-                // Handle the response from the server
-                Toast.makeText(this, response, Toast.LENGTH_LONG).show()
-            },
-            Response.ErrorListener { error ->
-                // Handle errors
-                Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_LONG).show()
-            }) {
-            override fun getParams(): Map<String, String> {
-                // Add parameters to your request (e.g., the QR data)
-                val params = HashMap<String, String>()
-                params["qr_data"] = qrData
-                return params
-            }
-        }
-        requestQueue.add(stringRequest)
-    }
-
-
-
-
+private fun buyTicket() {
+    // Call your buy_ticket_function here
+}
 }
