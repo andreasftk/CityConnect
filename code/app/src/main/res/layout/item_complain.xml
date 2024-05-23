@@ -8,11 +8,11 @@
 
     <ImageView
         android:id="@+id/ivTotalRating"
-        android:layout_width="20dp"
+        android:layout_width="30dp"
         android:layout_height="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
-        android:src="@drawable/ic_rating_star"
+        android:src="@drawable/ic_rating_star_yellow"
         app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
@@ -22,8 +22,9 @@
         android:layout_height="wrap_content"
         android:text="Title Example"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         style="@style/TitleTextStyle"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,6 +34,7 @@
         style="@style/TextAppearance.AppCompat.Small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textSize="15sp"
         android:layout_marginStart="10dp"
         android:text="Location"
         app:layout_constraintEnd_toStartOf="@+id/tvDate"
@@ -42,10 +44,12 @@
     <TextView
         android:id="@+id/tvDate"
         style="@style/TextAppearance.AppCompat.Small"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="Date"
         android:layout_marginEnd="10dp"
+        android:text="2000-01-01 12001100"
+        android:textAlignment="textEnd"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
@@ -53,11 +57,11 @@
         android:id="@+id/ivComplain"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:scaleType="centerInside"
         android:src="@drawable/logo_login"
         app:layout_constraintEnd_toEndOf="parent"
-        android:scaleType="centerInside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
     <TextView
         android:id="@+id/tvDescription"
@@ -65,14 +69,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="Desccription"
+        android:textSize="15sp"
         android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/ivComplain"
         app:layout_constraintTop_toBottomOf="@+id/ivComplain" />
 
     <ImageButton
         android:id="@+id/ibRate"
-        android:layout_width="60dp"
+        android:layout_width="70dp"
         android:layout_height="30dp"
         android:layout_marginEnd="60dp"
         android:background="@android:color/transparent"
@@ -107,9 +113,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
         android:layout_marginEnd="90dp"
         android:text="Rate"
+        android:textSize="20sp"
         android:textColor="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
@@ -118,10 +124,13 @@
         android:id="@+id/tvTotalRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="4.2/5"
+        android:text="4.2"
+        android:layout_marginTop="3dp"
         android:textColor="@color/black"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/ivTotalRating"
+        android:textSize="18dp"
+        android:layout_marginEnd="5dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/tvTotalReview"
         app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
     <ImageView
@@ -140,8 +149,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="(0)"
-        app:layout_constraintEnd_toEndOf="@+id/ivTotalRating"
-        app:layout_constraintStart_toStartOf="@+id/tvTotalRating"
-        app:layout_constraintTop_toBottomOf="@+id/ivTotalRating" />
+        android:textSize="15sp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/ivTotalRating"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

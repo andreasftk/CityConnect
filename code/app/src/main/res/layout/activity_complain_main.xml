@@ -108,6 +108,16 @@
             android:layout_marginTop="10dp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <ImageView
+        android:id="@+id/ivWhiteSpot"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/btHistory"
+        app:layout_constraintEnd_toEndOf="@+id/btPlus"
+        app:layout_constraintStart_toStartOf="@+id/btPlus"
+        app:layout_constraintTop_toTopOf="@+id/btPlus"
+        app:srcCompat="@drawable/white_frame" />
+
     <ImageButton
         android:id="@+id/btPlus"
         android:layout_width="60dp"

@@ -89,7 +89,7 @@ class ComplainAdapter (
             tvDate.text = complain.date.toString()
             tvTotalRating.text = complain.totalRating.toString()
             ivComplain.setImageResource(complain.photo)
-            tvTotalReview.text = complain.totalReviews.toString()
+            tvTotalReview.text ="(${complain.totalReviews})"
 
         }
     }

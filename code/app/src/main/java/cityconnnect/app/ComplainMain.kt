@@ -447,9 +447,9 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
         // Set listener on RatingBar to update the TextView
         btSubmitReport.setOnClickListener {
             if (acceptTerms.isChecked) {
-
+                Toast.makeText(this,"Report and Rate Submitted",Toast.LENGTH_SHORT).show()
                 bottomSheetDialog.dismiss()
-                Toast.makeText(this,"Report Submitted",Toast.LENGTH_SHORT).show()
+                refreshComplains()
             } else {
                 Toast.makeText(this,"Please Accept Terms and Conditions",Toast.LENGTH_SHORT).show()
             }
@@ -528,7 +528,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
                             Toast.LENGTH_SHORT
                         ).show()
                         bottomSheetDialog.dismiss()
-                        refreshComplains()
+                            refreshComplains()
                     } else {
                         // Failed to insert complain
                         Toast.makeText(
@@ -554,7 +554,6 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
                         // Complain successfully inserted
                         bottomSheetDialog.dismiss()
                         showReportForm()
-                        Toast.makeText(this, "Thanks for rating", Toast.LENGTH_SHORT).show();
 
                     } else {
                         // Failed to insert complain
