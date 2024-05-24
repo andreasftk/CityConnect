@@ -73,7 +73,7 @@ data class Complain(
             callback: (Boolean) -> Unit // Callback to handle success/failure
         ) {
             val api = ApiClient.apiService
-            val call = api.insertComplain(NULL, title, description, suggestions, photo, totalRating,"null",location,userId)
+            val call = api.insertComplain(NULL, title, description, suggestions, photo, totalRating,"null",location,userId,totalReviews)
 
             call.enqueue(object : Callback<Complain> {
                 override fun onResponse(call: Call<Complain>, response: Response<Complain>) {

@@ -33,8 +33,8 @@ interface MyAPI {
         @Field("totalRating") totalRating: Float?,
         @Field("date") date: String?,
         @Field("location") location: String?,
-        @Field("userId") userId: Int?
-
+        @Field("userId") userId: Int?,
+        @Field("totalReviews") totalReviews: Int?
 
         ): Call<Complain>
 

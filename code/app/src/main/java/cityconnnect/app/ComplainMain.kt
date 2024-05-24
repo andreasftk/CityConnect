@@ -242,6 +242,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
             return etLocation.text.isNotEmpty() &&
                     etFormTitle.text.isNotEmpty() &&
                     etDescription.text.isNotEmpty()
+
         }
 
         ibCamera.setOnClickListener {
@@ -272,40 +273,52 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
         // Set listener on RatingBar to update the TextView
         btSubmit.setOnClickListener {
             formCompleted = isFormCompleted()
-
-            if (formCompleted) {
-                insertComplain(
-                    null,
-                    etFormTitle.text.toString(),
-                    etDescription.text.toString(),
-                    etSuggestions.text.toString(),
-                    R.drawable.logo_login, // Replace with the actual resource ID
-                    0.0f,
-                    null,
-                    etLocation.text.toString(),
-                    currentUser,
-                    0
+            if(ivPhoto.drawable != null) {
+                if (formCompleted) {
+                    insertComplain(
+                        null,
+                        etFormTitle.text.toString(),
+                        etDescription.text.toString(),
+                        etSuggestions.text.toString(),
+                        R.drawable.logo_login, // Replace with the actual resource ID
+                        0.0f,
+                        null,
+                        etLocation.text.toString(),
+                        currentUser,
+                        0
                     ) { isSuccess ->
-                    if (isSuccess) {
-                        // Complain successfully inserted
-                        Toast.makeText(
-                            this@ComplainMain,
-                            "Data successfully inserted",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        bottomSheetDialog.dismiss()
-                        refreshComplains()
-                    } else {
-                        // Failed to insert complain
-                        Toast.makeText(
-                            this@ComplainMain,
-                            "Failed to insert data",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        if (isSuccess) {
+                            // Complain successfully inserted
+                            Toast.makeText(
+                                this@ComplainMain,
+                                "Data successfully inserted",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            bottomSheetDialog.dismiss()
+                            refreshComplains()
+                        } else {
+                            // Failed to insert complain
+                            Toast.makeText(
+                                this@ComplainMain,
+                                "Failed to insert data",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
+                } else {
+                    Toast.makeText(
+                        this@ComplainMain,
+                        "Required Fields are Empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-            } else {
-                Toast.makeText(this@ComplainMain, "Required Fields are Empty", Toast.LENGTH_SHORT).show()
+            } else
+            {
+                Toast.makeText(
+                    this@ComplainMain,
+                    "Please take a photo",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
