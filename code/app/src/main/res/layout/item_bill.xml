@@ -13,7 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <CheckBox
+        <TextView
             android:id="@+id/billNameTextView"
             android:layout_width="217dp"
             android:layout_height="39dp"

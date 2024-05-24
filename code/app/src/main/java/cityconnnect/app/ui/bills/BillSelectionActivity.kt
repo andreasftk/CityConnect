@@ -2,6 +2,7 @@ package cityconnnect.app.ui.bills
 
 import PendingBillsAdapter
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class BillSelectionActivity : AppCompatActivity() {
 
-    private lateinit var pendingBills: MutableList<Bill>
+    private var pendingBills: MutableList<Bill> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,10 +25,16 @@ class BillSelectionActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun loadPendingBills(userId: Int) {
+    private suspend fun loadPendingBills(citizenId: Int) {
+
         try {
-            val bills = ApiClient.apiService.getPendingBills(userId)
+            Log.d("API_CALL", "Fetching pending bills for user ID: $citizenId")
+            val bills = ApiClient.apiService.getPendingBills(citizenId)
+            Log.d("API_CALL", "Received response: $bills")
             pendingBills = bills.toMutableList()
+
+            // Add a log statement to check the contents of pendingBills
+            Log.d("PendingBills", "Number of pending bills: ${pendingBills.size}")
 
             // Update RecyclerView with pending bills
             val recyclerView = findViewById<RecyclerView>(R.id.pendingBillRecyclerView)

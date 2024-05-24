@@ -1,4 +1,4 @@
-package cityconnect.app.data
+package cityconnnect.app.data
 
 import cityconnnect.app.data.User
 import cityconnnect.app.data.Bill
@@ -24,7 +24,7 @@ interface MyAPI {
     fun fetchData(): Call<ArrayList<User?>?>?
 
     @GET("getPendingBills.php")
-    suspend fun getPendingBills(userId: Int): List<Bill>
+    suspend fun getPendingBills(citizenId: Int): List<Bill>
 
     @FormUrlEncoded
     @POST("payBill.php")

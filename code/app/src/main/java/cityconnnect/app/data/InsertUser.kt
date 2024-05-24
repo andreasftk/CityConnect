@@ -8,7 +8,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import cityconnect.app.data.MyAPI
 import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
