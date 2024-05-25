@@ -15,17 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CityConnect"
         tools:targetApi="31">
-        <activity
-            android:name=".ui.payments.CheckoutActivity"
-            android:exported="true"
-            android:label="@string/title_activity_checkout"
-            android:theme="@style/Theme.CityConnect">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <!-- This element is required to enable Google Pay in your app. -->
         <meta-data
@@ -36,6 +26,11 @@
             android:name=".ui.login.LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login">
+
+        </activity>
+        <activity
+            android:name=".ui.qrscanner.zxinglibrary.QrCodeMain"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.qrscanner.zxinglibrary.QrCodeMain"
+            android:name=".ui.qrscanner_parking.zxinglibrary.QrCodeMain"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

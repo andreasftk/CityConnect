@@ -1,4 +1,4 @@
-package cityconnnect.app.ui.qrscanner.zxinglibrary
+package cityconnnect.app.ui.qrscanner_parking.zxinglibrary
 
 import android.content.Intent
 import android.os.Bundle

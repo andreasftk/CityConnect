@@ -1,21 +1,65 @@
 <?php
 include_once('config.php');
 
-// Check if POST data exists
-//if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Assuming 'qr_data' is sent from Android
-   // $qr_data = $_POST['qr_data'];
+// Function to update ticket number and return the updated number
+function update_number($con, $route, $user_id) {
+    // Update user_bus_tickets
+    $query = "
+        UPDATE user_bus_tickets ubt
+        INNER JOIN bus_tickets bt ON ubt.bus_ticket_id = bt.id
+        SET ubt.number = ubt.number - 1
+        WHERE bt.route = ?
+        AND ubt.user_id = ?
+        AND ubt.number > 0
+    ";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("ii", $route, $user_id);
+    $stmt->execute();
 
-    // Query to select the 'number' column based on the QR data
-    // Modify this query according to your database schema
-$query = "UPDATE `user_bus_tickets` SET `number` = `number` - 1 WHERE `bus_ticket_id` = 104 AND `user_id` = 21";
+    // Get the updated number
+    $updated_number = $con->affected_rows;
 
-    // Execute the query
-    $result = mysqli_query($con, $query);
+    // Fetch the new number of tickets
+    $query = "
+        SELECT ubt.number
+        FROM user_bus_tickets ubt
+        INNER JOIN bus_tickets bt ON ubt.bus_ticket_id = bt.id
+        WHERE bt.route = ?
+        AND ubt.user_id = ?
+    ";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("ii", $route, $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        return $row['number'];
+    } else {
+        return 0; // Return 0 if no ticket found after update
+    }
+}
 
+// Decode the incoming JSON data
+$data = file_get_contents("php://input");
+$json = json_decode($data, true);
 
-//else {
-    // No POST data received
-    //echo "No data received.";
-//}
+// Validate and process the input data
+if (isset($json['qrData']) && isset($json['userId'])) {
+    $route = $json['qrData'];
+    $user_id = $json['userId'];
+
+    // Update the ticket number and get the updated number
+    $updated_number = update_number($con, $route, $user_id);
+
+    // Return the updated number as JSON
+    echo json_encode([
+        'status' => 'success',
+        'result' => $updated_number
+    ]);
+} else {
+    // Return an error response if the input is invalid
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Invalid input'
+    ]);
+}
 ?>
