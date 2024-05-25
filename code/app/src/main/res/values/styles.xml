@@ -7,4 +7,26 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <!-- Style for titles -->
+    <style name="TitleTextStyle">
+        <item name="android:textSize">18sp</item>      <!-- Text size in scaled pixels -->
+        <item name="android:textStyle">bold</item>     <!-- Text style (bold) -->
+        <item name="android:textColor">@color/black</item> <!-- Text color (black) -->
+    </style>
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/yellow</item>
+    </style>
+    <style name="FormEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/edit_text_box</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:ems">10</item>
+        <item name="android:inputType">text</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+    </style>
+
 </resources>
+
