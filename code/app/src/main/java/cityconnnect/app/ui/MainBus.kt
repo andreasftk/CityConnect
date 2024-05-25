@@ -110,8 +110,7 @@ class MainBus : AppCompatActivity() {
             title = busStop.name
             relatedObject = busStop // Storing the bus stop object in the marker for later use
         }
-        //Log.e("END" , busStop.endPointBS());
-        //Log.e("start" , busStop.startPointBS());
+
 
         if (busStop.startPointBS() == 1 ) {
             marker.icon = ContextCompat.getDrawable(this, R.drawable.custom_marker_shape_start)
@@ -119,7 +118,6 @@ class MainBus : AppCompatActivity() {
             marker.icon = ContextCompat.getDrawable(this, R.drawable.custom_marker_shape_end)
         } else {
             marker.icon = ContextCompat.getDrawable(this, R.drawable.custom_marker_shape_clicked)
-
         }
 
         marker.setOnMarkerClickListener { clickedMarker, _ ->

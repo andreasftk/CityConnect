@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:foregroundTint="#000000"
+    tools:context=".ui.BuyTickets">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/feedWhite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        app:cardBackgroundColor="#FAFAFA"
+        app:cardCornerRadius="40dp"
+        app:cardElevation="0dp"
+        app:cardForegroundColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="10">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="4dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:reverseLayout="true" />
+
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="44dp"
+                android:layout_height="28dp"
+                android:layout_marginBottom="6dp"
+                android:background="#AEAEAE"
+                android:spinnerMode="dropdown"
+                android:textColor="#AEAEAE"
+                app:layout_constraintBottom_toTopOf="@+id/single_use_cv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text2" />
+
+            <TextView
+                android:id="@+id/line_tv"
+                android:layout_width="65dp"
+                android:layout_height="28dp"
+                android:text="Line"
+                android:textColor="#AEAEAE"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/single_use_cv"
+                app:layout_constraintStart_toEndOf="@+id/spinner2"
+                app:layout_constraintTop_toBottomOf="@+id/text2"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Buy Bus Tickets"
+                android:textColor="#AEAEAE"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.563" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="My Bus Tickets"
+                android:textColor="#AEAEAE"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView4" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/single_use_cv"
+                android:layout_width="182dp"
+                android:layout_height="116dp"
+                android:layout_marginTop="34dp"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text2">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Week Pass"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.207" />
+
+                    <Button
+                        android:id="@+id/buy_week"
+                        android:layout_width="62dp"
+                        android:layout_height="41dp"
+                        android:layout_marginTop="29dp"
+                        android:background="@drawable/custom_edittext"
+                        android:text="Buy"
+                        android:textAllCaps="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.829"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView4"
+                        app:layout_constraintVertical_bias="0.0">
+
+                    </Button>
+
+                    <TextView
+                        android:id="@+id/price_week"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/buy_week"
+                        app:layout_constraintHorizontal_bias="0.658"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView4"
+                        app:layout_constraintVertical_bias="0.362" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView4"
+                android:layout_width="366dp"
+                android:layout_height="116dp"
+                android:layout_marginTop="14dp"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.40"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/single_use_cv">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/single_use"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Single Use"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.207" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="142dp"
+                        android:layout_height="58dp"
+                        android:backgroundTint="#FFFFFF"
+                        app:cardCornerRadius="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/price_single_xamount"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.901" />
+
+                    <TextView
+                        android:id="@+id/amount_tv"
+                        android:layout_width="53dp"
+                        android:layout_height="38dp"
+                        android:text="Choose amount"
+                        android:textColor="#AEAEAE"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.137"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/single_use"
+                        app:layout_constraintVertical_bias="0.589" />
+
+
+                    <Button
+                        android:id="@+id/btn_minus"
+                        android:layout_width="42dp"
+                        android:layout_height="38dp"
+                        android:layout_marginEnd="4dp"
+                        android:text="-"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/amount_tv"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.794" />
+
+                    <Button
+                        android:id="@+id/btn_plus"
+                        android:layout_width="42dp"
+                        android:layout_height="38dp"
+                        android:text="+"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/amount_tv"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.794" />
+
+                    <Button
+                        android:id="@+id/buy_single"
+                        android:layout_width="62dp"
+                        android:layout_height="41dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/custom_edittext"
+                        android:text="Buy"
+                        android:textAllCaps="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.947"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/single_use"
+                        app:layout_constraintVertical_bias="0.0">
+
+                    </Button>
+
+                    <TextView
+                        android:id="@+id/price_single"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/buy_single"
+                        app:layout_constraintHorizontal_bias="0.652"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/single_use"
+                        app:layout_constraintVertical_bias="0.275" />
+
+                    <TextView
+                        android:id="@+id/price_single_xamount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/buy_single"
+                        app:layout_constraintHorizontal_bias="0.652"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/single_use"
+                        app:layout_constraintVertical_bias="0.675" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="173dp"
+                android:layout_height="116dp"
+                android:layout_marginLeft="200dp"
+                android:layout_marginTop="34dp"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text2">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Month Pass"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.207" />
+
+                    <Button
+                        android:id="@+id/buy_month"
+                        android:layout_width="62dp"
+                        android:layout_height="41dp"
+                        android:layout_marginTop="29dp"
+                        android:text="Buy"
+                        android:textAllCaps="false"
+                        android:background="@drawable/custom_edittext"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.829"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView5"
+                        app:layout_constraintVertical_bias="0.0">
+
+                    </Button>
+                    <TextView
+                        android:id="@+id/price_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/buy_month"
+                        app:layout_constraintHorizontal_bias="0.658"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView5"
+                        app:layout_constraintVertical_bias="0.362" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/ivLogoMain"
+        android:layout_width="169dp"
+        android:layout_height="85dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/feedWhite"
+        app:layout_constraintEnd_toStartOf="@+id/ivProfile"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.19"
+        app:srcCompat="@drawable/logo_complain" />
+
+    <ImageView
+        android:id="@+id/ivBell"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        app:layout_constraintBottom_toTopOf="@+id/feedWhite"
+        app:layout_constraintEnd_toStartOf="@+id/ivLogoMain"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_notifications_black_24dp" />
+
+    <ImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/feedWhite"
+        app:layout_constraintEnd_toStartOf="@+id/swLanguage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/swLanguage"
+        android:layout_width="0dp"
+        android:layout_height="31dp"
+        android:checked="true"
+        android:text="UK"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/feedWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

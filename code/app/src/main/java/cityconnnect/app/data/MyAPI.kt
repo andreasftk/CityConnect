@@ -3,6 +3,7 @@ package cityconnect.app.data
 import cityconnnect.app.BusLine
 import cityconnnect.app.BusStops
 import cityconnnect.app.Parkings
+import cityconnnect.app.BusTicket
 import cityconnnect.app.data.User
 import retrofit2.Call
 import retrofit2.http.Field
@@ -30,4 +31,16 @@ interface MyAPI {
     fun getBusStops(): Call<ArrayList<BusStops?>?>?
     @GET("getBusLines.php")
     fun getBusLines(): Call<ArrayList<BusLine?>?>?
+    @GET("singleUse_busticket.php")
+    fun getSingleUseBusTickets(): Call<ArrayList<BusTicket?>?>?
+
+    @GET("week_busticket.php")
+    fun getWeeklyBusTickets(): Call<ArrayList<BusTicket?>?>?
+
+    @GET("monthly_busticket.php")
+    fun getMonthlyBusTickets(): Call<ArrayList<BusTicket?>?>?
+
+
+
+
 }

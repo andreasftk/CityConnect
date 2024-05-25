@@ -23,7 +23,7 @@
         android:theme="@style/Theme.CityConnect"
         tools:targetApi="31">
 
-        <!-- Add your meta-data here -->
+
 
         <activity
             android:name=".ui.login.LoginActivity"
@@ -39,7 +39,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".ui.MainBus"
+            android:name=".ui.BuyTickets"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
