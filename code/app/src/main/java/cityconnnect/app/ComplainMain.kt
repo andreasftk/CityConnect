@@ -65,6 +65,8 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
     private lateinit var ivPhoto: ImageView
 
     private var currentUser: Int = 1
+    private lateinit var complainList: ArrayList<Complain>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -146,7 +148,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
     private fun refreshComplains() {
 
         Complain.getComplains(this) { complains ->
-            val complainList = ArrayList(complains)
+             complainList = ArrayList(complains)
             complainAdapter = ComplainAdapter(complainList)
             rvComplains.adapter = complainAdapter
             rvComplains.layoutManager = LinearLayoutManager(this)
@@ -217,6 +219,29 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
             }, 1000) // delay time (in milliseconds)
         }
     }
+
+    private fun similarityTest(location: String,title: String,description: String): Boolean {
+
+        for (complain in complainList) {
+            // Check if the current complain's fields are similar to the input fields
+            if (areSimilar(location, complain.location) && areSimilar(
+                    title,
+                    complain.title
+                ) && areSimilar(description, complain.description)
+            ) {
+                Log.d(TAG, "Found a similar complain: ${complain.complainId}")
+                searchView.setQuery(complain.title,true)
+                return false
+            }
+        }
+        Log.d(TAG, "No similar complain found")
+        return true
+    }
+    private fun areSimilar(text1: String, text2: String): Boolean {
+        // You can implement a more complex similarity check here
+        return text1.equals(text2, ignoreCase = true)
+    }
+
     private fun showNewComplainForm() {
         searchView.clearFocus()
         var formCompleted = false
@@ -275,35 +300,46 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
             formCompleted = isFormCompleted()
             if(ivPhoto.drawable != null) {
                 if (formCompleted) {
-                    insertComplain(
-                        null,
-                        etFormTitle.text.toString(),
-                        etDescription.text.toString(),
-                        etSuggestions.text.toString(),
-                        R.drawable.logo_login, // Replace with the actual resource ID
-                        0.0f,
-                        null,
-                        etLocation.text.toString(),
-                        currentUser,
-                        0
-                    ) { isSuccess ->
-                        if (isSuccess) {
-                            // Complain successfully inserted
-                            Toast.makeText(
-                                this@ComplainMain,
-                                "Data successfully inserted",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            bottomSheetDialog.dismiss()
-                            refreshComplains()
-                        } else {
-                            // Failed to insert complain
-                            Toast.makeText(
-                                this@ComplainMain,
-                                "Failed to insert data",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                    if (similarityTest(etLocation.text.toString(),etFormTitle.text.toString(),etDescription.text.toString())) {
+                        insertComplain(
+                            null,
+                            etFormTitle.text.toString(),
+                            etDescription.text.toString(),
+                            etSuggestions.text.toString(),
+                            R.drawable.logo_login, // Replace with the actual resource ID
+                            0.0f,
+                            null,
+                            etLocation.text.toString(),
+                            currentUser,
+                            0
+                        ) { isSuccess ->
+                            if (isSuccess) {
+                                // Complain successfully inserted
+                                Toast.makeText(
+                                    this@ComplainMain,
+                                    "Data successfully inserted",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                bottomSheetDialog.dismiss()
+                                refreshComplains()
+                            } else {
+                                // Failed to insert complain
+                                Toast.makeText(
+                                    this@ComplainMain,
+                                    "Failed to insert data",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
+                    }
+                    else {
+                        Toast.makeText(
+                            this@ComplainMain,
+                            "Found Similar Complain",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        bottomSheetDialog.dismiss()
+
                     }
                 } else {
                     Toast.makeText(

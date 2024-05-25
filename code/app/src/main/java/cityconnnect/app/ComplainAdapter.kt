@@ -108,9 +108,10 @@ class ComplainAdapter (
                         for (complain in filteredList) {
                             val title = complain.title.lowercase(Locale.getDefault())
                             val description = complain.description.lowercase(Locale.getDefault())
+                            val location = complain.location.lowercase(Locale.getDefault())
 
                             // Check if either the title or description contains the filter pattern
-                            if (title.contains(filterPattern) || description.contains(filterPattern)) {
+                            if (title.contains(filterPattern) || description.contains(filterPattern)|| location.contains(filterPattern)) {
                                 filteredResults.add(complain)
                             }
                         }
