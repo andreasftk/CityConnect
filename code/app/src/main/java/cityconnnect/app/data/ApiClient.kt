@@ -5,8 +5,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    private const val BASE_URL = "https://appcityconnect.000webhostapp.com/student/"
 
+    private const val BASE_URL = "https://cityconnectapp.000webhostapp.com/student/"
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
