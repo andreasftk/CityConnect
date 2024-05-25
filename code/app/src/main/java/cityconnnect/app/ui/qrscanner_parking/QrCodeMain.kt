@@ -60,6 +60,7 @@ class QrCodeMain : AppCompatActivity() {
                 // QR Code scan result obtained here
                 val qrContent = result.contents
                 val userId = "21" // Replace with actual user ID
+
                 sendDataToServer(qrContent, userId) // Pass the result to sendDataToServer method
             }
         } else {
