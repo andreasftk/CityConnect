@@ -80,14 +80,19 @@ class QrCodeMain : AppCompatActivity() {
 
         val call = apiService.sendQrCodeData(qrDataRequest)
         call.enqueue(object : Callback<ServerResponse> {
-            override fun onResponse(call: Call<ServerResponse>, response: Response<ServerResponse>) {
+            override fun onResponse(
+                call: Call<ServerResponse>,
+                response: Response<ServerResponse>
+            ) {
                 if (response.isSuccessful) {
                     val result = response.body()?.result
                     when (result) {
-                        1 -> confirmMonthly()
-                        2 -> confirmWeekly()
-                        3 -> confirmSingle(scanData,userId)
-                        else -> buyTicket()
+                        1 -> no_space_available()
+                        2 -> no_ticket_available()
+                        3 -> enter_confirm()
+                        4 -> out_confirm()
+                        5 -> out_and_fined()
+
                     }
                 } else {
                     Toast.makeText(this@QrCodeMain, "Failed to send data", Toast.LENGTH_LONG).show()
@@ -102,54 +107,28 @@ class QrCodeMain : AppCompatActivity() {
     }
 
 
-private fun confirmMonthly() {
+    private fun enter_confirm() {
 
-}
-
-private fun confirmWeekly() {
-    // Call your confirm_weekly function here
-}
-
-    private fun confirmSingle(scanData: String, userId: String) {
-
-        val gson = GsonBuilder()
-            .setLenient()
-            .create()
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://cityconnectapp.000webhostapp.com/student/") // Replace with your server's base URL
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-
-        val updateSingleBusTicket = retrofit.create(Update_Single_Bus_Ticket::class.java)
-        val qrDataRequest = QrDataRequest(qrData = scanData, userId = userId)
-
-        val call = updateSingleBusTicket.confirmSingle(qrDataRequest)
-        call.enqueue(object : Callback<ServerResponse> {
-            override fun onResponse(call: Call<ServerResponse>, response: Response<ServerResponse>) {
-                if (response.isSuccessful) {
-                    val result = response.body()?.result
-
-                    when (result) {
-                        0 -> Toast.makeText(this@QrCodeMain, "Buy new tickets to continue travelling with us", Toast.LENGTH_LONG).show()
-                        else -> Toast.makeText(this@QrCodeMain, "Single ticket is valid $result", Toast.LENGTH_LONG).show()
-                    }
-
-                }   else {
-                    Toast.makeText(this@QrCodeMain, "Failed to send data", Toast.LENGTH_LONG).show()
-                }
-            }
-
-            override fun onFailure(call: Call<ServerResponse>, t: Throwable) {
-                Toast.makeText(this@QrCodeMain, "Error: " + t.message, Toast.LENGTH_LONG).show()
-                setContentView(R.layout.activity_qrscanner)
-                val res = findViewById<TextView>(R.id.result)
-                res.text = "Error:  $t.message"
-            }
-        })
     }
 
+    private fun no_ticket_available() {
 
-private fun buyTicket() {
-    // Call your buy_ticket_function here
-}
+
+    }
+
+    private fun no_space_available(){
+
+
+    }
+
+    private fun out_confirm(){
+
+
+    }
+
+    private fun out_and_fined(){
+
+
+    }
+
 }
