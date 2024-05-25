@@ -79,8 +79,10 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
         //complainAdapter = ComplainAdapter(mutableListOf())
         // Fetch complains data using Retrofit
 
-        //val resourceId = R.drawable.photo_flood
-        //Log.e("photos", "Resource ID: $resourceId")
+        
+        //val resourceId1 = R.drawable.photo_disaster8
+
+        //Log.e("photos", "Resource ID: $resourceId1")
 
         refreshComplains()
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
