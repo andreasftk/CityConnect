@@ -18,4 +18,5 @@
     <string name="gallery">Gallery</string>
     <string name="scan">Scan</string>
     <string name="result">Result:</string>
+    <string name="total_amount">Total Amount: €%.2f</string>
 </resources>

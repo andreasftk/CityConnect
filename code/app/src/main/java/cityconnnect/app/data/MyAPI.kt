@@ -8,6 +8,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface MyAPI {
     @FormUrlEncoded
@@ -24,7 +25,7 @@ interface MyAPI {
     fun fetchData(): Call<ArrayList<User?>?>?
 
     @GET("getPendingBills.php")
-    suspend fun getPendingBills(citizenId: Int): List<Bill>
+    suspend fun getPendingBills(@Query("citizenId") citizenId: Int): List<Bill>
 
     @FormUrlEncoded
     @POST("payBill.php")
