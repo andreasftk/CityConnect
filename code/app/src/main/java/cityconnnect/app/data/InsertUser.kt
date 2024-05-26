@@ -101,6 +101,6 @@ class InsertUser : AppCompatActivity() {
         name.setText("")
     }
     companion object {
-        private const val BASE_URL = "https://appcityconnect.000webhostapp.com/student/"
+        private const val BASE_URL = "https://cityconnectapp.000webhostapp.com/student/"
     }
 }

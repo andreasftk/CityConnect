@@ -71,6 +71,14 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Retrieve the Bundle from the Intent
+        val bundle = intent.extras
+
+        // Extract the data from the Bundle
+        if (bundle != null) {
+            currentUser = bundle.getInt("id")
+        }
         setContentView(R.layout.activity_complain_main) // Set correct layout resource
 
         rvComplains = findViewById(R.id.rvComplains)

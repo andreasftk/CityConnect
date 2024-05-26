@@ -12,7 +12,7 @@
         android:layout_height="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
-        android:src="@drawable/ic_rating_star_yellow"
+        android:src="@drawable/star_yellow"
         app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
@@ -83,7 +83,7 @@
         android:layout_marginEnd="60dp"
         android:background="@android:color/transparent"
         android:scaleType="fitEnd"
-        android:src="@drawable/ic_rating_star"
+        android:src="@drawable/star_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 

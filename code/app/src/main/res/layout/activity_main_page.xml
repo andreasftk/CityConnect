@@ -12,9 +12,9 @@
 
   <androidx.cardview.widget.CardView
       android:id="@+id/feedWhite"
-      android:layout_width="409dp"
-      android:layout_height="680dp"
-      android:layout_marginBottom="4dp"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginTop="60dp"
       app:cardBackgroundColor="#FAFAFA"
       app:cardCornerRadius="40dp"
       app:cardElevation="0dp"
@@ -39,7 +39,7 @@
           app:layout_constraintVertical_bias="0.248">
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/bus_btn"
             android:layout_width="206dp"
             android:layout_height="78dp"
             android:layout_marginStart="-1dp"
@@ -80,7 +80,7 @@
           app:layout_constraintVertical_bias="0.448">
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/parking_btn"
             android:layout_width="206dp"
             android:layout_height="78dp"
             android:layout_marginStart="-1dp"
@@ -121,7 +121,7 @@
           app:layout_constraintVertical_bias="0.648">
 
         <Button
-            android:id="@+id/button9"
+            android:id="@+id/complain_btn"
             android:layout_width="206dp"
             android:layout_height="78dp"
             android:layout_marginStart="-1dp"
@@ -200,18 +200,8 @@
       android:id="@+id/ivProfile"
       android:layout_width="40dp"
       android:layout_height="40dp"
-      app:layout_constraintBottom_toTopOf="@+id/feedWhite"
-      app:layout_constraintEnd_toStartOf="@+id/swLanguage"
-      app:layout_constraintTop_toTopOf="parent"
-      tools:srcCompat="@tools:sample/avatars" />
-
-  <androidx.appcompat.widget.SwitchCompat
-      android:id="@+id/swLanguage"
-      android:layout_width="0dp"
-      android:layout_height="31dp"
-      android:checked="true"
-      android:text="UK"
-      android:textColor="@color/white"
+      android:layout_marginEnd="60dp"
+      android:background="@drawable/baseline_account_circle_24"
       app:layout_constraintBottom_toTopOf="@+id/feedWhite"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
@@ -227,5 +217,12 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="@+id/feedWhite" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="187dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
