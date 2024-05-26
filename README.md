@@ -1,1 +1,1 @@
-[![Preview](https://www.youtube.com/watch?v=KCSAYQ7uoX0.jpg)](https://www.youtube.com/watch?v=KCSAYQ7uoX0)
+[![PREVIEW](https://img.youtube.com/vi/KCSAYQ7uoX0/0.jpg)](https://www.youtube.com/watch?v=KCSAYQ7uoX0)
