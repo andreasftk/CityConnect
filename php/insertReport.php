@@ -6,20 +6,13 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     
         // Get parameters values
         $complainId = $_POST['complainId'];
-        $title = $_POST['title'];
-        $description = $_POST['description'];
-        $suggestions = $_POST['suggestions'];
-        $photo = $_POST['photo'];
-        $totalRating = $_POST['totalRating'];
-        $date = $_POST['date'];
-        $location = $_POST['location'];
         $userId = $_POST['userId'];
-        $totalReviews = $_POST['totalReviews'];
+        $text = $_POST['text'];
 
 
 
         // Correct SQL query format
-        $query = "INSERT INTO Complain (complainId, title, description, suggestions, photo, totalRating, location, userId, totalReviews) VALUES ('$complainId', '$title', '$description', '$suggestions', '$photo', '$totalRating' , '$location', '$userId',$totalReviews)";
+        $query = "INSERT INTO Report (complainId, userId, text) VALUES ('$complainId', '$userId', '$text') ON DUPLICATE KEY UPDATE text = '$text'";
         $result = mysqli_query($con, $query);
 
         if(!$result){
