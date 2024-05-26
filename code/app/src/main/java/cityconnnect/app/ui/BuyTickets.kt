@@ -2,6 +2,7 @@ package cityconnnect.app.ui
 
 import cityconnnect.app.R
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -9,6 +10,9 @@ import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import cityconnect.app.UserBusTicket
 import cityconnnect.app.BusLine
 import cityconnnect.app.BusTicket
 
@@ -23,6 +27,11 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var selectedWeeklyTicketCost: Float? = null
     private var selectedMonthlyTicketCost: Float? = null
     private var selectedAmount: Int = 1
+    private var selectedRoute: String = "1" // Default route value
+
+    private lateinit var userBusTicketAdapter: UserBusTicketAdapter
+    private lateinit var userBusTicketList: ArrayList<UserBusTicket>
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +56,8 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             updateTotalCost()
         }
 
+        val spin1 = findViewById<Spinner>(R.id.spinner1)
+        spin1.onItemSelectedListener = this
         // Initialize the second spinner for bus lines
         val spin2 = findViewById<Spinner>(R.id.spinner2)
         spin2.onItemSelectedListener = this
@@ -59,6 +70,8 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             val adapter2 = ArrayAdapter(this, android.R.layout.simple_spinner_item, busLineStrings)
             adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spin2.adapter = adapter2
+            spin1.adapter = adapter2
+
         }
 
         // Fetch single use bus tickets
@@ -72,11 +85,26 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             monthlyBusTicketList = singleUseBusTickets
         }
 
+        recyclerView = findViewById<RecyclerView>(R.id.rv2)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        userBusTicketList = ArrayList()
+        userBusTicketAdapter = UserBusTicketAdapter(userBusTicketList)
+        recyclerView.adapter = userBusTicketAdapter
+
+        fetchUserBusTickets(selectedRoute, "21", "amea") // Fetch tickets with the default route
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
         when (parent.id) {
+            R.id.spinner1 -> {
+                // Handle the spinner1 selection
+                selectedRoute = busLineList[position].id.toString()
+                fetchUserBusTickets(selectedRoute, "21", "amea")
 
+                val selectedBusLine = busLineList[position]
+                val lineTextView = findViewById<TextView>(R.id.line_tv2)
+                lineTextView.text = "Line: ${selectedBusLine.id}"// Fetch tickets with the selected route
+            }
             R.id.spinner2 -> {
                 // Handle the bus line spinner selection
                 if (::busLineList.isInitialized) {
@@ -96,7 +124,7 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
                         if (selectedSingleTicket != null) {
                             selectedSingleTicketCost = selectedSingleTicket.cost
-                            priceSingleTextView.text = "Single: ${selectedSingleTicket.cost}$"
+                            priceSingleTextView.text = "${selectedSingleTicket.cost}$"
                         } else {
                             selectedSingleTicketCost = null
                             priceSingleTextView.text = "Single: N/A"
@@ -124,6 +152,16 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
     }
 
+    private fun fetchUserBusTickets(route: String, userId: String, userCat: String) {
+        UserBusTicket.getUserBusTickets(this, route, userId, userCat) { userBusTickets ->
+            if (userBusTickets != null) {
+                Log.d("UserBusTickets", "UserBusTickets: $userBusTickets")
+                userBusTicketList.clear()
+                userBusTicketList.addAll(userBusTickets)
+                userBusTicketAdapter.notifyDataSetChanged()
+            }
+        }
+    }
 
     private fun updateTotalCost() {
         val priceSingleXAmountTextView = findViewById<TextView>(R.id.price_single_xamount)
