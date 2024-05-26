@@ -91,7 +91,34 @@ data class Complain(
             })
         }
 
+        fun updateComplain(
+            complainId: Int?,
+            title: String?,
+            callback: (Boolean) -> Unit // Callback to handle success/failure
+        ) {
+            val api = ApiClient.apiService
+            val call = api.updateComplain(complainId, title)
+
+            call.enqueue(object : Callback<Complain> {
+                override fun onResponse(call: Call<Complain>, response: Response<Complain>) {
+                    if (response.isSuccessful) {
+                        callback(true) // Notify success
+                    } else {
+                        callback(false) // Notify failure
+                    }
+                }
+
+                override fun onFailure(call: Call<Complain>, t: Throwable) {
+                    Log.e("Complain", "Failed to insert complain", t)
+                    callback(false) // Notify failure
+                }
+            })
+        }
+
+    }
+
     }
 
 
-}
+
+
