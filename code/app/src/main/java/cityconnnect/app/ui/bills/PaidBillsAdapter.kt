@@ -1,25 +1,20 @@
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import cityconnnect.app.R
-import cityconnnect.app.data.PendingBill
+import cityconnnect.app.data.PaidBill
 
-class PendingBillsAdapter(
-    private val pendingBills: List<PendingBill>,
-    private val listener: OnCheckedChangeListener
-) : RecyclerView.Adapter<PendingBillsAdapter.ViewHolder>() {
-
-    interface OnCheckedChangeListener {
-        fun onCheckedChanged(amount: Double, isChecked: Boolean)
-    }
+class PaidBillsAdapter(
+    private val paidBills: List<PaidBill>,
+) : RecyclerView.Adapter<PaidBillsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleTextView: CheckBox = itemView.findViewById(R.id.billTitleTextView)
+        val titleTextView: TextView = itemView.findViewById(R.id.billTitleTextView)
         val amountTextView: TextView = itemView.findViewById(R.id.billAmountTextView)
         val dateTextView: TextView = itemView.findViewById(R.id.billDateTextView)
+       // val receiptTextView: TextView = itemView.findViewById(R.id.billReceiptTextView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,17 +24,14 @@ class PendingBillsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val bill = pendingBills[position]
+        val bill = paidBills[position]
         holder.titleTextView.text = bill.title
         holder.amountTextView.text = "Amount: ${bill.amount}€"
         holder.dateTextView.text = "Date: ${bill.date}"
-
-        holder.titleTextView.setOnCheckedChangeListener { _, isChecked ->
-            listener.onCheckedChanged(bill.amount, isChecked)
-        }
+      //  holder.receiptTextView.text = bill.receipt
     }
 
     override fun getItemCount(): Int {
-        return pendingBills.size
+        return paidBills.size
     }
 }

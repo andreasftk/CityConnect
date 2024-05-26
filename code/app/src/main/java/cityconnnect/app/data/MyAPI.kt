@@ -1,7 +1,7 @@
 package cityconnnect.app.data
 
 import cityconnnect.app.data.User
-import cityconnnect.app.data.Bill
+import cityconnnect.app.data.PendingBill
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Field
@@ -25,7 +25,10 @@ interface MyAPI {
     fun fetchData(): Call<ArrayList<User?>?>?
 
     @GET("getPendingBills.php")
-    suspend fun getPendingBills(@Query("citizenId") citizenId: Int): List<Bill>
+    suspend fun getPendingBills(@Query("citizenId") citizenId: Int): List<PendingBill>
+
+    @GET("getPaidBills.php")
+    suspend fun getPaidBills(@Query("citizenId") citizenId: Int): List<PaidBill>
 
     @FormUrlEncoded
     @POST("payBill.php")
