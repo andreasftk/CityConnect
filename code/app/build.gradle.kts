@@ -96,6 +96,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
+    implementation("com.journeyapps:zxing-android-embedded:4.2.0")
+    
     implementation("androidx.camera:camera-camera2:1.2.1")
     implementation("androidx.camera:camera-lifecycle:1.2.1")
     implementation("androidx.camera:camera-view:1.2.1")
