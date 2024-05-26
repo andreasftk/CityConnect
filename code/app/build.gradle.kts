@@ -20,6 +20,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        useLibrary("org.apache.http.legacy")
+
     }
 
     buildTypes {
