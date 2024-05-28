@@ -109,14 +109,18 @@ class LoginActivity : AppCompatActivity() {
             }
 
             setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
-                        )
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    loading?.visibility = View.VISIBLE
+                    User.getUsers(this@LoginActivity) { usersList ->
+                        Citizen.getCitizen(this@LoginActivity) { citizensList ->
+                            loading?.visibility = View.GONE
+                            handleLogin(username, password, usersList, citizensList)
+                        }
+                    }
+                    true
+                } else {
+                    false
                 }
-                false
             }
         }
     }
