@@ -99,4 +99,12 @@ interface MyAPI {
 
     ): Call<Report>
 
+    @FormUrlEncoded
+    @POST("updateComplain.php")
+    fun updateComplain(
+        @Field("complainId") complainId: Int?,
+        @Field("title") title: String?
+
+    ): Call<Complain>
+
 }

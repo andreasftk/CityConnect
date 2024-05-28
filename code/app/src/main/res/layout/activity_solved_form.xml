@@ -1,0 +1,151 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:foregroundTint="#000000"
+    >
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="8dp"
+        android:src="@drawable/drop_down_bar"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/feedWhite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="#FAFAFA"
+        app:cardCornerRadius="40dp"
+        app:cardElevation="0dp"
+        app:cardForegroundColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <!-- Button 2 - Positioned from the middle of the screen to the far right -->
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Solved Form"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/feedWhite" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Explain how this complain was solved"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_margin="40dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/black_frame"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+        tools:layout_editor_absoluteX="2dp">
+
+        <EditText
+            android:id="@+id/editTextTextMultiLine3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:ems="15"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:text=""
+            android:hint="Type here..."
+            android:textColorHint="@color/dark_grey"
+            android:textColor="@color/dark_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="564dp" />
+    </FrameLayout>
+
+    <CheckBox
+        android:id="@+id/checkBoxTerms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I accept the terms and conditions"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+    <TextView
+        android:id="@+id/tvPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Photo"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxTerms" />
+
+    <ImageButton
+        android:id="@+id/ibCamera1"
+        android:layout_width="148dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="-25dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitEnd"
+        android:src="@drawable/ic_camera"
+        app:layout_constraintStart_toStartOf="@+id/tvPhoto"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxTerms" />
+    <ImageView
+        android:id="@+id/ivPhoto1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ibCamera1"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxTerms" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btSubmitReport"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/submit_button"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPhoto1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
