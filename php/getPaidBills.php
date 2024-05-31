@@ -6,21 +6,21 @@ $citizenId = $_GET['citizenId'] ?? null;
 
 // Check if citizenId is provided
 if ($citizenId !== null) {
-    $sql = "SELECT * FROM pending_bills WHERE citizenId = $citizenId";
+    $sql = "SELECT * FROM paid_bills WHERE citizenId = $citizenId";
     $result = $con->query($sql);
     
-    $pending_bills = array();
+    $paid_bills = array();
     
     // Fetch result
 
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
-            $pending_bills[] = $row;
+            $paid_bills[] = $row;
         }
     }
     
     else {
-        echo json_encode(array("message" => "No pending bills found"));
+        echo json_encode(array("message" => "No paid bills found"));
         $con->close();
         exit();
     }
@@ -29,6 +29,6 @@ if ($citizenId !== null) {
     echo "No citizenId provided.";
 }
 
-echo json_encode($pending_bills);
+echo json_encode($paid_bills);
 $con->close();
 ?>
