@@ -15,6 +15,7 @@ import cityconnnect.app.ui.MainBus
 import androidx.activity.enableEdgeToEdge
 import cityconnnect.app.ui.BuyBusTickets
 import cityconnnect.app.ui.MainParking
+import cityconnnect.app.ui.bills.BillSelectionActivity
 import cityconnnect.app.ui.qrscanner.ApiService
 import cityconnnect.app.ui.qrscanner.ApiServiceParking
 import cityconnnect.app.ui.qrscanner.QrDataRequest
@@ -59,6 +60,7 @@ class MainPage : AppCompatActivity() {
         val bus = findViewById<Button>(R.id.bus_btn)
         val parking = findViewById<Button>(R.id.parking_btn)
         val feed = findViewById<Button>(R.id.complain_btn)
+        val bills = findViewById<Button>(R.id.button10)
         scanb = findViewById<ImageButton>(R.id.scan_b)
         scanp = findViewById<ImageButton>(R.id.scan_p)
 
@@ -72,6 +74,9 @@ class MainPage : AppCompatActivity() {
         }
         feed.setOnClickListener {
             startNextActivity(ComplainMain::class.java)
+        }
+        bills.setOnClickListener {
+            startNextActivity(BillSelectionActivity::class.java)
         }
 
         setOnClickListener()

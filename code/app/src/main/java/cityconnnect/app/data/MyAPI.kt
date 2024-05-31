@@ -12,8 +12,12 @@ import cityconnnect.app.Report
 import cityconnnect.app.Review
 import cityconnnect.app.data.Complain
 import cityconnnect.app.data.User
+import cityconnnect.app.ui.bills.PaidBill
+import cityconnnect.app.ui.bills.PendingBill
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -145,6 +149,17 @@ interface MyAPI {
 
     @GET("getParkingCategories.php")
     fun getParkingCategories(): Call<ArrayList<ParkingCategories>>
+
+    @GET("getPendingBills.php")
+    suspend fun getPendingBills(@Query("citizenId") citizenId: Int): List<PendingBill>
+
+    @GET("getPaidBills.php")
+    suspend fun getPaidBills(@Query("citizenId") citizenId: Int): List<PaidBill>
+
+    @POST("payBills.php")
+    suspend fun payBills(
+        @Body request: RequestBody
+    ): ResponseBody
 
 
 }

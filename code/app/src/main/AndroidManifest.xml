@@ -52,6 +52,9 @@
 
         <activity android:name=".ui.SpecificParkingPage" />
         <activity android:name=".ui.MainParking" />
+        <activity
+            android:name=".ui.bills.BillSelectionActivity"
+            android:exported="true" />
 
         <activity
             android:name=".ComplainMain"

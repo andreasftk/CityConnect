@@ -29,4 +29,6 @@
     <string name="scan_a_code">Scan a QR Code</string>
     <string name="result_not_found">Result Not Found</string>
     <string name="show_scanner_from_fragment">Show Scanner From Fragment</string>
+
+    <string name="total_amount">Total Amount: €%.2f</string>
 </resources>

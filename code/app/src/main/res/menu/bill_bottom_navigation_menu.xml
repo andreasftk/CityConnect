@@ -1,0 +1,9 @@
+<!-- bottom_navigation_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_pending_bills"
+        android:title="Pending Bills" />
+    <item
+        android:id="@+id/menu_paid_bills"
+        android:title="Paid Bills" />
+</menu>

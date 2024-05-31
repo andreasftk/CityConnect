@@ -33,5 +33,9 @@
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
     </style>
+
+    <style name="BottomNavigationTextStyle" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textSize">22sp</item> <!-- Adjust the text size as per your preference -->
+    </style>
 </resources>
 
