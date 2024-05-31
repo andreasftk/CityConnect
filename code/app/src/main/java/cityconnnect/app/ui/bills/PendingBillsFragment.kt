@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -14,7 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import cityconnnect.app.R
 import cityconnnect.app.data.ApiClient
 import cityconnnect.app.data.PendingBill
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONArray
+import org.json.JSONObject
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class PendingBillsFragment : Fragment(), PendingBillsAdapter.OnCheckedChangeListener {
 
@@ -27,6 +34,12 @@ class PendingBillsFragment : Fragment(), PendingBillsAdapter.OnCheckedChangeList
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_pending_bills, container, false)
+
+        // Handle pay button click
+        val payButton = view.findViewById<Button>(R.id.buttonPay)
+        payButton.setOnClickListener {
+            paySelectedBills()
+        }
 
         totalAmountTextView = view.findViewById(R.id.totalAmountTextView)
 
@@ -64,15 +77,40 @@ class PendingBillsFragment : Fragment(), PendingBillsAdapter.OnCheckedChangeList
         }
     }
 
-    private suspend fun payBill(billId: Int) {
-        try {
-            val response = ApiClient.apiService.payBill(billId)
-            if (response.string() == "Success") {
-                pendingBills.removeAll { it.billId == billId }
-                // Update UI to reflect changes
+    private fun paySelectedBills() {
+        val selectedBills = (requireView().findViewById<RecyclerView>(R.id.pendingBillRecyclerView).adapter as PendingBillsAdapter).getSelectedBills()
+
+        // Extract bill IDs from selected bills
+        val selectedBillIds = selectedBills.map { it.billId }
+
+        // Log the JSON format
+        Log.d("JSON_FORMAT", selectedBillIds.toString())
+
+        // Inside the paySelectedBills() function
+        val jsonObject = JSONObject().apply {
+            put("selectedBillIds", JSONArray(selectedBillIds))
+        }
+
+        val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaType())
+
+        lifecycleScope.launch {
+            try {
+                Log.d("PAY_BILLS_REQUEST", "Selected Bill IDs: $selectedBillIds")
+                Log.d("JSON_REQUEST", jsonObject.toString())
+                val response = ApiClient.apiService.payBills(requestBody)
+                Log.d("PAY_BILLS_RESPONSE", "Response: ${response.string()}")
+
+                // Reset total amount to 0.0€ after paying bills
+                totalAmount = 0.0
+                totalAmountTextView.text = "Total Amount: ${String.format("%.2f", totalAmount)}€"
+
+                // Refresh the pending bills list after paying bills
+                loadPendingBills(1) // Assuming 1 is the citizen ID
+
+            } catch (e: Exception) {
+                // Handle exception
+                e.printStackTrace()
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 }

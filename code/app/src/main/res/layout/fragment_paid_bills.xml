@@ -17,7 +17,7 @@
         android:layout_height="33dp"
         android:layout_marginTop="4dp"
         android:gravity="center"
-        android:text="Paid Bills History"
+        android:text="Paid Bill History"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cityconnnect.app.Citizen
 import cityconnnect.app.R
 import cityconnnect.app.data.ApiClient
 import cityconnnect.app.data.PaidBill

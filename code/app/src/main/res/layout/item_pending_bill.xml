@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <CheckBox
-            android:id="@+id/billTitleTextView"
+            android:id="@+id/pendingBillTitleTextView"
             android:layout_width="250dp"
             android:layout_height="39dp"
             android:padding="8dp"
@@ -26,7 +26,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/billAmountTextView"
+            android:id="@+id/pendingBillAmountTextView"
             android:layout_width="144dp"
             android:layout_height="43dp"
             android:padding="8dp"
@@ -34,13 +34,13 @@
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.941"
+            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.28" />
 
         <TextView
-            android:id="@+id/billDateTextView"
+            android:id="@+id/pendingBillDateTextView"
             android:layout_width="217dp"
             android:layout_height="39dp"
             android:padding="8dp"

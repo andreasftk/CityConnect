@@ -11,15 +11,15 @@ class PaidBillsAdapter(
 ) : RecyclerView.Adapter<PaidBillsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleTextView: TextView = itemView.findViewById(R.id.billTitleTextView)
-        val amountTextView: TextView = itemView.findViewById(R.id.billAmountTextView)
-        val dateTextView: TextView = itemView.findViewById(R.id.billDateTextView)
-       // val receiptTextView: TextView = itemView.findViewById(R.id.billReceiptTextView)
+        val titleTextView: TextView = itemView.findViewById(R.id.paidBillTitleTextView)
+        val amountTextView: TextView = itemView.findViewById(R.id.paidBillAmountTextView)
+        val dateTextView: TextView = itemView.findViewById(R.id.paidBillDateTextView)
+        val receiptTextView: TextView = itemView.findViewById(R.id.paidBillReceiptTextView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_bill, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_paid_bill, parent, false)
         return ViewHolder(view)
     }
 
@@ -28,7 +28,7 @@ class PaidBillsAdapter(
         holder.titleTextView.text = bill.title
         holder.amountTextView.text = "Amount: ${bill.amount}€"
         holder.dateTextView.text = "Date: ${bill.date}"
-      //  holder.receiptTextView.text = bill.receipt
+        holder.receiptTextView.text = bill.receipt
     }
 
     override fun getItemCount(): Int {

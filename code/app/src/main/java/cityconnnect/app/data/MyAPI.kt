@@ -1,9 +1,9 @@
 package cityconnnect.app.data
 
-import cityconnnect.app.data.User
-import cityconnnect.app.data.PendingBill
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -30,9 +30,8 @@ interface MyAPI {
     @GET("getPaidBills.php")
     suspend fun getPaidBills(@Query("citizenId") citizenId: Int): List<PaidBill>
 
-    @FormUrlEncoded
-    @POST("payBill.php")
-    suspend fun payBill(
-        @Field("billId") billId: Int
+    @POST("payBills.php")
+    suspend fun payBills(
+        @Body request: RequestBody
     ): ResponseBody
 }
