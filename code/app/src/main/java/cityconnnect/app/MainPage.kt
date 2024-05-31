@@ -13,7 +13,8 @@ import androidx.core.view.WindowInsetsCompat
 import cityconnnect.app.databinding.ActivityMainPageBinding
 import cityconnnect.app.ui.MainBus
 import androidx.activity.enableEdgeToEdge
-import cityconnnect.app.ui.MapsActivity
+import cityconnnect.app.ui.BuyBusTickets
+import cityconnnect.app.ui.MainParking
 import cityconnnect.app.ui.qrscanner.ApiService
 import cityconnnect.app.ui.qrscanner.ApiServiceParking
 import cityconnnect.app.ui.qrscanner.QrDataRequest
@@ -67,11 +68,12 @@ class MainPage : AppCompatActivity() {
             startNextActivity(MainBus::class.java)
         }
         parking.setOnClickListener {
-            startNextActivity(MapsActivity::class.java)
+            startNextActivity(MainParking::class.java)
         }
         feed.setOnClickListener {
             startNextActivity(ComplainMain::class.java)
         }
+
         setOnClickListener()
         setupScanner()
 
@@ -235,10 +237,23 @@ class MainPage : AppCompatActivity() {
     }
 
 
-    private fun buyTicket() {
-        // Call your buy_ticket_function here
+    private fun showBuyTicketsDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Not enough tickets")
+        builder.setMessage("You don't have enough tickets. Do you want to buy more tickets?")
+        builder.setPositiveButton("Yes") { dialog, which ->
+            val intent = Intent(this, BuyBusTickets::class.java)
+            startActivity(intent)
+        }
+        builder.setNegativeButton("No") { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
 
+    private fun buyTicket() {
+        showBuyTicketsDialog()
+    }
     private fun sendDataToServerParking(scanData: String, userId: String,selectedParkingOption: String) {
         val gson = GsonBuilder()
             .setLenient()
@@ -286,21 +301,24 @@ class MainPage : AppCompatActivity() {
     }
 
     private fun no_ticket_available() {
-
+        Toast.makeText(this@MainPage, "No ticket available", Toast.LENGTH_LONG).show()
 
     }
 
     private fun no_space_available(){
+        Toast.makeText(this@MainPage, "No space available", Toast.LENGTH_LONG).show()
 
 
     }
 
     private fun out_confirm(){
+        Toast.makeText(this@MainPage, "Out confirmed", Toast.LENGTH_LONG).show()
 
 
     }
 
     private fun out_and_fined(){
+        Toast.makeText(this@MainPage, "Out and fined", Toast.LENGTH_LONG).show()
 
 
     }

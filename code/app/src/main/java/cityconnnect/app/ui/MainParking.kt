@@ -2,39 +2,43 @@
 package cityconnnect.app.ui
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import android.widget.ImageButton
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cityconnnect.app.R
-import android.graphics.Color
 import cityconnnect.app.CustomInfoWindowAdapter
 import cityconnnect.app.Parkings
 import cityconnnect.app.ParkingAdapter
 import cityconnnect.app.ParkingInfoWindowAdapter
+import cityconnnect.app.ui.qrscanner.ApiServiceParking
+import cityconnnect.app.ui.qrscanner.QrDataRequestParking
+import cityconnnect.app.ui.qrscanner.ServerResponse
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Task
+import com.google.gson.GsonBuilder
+import com.google.zxing.integration.android.IntentIntegrator
 import org.osmdroid.config.Configuration
-import org.osmdroid.events.MapAdapter
-import org.osmdroid.events.ScrollEvent
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-class MapsActivity : AppCompatActivity() {
+class MainParking : AppCompatActivity() {
 
     private lateinit var mapView: MapView
 
@@ -43,11 +47,25 @@ class MapsActivity : AppCompatActivity() {
     private lateinit var parkingAdapter: ParkingAdapter
     private val markers = mutableListOf<Marker>()
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private var userId: Int = -1 // Class-level variable to store user ID
+
+    private var qrScanIntegrator: IntentIntegrator? = null
+    private var scanp: ImageButton? = null
+
+    private var selectedParkingOption: String? = null // Variable to store selected parking option
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Configuration.getInstance().load(applicationContext, androidx.preference.PreferenceManager.getDefaultSharedPreferences(applicationContext))
         setContentView(R.layout.activity_maps)
+
+        val bundle = intent.extras
+
+        // Extract the data from the Bundle
+        if (bundle != null) {
+            userId = bundle.getInt("id")
+        }
 
         mapView = findViewById(R.id.mapView)
 
@@ -82,8 +100,59 @@ class MapsActivity : AppCompatActivity() {
         zoomOutButton.setOnClickListener {
             mapView.controller.zoomOut()
         }
+        scanp = findViewById<ImageButton>(R.id.scan_p)
 
 
+
+        setOnClickListener()
+        setupScanner()
+    }
+
+    private fun setupScanner() {
+        qrScanIntegrator = IntentIntegrator(this)
+    }
+
+    private fun setOnClickListener() {
+
+        scanp?.setOnClickListener {
+
+            showParkingOptions()
+        }
+    }
+
+    private fun showParkingOptions() {
+        val options = arrayOf("1 hour", "3 hours","5 hours","Daily", "Weekly")
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Select an option")
+        builder.setItems(options) { dialog, which ->
+            // Handle option selection
+            selectedParkingOption = options[which]
+
+            performAction()
+        }
+        builder.show()
+    }
+
+
+    private fun performAction() {
+        qrScanIntegrator?.initiateScan()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null) {
+            if (result.contents == null) {
+                Toast.makeText(this, getString(R.string.result_not_found), Toast.LENGTH_LONG).show()
+            } else {
+                // QR Code scan result obtained here
+                val qrContent = result.contents
+                val duration = selectedParkingOption.toString()
+
+                sendDataToServerParking(qrContent, userId.toString(), duration )
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     private fun fetchAndAddParkings() {
@@ -109,10 +178,14 @@ class MapsActivity : AppCompatActivity() {
             }
             override fun onGoToPageClick(parking: Parkings) {
 
-                val intent = Intent(this@MapsActivity, SpecificParkingPage::class.java).apply {
-                    putExtra(SpecificParkingPage.EXTRA_PARKING_NAME, parking.address)
-                }
+                val intent = Intent(this@MainParking, BuyParkingTickets::class.java)
+                val bundle = Bundle()
+                bundle.putInt("id", userId)
+                bundle.putInt("parking_id", parking.id)
+                bundle.putString("category_id", parking.category_id)
+                intent.putExtras(bundle)
                 startActivity(intent)
+
             }
         })
     }
@@ -120,7 +193,7 @@ class MapsActivity : AppCompatActivity() {
     private fun addMarker(parking: Parkings) {
         val marker = Marker(mapView).apply {
             position = GeoPoint(parking.latitude, parking.longitude)
-            icon = ContextCompat.getDrawable(this@MapsActivity, R.drawable.custom_marker_shape)
+            icon = ContextCompat.getDrawable(this@MainParking, R.drawable.custom_marker_shape)
             title = parking.address
             relatedObject = parking // Storing the parking object in the marker for later use
         }
@@ -135,19 +208,25 @@ class MapsActivity : AppCompatActivity() {
 
     private fun showMarkerInfo(marker: Marker) {
         selectedMarker = marker
-        marker.icon = ContextCompat.getDrawable(this@MapsActivity, R.drawable.custom_marker_shape_clicked)
+        marker.icon = ContextCompat.getDrawable(this@MainParking, R.drawable.custom_marker_shape_clicked)
         val parking = marker.relatedObject as? Parkings
         if (parking != null) {
             marker.apply {
                 snippet = "Total Spaces: ${parking.total_spaces}\nAvailable Spaces: ${parking.available_spaces}"
                 title = parking.address
-                infoWindow = ParkingInfoWindowAdapter(this@MapsActivity, mapView) {
-                    resetSelectedMarker()
-                }
+                infoWindow = ParkingInfoWindowAdapter(
+                    this@MainParking,
+                    mapView,
+                    parking.id,  // Pass parking id
+                    parking.category_id,  // Pass category id
+                    userId,  // Pass user id
+                    onCloseCallback = { resetSelectedMarker() }
+                )
+                 // Explicitly show the info window
                 showInfoWindow() // Explicitly show the info window
             }
         } else {
-            marker.icon = ContextCompat.getDrawable(this@MapsActivity, R.drawable.custom_marker_shape)
+            marker.icon = ContextCompat.getDrawable(this@MainParking, R.drawable.custom_marker_shape)
             marker.infoWindow = null // Remove info window adapter if parking info not available
         }
         mapView.invalidate() // Refresh the map view
@@ -177,7 +256,7 @@ class MapsActivity : AppCompatActivity() {
     private fun addCurrentLocationMarker(currentGeoPoint: GeoPoint) {
         val currentLocationMarker = Marker(mapView).apply {
             position = currentGeoPoint
-            icon = ContextCompat.getDrawable(this@MapsActivity, R.drawable.custom_marker_shape_current_location)
+            icon = ContextCompat.getDrawable(this@MainParking, R.drawable.custom_marker_shape_current_location)
             title = "You are here"
             snippet = "Current location"
             infoWindow = CustomInfoWindowAdapter(mapView)
@@ -200,5 +279,74 @@ class MapsActivity : AppCompatActivity() {
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+    }
+
+    private fun sendDataToServerParking(scanData: String, userId: String,selectedParkingOption: String) {
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://cityconnectapp.000webhostapp.com/student/") // Replace with your server's base URL
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
+        val apiServiceParking = retrofit.create(ApiServiceParking::class.java)
+        val qrDataRequestParking = QrDataRequestParking(qrData = scanData, userId = userId, duration = selectedParkingOption)
+
+        val call = apiServiceParking.sendQrCodeData(qrDataRequestParking)
+        call.enqueue(object : Callback<ServerResponse> {
+            override fun onResponse(
+                call: Call<ServerResponse>,
+                response: Response<ServerResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val result = response.body()?.result
+                    when (result) {
+                        1 -> no_space_available()
+                        2 -> no_ticket_available()
+                        3 -> enter_confirm()
+                        4 -> out_confirm()
+                        5 -> out_and_fined()
+
+                    }
+                } else {
+                    Toast.makeText(this@MainParking, "Failed to send data", Toast.LENGTH_LONG).show()
+                }
+            }
+
+
+            override fun onFailure(call: Call<ServerResponse>, t: Throwable) {
+                Toast.makeText(this@MainParking, "Error: " + t.message, Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+
+    private fun enter_confirm() {
+
+    }
+
+    private fun no_ticket_available() {
+        Toast.makeText(this@MainParking, "No ticket available", Toast.LENGTH_LONG).show()
+
+    }
+
+    private fun no_space_available(){
+        Toast.makeText(this@MainParking, "No space available", Toast.LENGTH_LONG).show()
+
+
+    }
+
+    private fun out_confirm(){
+        Toast.makeText(this@MainParking, "Out confirmed", Toast.LENGTH_LONG).show()
+
+
+    }
+
+    private fun out_and_fined(){
+        Toast.makeText(this@MainParking, "Out and fined", Toast.LENGTH_LONG).show()
+
+
     }
 }

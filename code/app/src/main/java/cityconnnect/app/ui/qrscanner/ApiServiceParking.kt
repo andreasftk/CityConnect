@@ -11,7 +11,7 @@ data class QrDataRequestParking(val qrData: String, val userId: String,val durat
 data class ServerResponseParking(val status: String, val result: Int)
 
 interface ApiServiceParking{
-    @POST("check_parking_ticket.php") // Replace with your PHP script's path
+    @POST("test_parking.php") // Replace with your PHP script's path
     fun sendQrCodeData(@Body qrDataRequestParking: QrDataRequestParking): Call<ServerResponse>
 }
 

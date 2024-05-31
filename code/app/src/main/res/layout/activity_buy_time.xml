@@ -58,35 +58,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text2" />
 
-            <Spinner
-                android:id="@+id/spinner1"
-                android:layout_width="44dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="12dp"
-                android:textColor="#AEAEAE"
-                app:layout_constraintBottom_toTopOf="@+id/rv2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title2"
-                app:layout_constraintVertical_bias="1.0" />
-
             <TextView
-                android:id="@+id/line_tv2"
-                android:layout_width="65dp"
-                android:layout_height="28dp"
-                android:text="Line"
-                android:textColor="#AEAEAE"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/rv2"
-                app:layout_constraintStart_toEndOf="@+id/spinner1"
-                app:layout_constraintTop_toBottomOf="@+id/title2"
-                app:layout_constraintVertical_bias="0.0" />
-            <TextView
-                android:id="@+id/line_tv"
-                android:layout_width="65dp"
-                android:layout_height="28dp"
-                android:text="Line"
+                android:id="@+id/zone_tv"
+                android:layout_width="308dp"
+                android:layout_height="20dp"
+                android:text="Zone"
                 android:textColor="#AEAEAE"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -100,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:text="Buy Bus Tickets"
+                android:text="Buy Parking Time"
                 android:textColor="#AEAEAE"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -114,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="My Bus Tickets"
+                android:text="My Parking Tickets"
                 android:textColor="#AEAEAE"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -141,7 +117,7 @@
                         android:id="@+id/textView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Week Pass"
+                        android:text="Day Pass"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -150,7 +126,7 @@
                         app:layout_constraintVertical_bias="0.207" />
 
                     <Button
-                        android:id="@+id/buy_week"
+                        android:id="@+id/buy_day"
                         android:layout_width="62dp"
                         android:layout_height="41dp"
                         android:layout_marginTop="29dp"
@@ -196,17 +172,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/single_use"
-                        android:layout_width="wrap_content"
+                    <Spinner
+                        android:id="@+id/hour_spinner"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Single Use"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textColor="#000000"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.207" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                     <TextView
@@ -221,7 +194,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.152"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/single_use"
+                        app:layout_constraintTop_toBottomOf="@+id/hour_spinner"
                         app:layout_constraintVertical_bias="0.57" />
 
                     <Button
@@ -260,33 +233,35 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.947"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/single_use"
+                        app:layout_constraintTop_toBottomOf="@+id/hour_spinner"
                         app:layout_constraintVertical_bias="0.0">
 
                     </Button>
 
                     <TextView
                         android:id="@+id/price_single"
-                        android:layout_width="49dp"
-                        android:layout_height="18dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
                         android:text="TextView"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/buy_single"
-                        app:layout_constraintHorizontal_bias="0.691"
+                        app:layout_constraintHorizontal_bias="0.665"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/single_use"
+                        app:layout_constraintTop_toBottomOf="@+id/hour_spinner"
                         app:layout_constraintVertical_bias="0.172" />
 
                     <TextView
                         android:id="@+id/price_xamount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="40dp"
                         android:text="TextView"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/buy_single"
-                        app:layout_constraintHorizontal_bias="0.691"
+                        app:layout_constraintHorizontal_bias="0.669"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/single_use"
+                        app:layout_constraintTop_toBottomOf="@+id/hour_spinner"
                         app:layout_constraintVertical_bias="0.724" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -311,7 +286,7 @@
                         android:id="@+id/textView5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Month Pass"
+                        android:text="Week Pass"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -320,7 +295,7 @@
                         app:layout_constraintVertical_bias="0.207" />
 
                     <Button
-                        android:id="@+id/buy_month"
+                        android:id="@+id/buy_week2"
                         android:layout_width="62dp"
                         android:layout_height="41dp"
                         android:layout_marginTop="29dp"
@@ -342,7 +317,7 @@
                         android:layout_height="wrap_content"
                         android:text="TextView"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/buy_day"
+                        app:layout_constraintEnd_toStartOf="@+id/buy_week2"
                         app:layout_constraintHorizontal_bias="0.47"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView5"

@@ -1,6 +1,7 @@
 package cityconnnect.app
 
 import android.content.Context
+import android.util.Log
 import cityconnnect.app.data.ApiClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -11,6 +12,7 @@ data class Parkings(
     val address: String,
     val latitude: Double,
     val longitude: Double,
+    val category_id: String,
     val total_spaces: Int,
     val available_spaces: Int
 ) {
@@ -49,6 +51,7 @@ data class Parkings(
                 ) {
                     if (response.isSuccessful) {
                         val parkingList = response.body()?.filterNotNull()?.let { ArrayList(it) } ?: ArrayList()
+                        Log.d("Parkings", parkingList.joinToString())
                         callback(parkingList)
                     } else {
                         // Handle the error appropriately

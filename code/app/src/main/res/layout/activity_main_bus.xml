@@ -10,6 +10,33 @@
     tools:context=".ui.MainBus">
 
 
+    <Button
+        android:id="@+id/btuse"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="-6dp"
+        android:text="Use Bus"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Button
+        android:id="@+id/btHistory"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="-6dp"
+        android:text="History"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/feedWhite"
         android:layout_width="match_parent"
@@ -26,11 +53,67 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="669dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintVertical_bias="10">
+
+            <TextView
+                android:id="@+id/buyorsee"
+                android:layout_width="172dp"
+                android:layout_height="83dp"
+                android:layout_marginStart="16dp"
+                android:text="Check your tickets or buy new ones"
+                android:textAlignment="center"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.102" />
+
+            <ImageButton
+                android:id="@+id/btBuy"
+                android:layout_width="119dp"
+                android:layout_height="124dp"
+                android:background="@color/white"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.149"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.838"
+                app:srcCompat="@drawable/ticket" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="196dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="200dp"
+                android:text="Scan QR Code"
+                android:textAlignment="center"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.204" />
+
+            <ImageButton
+                android:id="@+id/scan_b"
+                android:layout_width="119dp"
+                android:layout_height="124dp"
+                android:background="@color/white"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.89"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.838"
+                app:srcCompat="@drawable/scanqr" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/relativeLayout"

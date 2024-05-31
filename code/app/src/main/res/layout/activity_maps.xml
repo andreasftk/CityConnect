@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:foregroundTint="#000000"
-    tools:context=".ui.MapsActivity">
+    tools:context=".ui.MainParking">
 
 
     <androidx.cardview.widget.CardView
@@ -32,17 +32,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintVertical_bias="10">
 
+
+            <ImageButton
+                android:id="@+id/scan_p"
+                android:layout_width="81dp"
+                android:layout_height="93dp"
+                android:background="@color/white"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.666"
+                app:layout_constraintStart_toEndOf="@+id/rvParkings"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.429"
+                app:srcCompat="@drawable/scanqr" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvParkings"
-                android:layout_width="386dp"
-                android:layout_height="242dp"
+                android:layout_width="291dp"
+                android:layout_height="228dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="427dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.596" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/relativeLayout"

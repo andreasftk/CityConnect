@@ -1,7 +1,7 @@
 package cityconnnect.app.data
 
 import android.content.Context
-import cityconnnect.app.data.ApiClient
+import cityconnect.app.data.UserCategoryResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,7 +39,7 @@ open class User(
     }
 
     fun joinToString(): String {
-        return "$id, $username, $email, $password, $name "
+        return "$id, $username, $email, $password, $name"
     }
 
     companion object {
@@ -64,6 +64,37 @@ open class User(
                 override fun onFailure(call: Call<ArrayList<User?>?>, t: Throwable) {
                     // Handle failure appropriately
                     callback(ArrayList()) // Return an empty list in case of failure
+                }
+            })
+        }
+
+        fun getUserCategory(context: Context?, userId: Int, callback: (String?) -> Unit) {
+            val api = ApiClient.apiService
+            val call = api.getUserCategory(userId)
+
+            call.enqueue(object : Callback<UserCategoryResponse> {
+                override fun onResponse(
+                    call: Call<UserCategoryResponse>,
+                    response: Response<UserCategoryResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val userCategoryResponse = response.body()
+                        if (userCategoryResponse != null && userCategoryResponse.error == null) {
+                            // Return the user category
+                            callback(userCategoryResponse.category)
+                        } else {
+                            // Return null in case of an error
+                            callback(null)
+                        }
+                    } else {
+                        // Return null in case of an unsuccessful response
+                        callback(null)
+                    }
+                }
+
+                override fun onFailure(call: Call<UserCategoryResponse>, t: Throwable) {
+                    // Handle failure
+                    callback(null) // Return null in case of failure
                 }
             })
         }

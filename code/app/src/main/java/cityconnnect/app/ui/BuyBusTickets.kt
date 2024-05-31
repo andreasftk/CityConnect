@@ -9,17 +9,25 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cityconnect.app.UserBusTicket
 import cityconnnect.app.BusLine
 import cityconnnect.app.BusTicket
+import cityconnnect.app.data.ApiClient
+import cityconnnect.app.data.User
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class BuyBusTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private var amount: Array<String> = arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
     private lateinit var busLineList: ArrayList<BusLine>
+    private lateinit var selectedBusLine: BusLine
     private lateinit var singleUseBusTicketList: ArrayList<BusTicket>
     private lateinit var weeklyBusTicketList: ArrayList<BusTicket>
     private lateinit var monthlyBusTicketList: ArrayList<BusTicket>
@@ -28,6 +36,8 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var selectedMonthlyTicketCost: Float? = null
     private var selectedAmount: Int = 1
     private var selectedRoute: String = "1" // Default route value
+    private var userId: Int = -1 // Class-level variable to store user ID
+    private var userCat: String = "normal"// Class-level variable to store user ID
 
     private lateinit var userBusTicketAdapter: UserBusTicketAdapter
     private lateinit var userBusTicketList: ArrayList<UserBusTicket>
@@ -36,7 +46,12 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_buy_ticket)
+        val bundle = intent.extras
 
+        // Extract the data from the Bundle
+        if (bundle != null) {
+            userId = bundle.getInt("id")
+        }
         // Initialize the first spinner for amounts
         val btnMinus = findViewById<Button>(R.id.btn_minus)
         val btnPlus = findViewById<Button>(R.id.btn_plus)
@@ -91,7 +106,38 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         userBusTicketAdapter = UserBusTicketAdapter(userBusTicketList)
         recyclerView.adapter = userBusTicketAdapter
 
-        fetchUserBusTickets(selectedRoute, "21", "amea") // Fetch tickets with the default route
+        val buyWeek = findViewById<Button>(R.id.buy_week)
+        val buyMonth = findViewById<Button>(R.id.buy_month)
+        val buySingle = findViewById<Button>(R.id.buy_single)
+
+        User.getUserCategory(this, userId) { category ->
+            if (category != null) {
+                userCat = category
+            }
+        }
+        buyWeek.setOnClickListener {
+            // Call insertBusTicket when the button is clicked
+            val routeID = selectedBusLine.id
+
+                insertUserBusTicket(routeID, userId, userCat, "weekly", 0)
+
+        }
+        buySingle.setOnClickListener {
+            // Call insertBusTicket when the button is clicked
+            val routeID = selectedBusLine.id
+
+                insertUserBusTicket(routeID, userId, userCat, "single", selectedAmount)
+
+        }
+        buyMonth.setOnClickListener {
+            // Call insertBusTicket when the button is clicked
+            val routeID = selectedBusLine.id
+
+                insertUserBusTicket(routeID, userId, userCat, "monthly", 0)
+
+        }
+
+        fetchUserBusTickets(selectedRoute, userId.toString(),userCat) // Fetch tickets with the default route
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
@@ -99,7 +145,7 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             R.id.spinner1 -> {
                 // Handle the spinner1 selection
                 selectedRoute = busLineList[position].id.toString()
-                fetchUserBusTickets(selectedRoute, "21", "amea")
+                fetchUserBusTickets(selectedRoute, userId.toString(), userCat)
 
                 val selectedBusLine = busLineList[position]
                 val lineTextView = findViewById<TextView>(R.id.line_tv2)
@@ -108,7 +154,7 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             R.id.spinner2 -> {
                 // Handle the bus line spinner selection
                 if (::busLineList.isInitialized) {
-                    val selectedBusLine = busLineList[position]
+                     selectedBusLine = busLineList[position]
                     val lineTextView = findViewById<TextView>(R.id.line_tv)
                     lineTextView.text = "Line: ${selectedBusLine.id}"
 
@@ -119,8 +165,8 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         val selectedMonthlyTicket = monthlyBusTicketList.find { it.route == selectedBusLine.id }
 
                         val priceSingleTextView = findViewById<TextView>(R.id.price_single)
-                        val priceWeeklyTextView = findViewById<TextView>(R.id.price_week)
-                        val priceMonthlyTextView = findViewById<TextView>(R.id.price_month)
+                        val priceWeeklyTextView = findViewById<TextView>(R.id.price_day)
+                        val priceMonthlyTextView = findViewById<TextView>(R.id.price_week)
 
                         if (selectedSingleTicket != null) {
                             selectedSingleTicketCost = selectedSingleTicket.cost
@@ -164,7 +210,7 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun updateTotalCost() {
-        val priceSingleXAmountTextView = findViewById<TextView>(R.id.price_single_xamount)
+        val priceSingleXAmountTextView = findViewById<TextView>(R.id.price_xamount)
         if (selectedSingleTicketCost != null) {
             val totalCost = selectedSingleTicketCost!! * selectedAmount
             priceSingleXAmountTextView.text = "Total: $totalCost$"
@@ -176,4 +222,43 @@ class BuyTickets : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onNothingSelected(parent: AdapterView<*>) {
         // Do nothing
     }
+
+    private fun insertUserBusTicket(route: Int, userId: Int, userCat: String, duration: String, number: Int) {
+        Log.d("InsertBusTicket", "Route ID: $route, User ID: $userId, User Category: $userCat, Duration: $duration, Number: $number")
+
+        val api = ApiClient.apiService
+        val call = api.insertUserBusTicket(route, userId, userCat, duration, number)
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()?.string()
+                    if (responseBody != null) {
+                        Log.d("InsertBusTicket", "Response: $responseBody")
+                        // Handle successful insertion
+                        showToast("Bus ticket inserted successfully")
+                    } else {
+                        Log.d("InsertBusTicket", "Null response received.")
+                        // Provide feedback to the user (optional)
+                        showToast("Failed to insert bus ticket: Null response")
+                    }
+                } else {
+                    Log.d("InsertBusTicket", "Failed to insert bus ticket. Error code: ${response.code()}")
+                    // Provide feedback to the user (optional)
+                    showToast("Failed to insert bus ticket. Error code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("InsertBusTicket", "Failed to insert bus ticket", t)
+                // Provide feedback to the user (optional)
+                showToast("Failed to insert bus ticket. Please try again later.")
+            }
+        })
+    }
+
+
+    private fun showToast(message: String) {
+        Toast.makeText(this@BuyBusTickets, message, Toast.LENGTH_SHORT).show()
+    }
+
 }

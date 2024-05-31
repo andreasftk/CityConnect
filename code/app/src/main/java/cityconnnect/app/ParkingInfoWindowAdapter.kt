@@ -2,12 +2,14 @@ package cityconnnect.app
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.GridLayout.Spec
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
+import cityconnnect.app.ui.BuyParkingTickets
 import cityconnnect.app.ui.MainBus
 import cityconnnect.app.ui.SpecificParkingPage
 import org.osmdroid.views.MapView
@@ -17,6 +19,9 @@ import org.osmdroid.views.overlay.infowindow.InfoWindow
 class ParkingInfoWindowAdapter(
     private val context: Context,
     private val mapView: MapView,
+    private val parkingId: Int,
+    private val categoryId: String,
+    private val userId: Int,
     private val onCloseCallback: () -> Unit
 ) : InfoWindow(LayoutInflater.from(context).inflate(R.layout.card_view, null), mapView) {
 
@@ -35,10 +40,13 @@ class ParkingInfoWindowAdapter(
         }
 
         goToPageButton.setOnClickListener {
-            val parkingName = marker.title
-            val intent = Intent(context, SpecificParkingPage::class.java).apply {
-                putExtra(SpecificParkingPage.EXTRA_PARKING_NAME, parkingName)
+            val intent = Intent(context, BuyParkingTickets::class.java)
+            val bundle = Bundle().apply {
+                putInt("id", userId)
+                putInt("parking_id", parkingId)
+                putString("category_id", categoryId)
             }
+            intent.putExtras(bundle)
             context.startActivity(intent)
         }
     }
@@ -47,3 +55,4 @@ class ParkingInfoWindowAdapter(
         onCloseCallback() // Invoke the callback to reset the marker icon
     }
 }
+

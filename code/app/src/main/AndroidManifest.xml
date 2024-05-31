@@ -32,6 +32,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <activity
@@ -46,11 +47,11 @@
             android:exported="true" />
 
         <activity
-            android:name=".ui.BuyTickets"
+            android:name=".ui.BuyBusTickets"
             android:exported="true"/>
 
         <activity android:name=".ui.SpecificParkingPage" />
-        <activity android:name=".ui.MapsActivity" />
+        <activity android:name=".ui.MainParking" />
 
         <activity
             android:name=".ComplainMain"
@@ -71,6 +72,12 @@
         <activity
             android:name=".ui.qrscanner.zxinglibrary.HelperActivity"
             android:label="@string/helper_activity" />
+
+        <activity
+            android:name=".ui.BuyParkingTickets"
+            android:exported="true">
+
+        </activity>
     </application>
 
 </manifest>

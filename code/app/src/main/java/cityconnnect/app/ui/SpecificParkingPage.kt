@@ -12,13 +12,12 @@ class SpecificParkingPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.specific_parking_activity)
 
-        val parkingName = intent.getStringExtra(EXTRA_PARKING_NAME)
 
         val parkingNameTextView: TextView = findViewById(R.id.parkingNameTextView)
-        parkingNameTextView.text = parkingName
+
     }
 
     companion object {
-        const val EXTRA_PARKING_NAME = "cityconnnect.app.ui.EXTRA_PARKING_NAME"
+
     }
 }
