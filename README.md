@@ -2,21 +2,23 @@
 
 This repository contains the materials for a university project titled. Below is an overview of the folder structure:
 
+```
 ├── Submit 1
 ├── Submit 2
 ├── Submit 3
 └── code
-    └── kotlin
-        └── app
-            └── src
-                └── main
-                    └── java
-                        └── cityconnect
-                            └── app
-                                └── MainActivity.kt
+|    └── kotlin
+|       └── app
+|            └── src
+|                └── main
+|                    └── java
+|                        └── cityconnect
+|                            └── app
+|                                └── MainActivity.kt
 └── php
     ├── config.php
     └── other_php_files.php
+```
 
 
 ## Submit 1
