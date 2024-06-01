@@ -92,12 +92,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
 
         //Log.e("photos", "Resource ID: $resourceId1")
 
-        refreshComplains()
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
-        // Initialize the SwipeRefreshLayout
-        swipeRefreshLayout.setOnRefreshListener {
-            refreshComplains()
-        }
+
 
        // rvComplains.adapter = complainAdapter
         //rvComplains.layoutManager = LinearLayoutManager(this)
@@ -129,6 +124,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
             buttonHistory.isEnabled = true
             updateButtonBackground(buttonHistory)
             updateButtonBackground(buttonFeed)
+            refreshComplains()
         }
 
         buttonHistory.setOnClickListener {
@@ -137,6 +133,7 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
             buttonFeed.isEnabled = true
             updateButtonBackground(buttonHistory)
             updateButtonBackground(buttonFeed)
+            refreshComplains()
         }
 
         buttonPlus.setOnClickListener {
@@ -144,7 +141,12 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
             showNewComplainForm()
         }
 
-
+        refreshComplains()
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
+        // Initialize the SwipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener {
+            refreshComplains()
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -156,15 +158,27 @@ class ComplainMain : AppCompatActivity(), ComplainAdapter.ImageButtonClickListen
     }
 
     private fun refreshComplains() {
+        if(buttonHistory.isEnabled) {
+            Complain.getComplains(this) { complains ->
+                complainList = ArrayList(complains)
+                complainAdapter = ComplainAdapter(complainList)
+                rvComplains.adapter = complainAdapter
+                rvComplains.layoutManager = LinearLayoutManager(this)
+                complainAdapter.setImageButtonClickListener(this)
+                swipeRefreshLayout.isRefreshing = false // Stop the refreshing animation
 
-        Complain.getComplains(this) { complains ->
-             complainList = ArrayList(complains)
-            complainAdapter = ComplainAdapter(complainList)
-            rvComplains.adapter = complainAdapter
-            rvComplains.layoutManager = LinearLayoutManager(this)
-            complainAdapter.setImageButtonClickListener(this)
-            swipeRefreshLayout.isRefreshing = false // Stop the refreshing animation
+            }
+        }
+        else {
+            History.getComplains(this, currentUser) { complains ->
+                complainList = ArrayList(complains)
+                complainAdapter = ComplainAdapter(complainList)
+                rvComplains.adapter = complainAdapter
+                rvComplains.layoutManager = LinearLayoutManager(this)
+                complainAdapter.setImageButtonClickListener(this)
+                swipeRefreshLayout.isRefreshing = false // Stop the refreshing animation
 
+            }
         }
     }
 
