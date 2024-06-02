@@ -71,6 +71,12 @@ To open the code on Android Studio:
 3. Navigate to the location where you cloned or downloaded the repository.
 4. Select the project's root directory and click "Open."
 
+**To log in to the application use: 
+```
+username: test_user
+password: 12345678!
+```
+
 You should now be able to explore and edit the project's code within Android Studio.
 
 
