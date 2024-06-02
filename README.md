@@ -12,7 +12,7 @@ This repository contains the materials for a university project titled. Below is
 |            └── src
 |                └── main
 |                    └── java
-|                        └── cityconnect
+|                        └── cityconnnect
 |                            └── app
 |                                └── MainActivity.kt
 └── php
@@ -28,10 +28,14 @@ This folder contains materials related to the first submission of the project.
 This folder contains materials related to the second submission of the project.
 
 ## Submit 3
+This folder contains materials related to the third submission of the project.
+
+## Submit 4
 This folder contains materials related to the final submission of the project.
 
 ## code
-This folder contains the project's source code divided into two subfolders:
+This folder contains the project's source code. Here is a quick demonstration of the functionality we implemented: 
+`https://youtu.be/J42zODKoa4Q?feature=shared`
 
 ### php
 This folder contains PHP scripts used for server-side operations, particularly for interacting with a MySQL database. It's crucial for handling backend operations such as database connections, queries, and data manipulation.
