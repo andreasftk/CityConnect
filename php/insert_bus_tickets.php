@@ -41,7 +41,7 @@ $query = "SELECT user_id
 $stmt = $con->prepare($query);
 
 // Bind parameters
-$stmt->bind_param("is", $user_id, $id1);
+$stmt->bind_param("ii", $user_id, $id1);
 
 // Execute the statement
 $stmt->execute();
@@ -265,35 +265,24 @@ $stmt->close();
 
 }
 
+// Check if all required parameters are provided in the URL query string
+if (isset($_POST['route']) && isset( $_POST['user_id']) && isset( $_POST['user_cat']) && isset($_POST['duration']) && isset( $_POST['number'])) {
+    $route = $_POST['route'];
+    $user_id = $_POST['user_id'];
+    $user_cat = $_POST['user_cat'];
+    $duration = $_POST['duration'];
+    $number = $_POST['number'];
 
-/*
-// Decode the incoming JSON data
-$data = file_get_contents("php://input");
-$json = json_decode($data, true);
+    // Call the buy_bus function with provided parameters
+    buy_bus($con, $route, $user_id, $user_cat, $duration, $number);
 
-// Validate and process the input data
-if (isset($json['qrData']) && isset($json['userId']) && isset($json['ticketDuration'])) {
-    $parking_id = $json['qrData'];
-    $user_id = $json['userId'];
-    $ticket_duration = $json['ticketDuration'];
-
-    // Check the ticket validity
-    $result = check_ticket_validity($con, '1','21', 'user_one_hour_parking_tickets','amea');
-
-    // Return the result as JSON
-    echo json_encode([
-        'status' => 'success',
-        'result' => $result
-    ]);
+    // Return a success message
+    
 } else {
-    // Return an error response if the input is invalid
+    // Return an error response if the required parameters are missing
     echo json_encode([
         'status' => 'error',
-        'message' => 'Invalid input'
+        'message' => 'Missing required parameters'
     ]);
 }
-*/
-
-
- echo buy_bus($con, '1','21','amea','single',20);
 ?>

@@ -2,8 +2,19 @@
 include_once('config.php');
 
 // Function to check ticket validity
-function check_ticket_validity($con, $parking_id, $user_id, $ticket_duration,$user_cat) {
+function check_ticket_validity($con, $parking_id, $user_id, $ticket_duration) {
     $current_time = date('Y-m-d H:i:s');
+    
+    
+    
+  
+    $stm1 = $con->prepare("SELECT category FROM `User` WHERE id = ?");
+    $stm1->bind_param("i", $user_id);
+    $stm1->execute();
+    $stm1->bind_result($user_cat);
+    $stm1->fetch();
+    $stm1->close();
+    
     
 $num = 0; // Initialize $num
 
@@ -28,6 +39,25 @@ if($temp==$user_id){
     $delete_stmt->bind_param("i", $user_id);
     $delete_stmt->execute();
     $delete_stmt->close();
+    
+       
+    
+      if($user_cat=='amea'){
+                         
+                    $stmt5 = $con->prepare( "UPDATE parkings SET available_amea_spaces=available_amea_spaces +1 WHERE id=?");
+                      $stmt5->bind_param("i", $parking_id);
+                $stmt5->execute();
+        
+                $stmt5->close();
+                  }
+                else{
+                    
+                    $stmt5 = $con->prepare( "UPDATE parkings SET available_spaces=available_spaces +1 WHERE id=?");
+                      $stmt5->bind_param("i", $parking_id);
+                $stmt5->execute();
+        
+                $stmt5->close();
+                }
     
     return 4;
     }
@@ -61,7 +91,26 @@ else if($out_time <= $current_time){
     $delete_stmt->execute();
     $delete_stmt->close();
     
-    return5;
+    
+    
+      if($user_cat=='amea'){
+                         
+                    $stmt5 = $con->prepare( "UPDATE parkings SET available_amea_spaces=available_amea_spaces +1 WHERE id=?");
+                      $stmt5->bind_param("i", $parking_id);
+                $stmt5->execute();
+        
+                $stmt5->close();
+                  }
+                else{
+                    
+                    $stmt5 = $con->prepare( "UPDATE parkings SET available_spaces=available_spaces +1 WHERE id=?");
+                      $stmt5->bind_param("i", $parking_id);
+                $stmt5->execute();
+        
+                $stmt5->close();
+                }
+    
+    return 5;
 
 }
     
@@ -118,9 +167,8 @@ else{
   
   
   
-  // Prepare the SQL query to get both apt.id and number based on the ticket duration
-$stmt = null;
-if ($ticket_duration == 'user_daily_parking_tickets') {
+  // Prepare the SQL query to get both apt.id and number based on the ticket duratio
+if ($ticket_duration == 'Daily') {
     $sql = "
         SELECT apt.id, uohpt.number
         FROM user_daily_parking_tickets uohpt
@@ -130,7 +178,7 @@ if ($ticket_duration == 'user_daily_parking_tickets') {
         AND oht.user_category = ?
         AND uohpt.user_id = ?
     ";
-} elseif ($ticket_duration == 'user_five_hours_parking_tickets') {
+} elseif ($ticket_duration == '5 hours') {
     $sql = "
         SELECT apt.id, uohpt.number
         FROM user_five_hours_parking_tickets uohpt
@@ -140,7 +188,7 @@ if ($ticket_duration == 'user_daily_parking_tickets') {
         AND oht.user_category = ?
         AND uohpt.user_id = ?
     ";
-} elseif ($ticket_duration == 'user_one_hour_parking_tickets') {
+} elseif ($ticket_duration == '1 hour') {
     $sql = "
         SELECT apt.id, uohpt.number
         FROM user_one_hour_parking_tickets uohpt
@@ -150,7 +198,7 @@ if ($ticket_duration == 'user_daily_parking_tickets') {
         AND oht.user_category = ?
         AND uohpt.user_id = ?
     ";
-} elseif ($ticket_duration == 'user_three_hours_parking_tickets') {
+} elseif ($ticket_duration == '3 hours') {
     $sql = "
         SELECT apt.id, uohpt.number
         FROM user_three_hours_parking_tickets uohpt
@@ -160,7 +208,7 @@ if ($ticket_duration == 'user_daily_parking_tickets') {
         AND oht.user_category = ?
         AND uohpt.user_id = ?
     ";
-} elseif ($ticket_duration == 'user_weekly_parking_tickets') {
+} elseif ($ticket_duration == 'Weekly') {
     $sql = "
         SELECT apt.id, uohpt.number
         FROM user_weekly_parking_tickets uohpt
@@ -173,64 +221,74 @@ if ($ticket_duration == 'user_daily_parking_tickets') {
 }
 
 // Prepare and execute the statement
-if ($sql) {
+
     $stmt = $con->prepare($sql);
     if ($stmt) {
-        $stmt->bind_param("sss", $area, $user_cat, $user_id);
+        $stmt->bind_param("ssi", $area, $user_cat, $user_id);
         $stmt->execute();
         $stmt->bind_result($apt_id, $number);
         $stmt->fetch();
-        $stmt->close();
+        
     }
-}
 if(intval($number)>0){
     
-        if ($ticket_duration == 'user_daily_parking_tickets') {
-            // Calculate out_time for daily parking ticket
-            $out_time = date('Y-m-d H:i:s', strtotime('+1 day', strtotime($current_time)));
-            // Query to insert into parking_live table
-            $stmt = $con->prepare("INSERT INTO `parking_live`(`user_id`, `parking_id`, `in_time`, `out_time`) VALUES (?, ?, ?, ?)");
-        } elseif ($ticket_duration == 'user_five_hours_parking_tickets') {
-            // Calculate out_time for five hours parking ticket
-            $out_time = date('Y-m-d H:i:s', strtotime('+5 hours', strtotime($current_time)));
-            // Query to insert into parking_live table
-            $stmt = $con->prepare("INSERT INTO `parking_live`(`user_id`, `parking_id`, `in_time`, `out_time`) VALUES (?, ?, ?, ?)");
-        } elseif ($ticket_duration == 'user_one_hour_parking_tickets') {
-            // Calculate out_time for one hour parking ticket
-            $out_time = date('Y-m-d H:i:s', strtotime('+1 hour', strtotime($current_time)));
-            // Query to insert into parking_live table
-            $stmt = $con->prepare("INSERT INTO `parking_live`(`user_id`, `parking_id`, `in_time`, `out_time`) VALUES (?, ?, ?, ?)");
-        } elseif ($ticket_duration == 'user_three_hours_parking_tickets') {
-            // Calculate out_time for three hours parking ticket
-            $out_time = date('Y-m-d H:i:s', strtotime('+3 hours', strtotime($current_time)));
-            // Query to insert into parking_live table
-            $stmt = $con->prepare("INSERT INTO `parking_live`(`user_id`, `parking_id`, `in_time`, `out_time`) VALUES (?, ?, ?, ?)");
-        } elseif ($ticket_duration == 'user_weekly_parking_tickets') {
-            // Calculate out_time for weekly parking ticket
-            $out_time = date('Y-m-d H:i:s', strtotime('+1 week', strtotime($current_time)));
-            // Query to insert into parking_live table
-            $stmt = $con->prepare("INSERT INTO `parking_live`(`user_id`, `parking_id`, `in_time`, `out_time`) VALUES (?, ?, ?, ?)");
-        }
+$stmt = null;
 
-        // Execute the query to insert into parking_live table
-        if ($stmt) {
-            $stmt->bind_param("iiss", $user_id, $parking_id, $current_time, $out_time);
-            $stmt->execute();
-            $stmt->close();
-            $valid = true; // Ticket is valid
-        }
+if ($ticket_duration == 'Daily') {
+    // Calculate out_time for daily parking ticket
+    $out_time = date('Y-m-d H:i:s', strtotime('+1 day', strtotime($current_time)));
+} elseif ($ticket_duration == '5 hours') {
+    // Calculate out_time for five hours parking ticket
+    $out_time = date('Y-m-d H:i:s', strtotime('+5 hours', strtotime($current_time)));
+    } elseif ($ticket_duration == '1 hour') {
+    // Calculate out_time for one hour parking ticket
+    $out_time = date('Y-m-d H:i:s', strtotime('+1 hour', strtotime($current_time)));
+} elseif ($ticket_duration == '3 hours') {
+    // Calculate out_time for three hours parking ticket
+    $out_time = date('Y-m-d H:i:s', strtotime('+3 hours', strtotime($current_time)));
+} elseif ($ticket_duration == 'Weekly') {
+    // Calculate out_time for weekly parking ticket
+    $out_time = date('Y-m-d H:i:s', strtotime('+1 week', strtotime($current_time)));
+}
+
+// Close any previously opened statement
+if ($stmt != null) {
+    $stmt->close();
+}
+
+// Check if $out_time is not null
+if ($out_time != null) {
+    // Query to insert into parking_live table
+    $stmt = $con->prepare("INSERT INTO `parking_live`(`user_id`, `parking_id`, `in_time`, `out_time`) VALUES (?, ?, ?,?)");
+
+    // Check if the statement was prepared successfully
+    if ($stmt) {
+        // Bind parameters
+        $stmt->bind_param("iiss", $user_id, $parking_id, $current_time, $out_time);
+        
+        // Execute the query
+        $stmt->execute();
+        
+        // Close the statement
+        $stmt->close();
+        
+        // Ticket is valid
+        $valid = true;
+    }
+}
+
         
         
          // Now, decrement the user's ticket count
-            if ($ticket_duration == 'user_daily_parking_tickets') {
+            if ($ticket_duration == 'Daily') {
                 $stmt = $con->prepare("UPDATE user_daily_parking_tickets SET number = number - 1 WHERE user_id = ? AND parking_ticket_id = ?");
-            } elseif ($ticket_duration == 'user_five_hours_parking_tickets') {
+            } elseif ($ticket_duration == '5 hours') {
                 $stmt = $con->prepare("UPDATE user_five_hours_parking_tickets SET number = number - 1 WHERE user_id = ? AND parking_ticket_id = ?");
-            } elseif ($ticket_duration == 'user_one_hour_parking_tickets') {
+            } elseif ($ticket_duration == '1 hour') {
                 $stmt = $con->prepare("UPDATE user_one_hour_parking_tickets SET number = number - 1 WHERE user_id = ? AND parking_ticket_id = ?");
-            } elseif ($ticket_duration == 'user_three_hours_parking_tickets') {
+            } elseif ($ticket_duration == '3 hours') {
                 $stmt = $con->prepare("UPDATE user_three_hours_parking_tickets SET number = number - 1 WHERE user_id = ? AND parking_ticket_id = ?");
-            } elseif ($ticket_duration == 'user_weekly_parking_tickets') {
+            } elseif ($ticket_duration == 'Weekly') {
                 $stmt = $con->prepare("UPDATE user_weekly_parking_tickets SET number = number - 1 WHERE user_id = ? AND parking_ticket_id = ?");
             }
             
@@ -238,13 +296,37 @@ if(intval($number)>0){
                 $stmt->bind_param("ii", $user_id, $apt_id);
                 $stmt->execute();
                 $stmt->close();
+                
+                
+                
+                  if($user_cat=='amea'){
+                         
+                    $stmt5 = $con->prepare( "UPDATE parkings SET available_amea_spaces=available_amea_spaces -1 WHERE id=?");
+                      $stmt5->bind_param("i", $parking_id);
+                $stmt5->execute();
+        
+                $stmt5->close();
+                  }
+                else{
+                    
+                    $stmt5 = $con->prepare( "UPDATE parkings SET available_spaces=available_spaces -1 WHERE id=?");
+                      $stmt5->bind_param("i", $parking_id);
+                $stmt5->execute();
+        
+                $stmt5->close();
+                }
+                
             }
             
     
     
 }
 
-else{return 2;}
+else{return 2;
+    
+    
+    
+}
     return 3;
     }
     else{
@@ -255,39 +337,28 @@ else{return 2;}
 }
 
 
-/*
-// Decode the incoming JSON data
+
 $data = file_get_contents("php://input");
 $json = json_decode($data, true);
 
 // Validate and process the input data
-if (isset($json['qrData']) && isset($json['userId']) && isset($json['ticketDuration'])) {
+if (isset($json['qrData']) && isset($json['userId']) && isset($json['duration'])) {
     $parking_id = $json['qrData'];
     $user_id = $json['userId'];
-    $ticket_duration = $json['ticketDuration'];
+    $ticket_duration = $json['duration'];
 
-    // Check the ticket validity
-    $result = check_ticket_validity($con, '1','21', 'user_one_hour_parking_tickets','amea');
+    $result = check_ticket_validity($con, $parking_id, $user_id, $ticket_duration);
 
-    // Return the result as JSON
     echo json_encode([
         'status' => 'success',
         'result' => $result
     ]);
 } else {
-    // Return an error response if the input is invalid
     echo json_encode([
         'status' => 'error',
         'message' => 'Invalid input'
     ]);
 }
-*/
- $current_time = date('Y-m-d H:i:s');
-    $valid = false;
-        $apt_id = null;
-        $number = 0;
-        $out_time = null;
-        $num=0;
 
- echo check_ticket_validity($con, '1','21', 'user_weekly_parking_tickets','amea');
+ 
 ?>

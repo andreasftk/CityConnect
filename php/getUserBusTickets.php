@@ -6,7 +6,7 @@ include_once('config.php');
 $data = file_get_contents("php://input");
 $json = json_decode($data, true);
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['route']) && isset($_GET['user_id']) && isset($_GET['user_cat'])) {
+if (isset($_GET['route']) && isset($_GET['user_id']) && isset($_GET['user_cat'])) {
     $route = $_GET['route'];
     $user_id = $_GET['user_id'];
     $user_cat = $_GET['user_cat'];
@@ -101,7 +101,7 @@ $stmt->bind_param("iss", $user_id, $route, $user_cat);
 $stmt->execute();
 
 // Bind result variables
-$stmt->bind_result($number2);
+$stmt->bind_result($number3);
 
 // Fetch the result
 $stmt->fetch();

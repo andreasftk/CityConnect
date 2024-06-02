@@ -5,7 +5,7 @@ include_once('config.php');
 
 
 // SQL query to select all parkings
-$sql = "SELECT id, address, latitude, longitude, total_spaces, available_spaces FROM parkings";
+$sql = "SELECT * FROM parkings";
 $result = $con->query($sql);
 
 $parkings = array();
