@@ -16,7 +16,7 @@ class PendingBillsAdapter(
     private val selectedBills: MutableList<PendingBill> = mutableListOf()
 
     interface OnCheckedChangeListener {
-        fun onCheckedChanged(amount: Double, isChecked: Boolean)
+        fun updateTotalAmount(amount: Double, isChecked: Boolean)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -44,7 +44,7 @@ class PendingBillsAdapter(
             } else {
                 selectedBills.remove(bill)
             }
-            listener.onCheckedChanged(bill.amount, isChecked)
+            listener.updateTotalAmount(bill.amount, isChecked)
         }
     }
 

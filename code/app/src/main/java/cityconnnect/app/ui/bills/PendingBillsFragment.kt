@@ -50,7 +50,7 @@ class PendingBillsFragment : Fragment(), PendingBillsAdapter.OnCheckedChangeList
         return view
     }
 
-    override fun onCheckedChanged(amount: Double, isChecked: Boolean) {
+    override fun updateTotalAmount(amount: Double, isChecked: Boolean) {
         totalAmount += if (isChecked) amount else -amount
         totalAmountTextView.text = "Total Amount: ${String.format("%.2f", totalAmount)}€"
     }
