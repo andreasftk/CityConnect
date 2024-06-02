@@ -8,6 +8,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import cityconnect.app.ParkingTicket
 import cityconnect.app.UserParkingTicket
 import cityconnnect.app.ParkingCategories
@@ -42,6 +43,8 @@ class BuyParkingTickets : AppCompatActivity(), AdapterView.OnItemSelectedListene
     private lateinit var userParkingTicketAdapter: UserParkingTicketAdapter
     private lateinit var userParkingTicketList: ArrayList<UserParkingTicket>
     private lateinit var recyclerView: RecyclerView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,11 +85,16 @@ class BuyParkingTickets : AppCompatActivity(), AdapterView.OnItemSelectedListene
         val adapter3 = ArrayAdapter(this, android.R.layout.simple_spinner_item, duration)
         spin3.adapter = adapter3
 
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
         recyclerView = findViewById<RecyclerView>(R.id.rv2)
         recyclerView.layoutManager = LinearLayoutManager(this)
         userParkingTicketList = ArrayList()
         userParkingTicketAdapter = UserParkingTicketAdapter(userParkingTicketList)
         recyclerView.adapter = userParkingTicketAdapter
+
+        swipeRefreshLayout.setOnRefreshListener {
+            fetchUserParkingTickets(selectedCat.category, userId)
+        }
 
         val buyDay = findViewById<Button>(R.id.buy_day)
         val buyWeek = findViewById<Button>(R.id.buy_week2)
@@ -100,7 +108,7 @@ class BuyParkingTickets : AppCompatActivity(), AdapterView.OnItemSelectedListene
         buyWeek.setOnClickListener {
             // Call insertBusTicket when the button is clicked
             val zone = selectedCat.category
-            insertUserParkingTicket(parking_id.toString(), userId, userCat, "weekly", 0)
+            insertUserParkingTicket(parking_id.toString(), userId, userCat, "weekly", 1)
             fetchUserParkingTickets(selectedCat.category, userId)
 
         }
@@ -127,7 +135,7 @@ class BuyParkingTickets : AppCompatActivity(), AdapterView.OnItemSelectedListene
         buyDay.setOnClickListener {
             // Call insertBusTicket when the button is clicked
             val zone = selectedCat.category
-            insertUserParkingTicket(parking_id.toString(), userId, userCat, "daily", 0)
+            insertUserParkingTicket(parking_id.toString(), userId, userCat, "daily", 1)
             fetchUserParkingTickets(selectedCat.category, userId)
         }
     }
@@ -261,18 +269,22 @@ class BuyParkingTickets : AppCompatActivity(), AdapterView.OnItemSelectedListene
                         "1hr" -> {
                             val selectedOneHourTicket = oneHourParkingTickets.find { it.region == selectedCat.category }
                             selectedTicketCost = selectedOneHourTicket?.price ?: 0.0f
+                            updateTotalCost()
                         }
                         "3hrs" -> {
                             val selectedThreeHoursTicket = threeHoursParkingTickets.find { it.region == selectedCat.category }
                             selectedTicketCost = selectedThreeHoursTicket?.price ?: 0.0f
+                            updateTotalCost()
+
                         }
                         "5hrs" -> {
                             val selectedFiveHoursTicket = fiveHoursParkingTickets.find { it.region == selectedCat.category }
                             selectedTicketCost = selectedFiveHoursTicket?.price ?: 0.0f
+                            updateTotalCost()
                         }
                     }
                     priceTextView.text = "${selectedTicketCost}$"
-                    updateTotalCost()
+
                 } else {
                     Log.e("BuyParkingTickets", "selectedCat or oneHourParkingTickets not initialized")
                 }

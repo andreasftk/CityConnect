@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -302,6 +303,7 @@ class MainParking : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     val result = response.body()?.result
+                    Log.d("ServerResponse", "Result: $result")
                     when (result) {
                         1 -> no_space_available()
                         2 -> no_ticket_available()
@@ -324,7 +326,7 @@ class MainParking : AppCompatActivity() {
 
 
     private fun enter_confirm() {
-
+        Toast.makeText(this@MainParking, "Ticket is valid", Toast.LENGTH_LONG).show()
     }
 
     private fun no_ticket_available() {

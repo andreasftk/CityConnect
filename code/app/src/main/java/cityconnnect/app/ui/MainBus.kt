@@ -189,11 +189,12 @@ class MainBus : AppCompatActivity() {
 
 
     private fun confirmMonthly() {
-
+        Toast.makeText(this@MainBus, "Monthly ticket is valid", Toast.LENGTH_LONG).show()
     }
 
     private fun confirmWeekly() {
         // Call your confirm_weekly function here
+        Toast.makeText(this@MainBus, "Weekly ticket is valid", Toast.LENGTH_LONG).show()
     }
 
     private fun confirmSingle(scanData: String, userId: String) {
@@ -245,6 +246,9 @@ class MainBus : AppCompatActivity() {
         builder.setMessage("You don't have enough tickets. Do you want to buy more tickets?")
         builder.setPositiveButton("Yes") { dialog, which ->
             val intent = Intent(this, BuyBusTickets::class.java)
+            val bundle = Bundle()
+            bundle.putInt("id", userId)
+            intent.putExtras(bundle)
             startActivity(intent)
         }
         builder.setNegativeButton("No") { dialog, which ->
