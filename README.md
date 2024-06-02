@@ -6,6 +6,7 @@ This repository contains the materials for a university project titled. Below is
 ├── Submit 1
 ├── Submit 2
 ├── Submit 3
+├── Submit 4
 └── code
 |    └── kotlin
 |       └── app
@@ -23,15 +24,31 @@ This repository contains the materials for a university project titled. Below is
 
 ## Submit 1
 This folder contains materials related to the first submission of the project.
+*Team-plan-v0.1
+*Project-description-v0.1
+*Project-plan-v0.1
+*Risk-assessment-v0.1
+*Use-cases-v0.1
+*Domain-model-v0.1
 
 ## Submit 2
 This folder contains materials related to the second submission of the project.
+*Robustness-diagrams-v0.1
+*Sequence-diagrams-v0.1
+*Use-cases-v0.2
+*Domain-model-v0.2
+*Project-description-v0.2
 
 ## Submit 3
 This folder contains materials related to the third submission of the project.
+*Class-diagram-v0.1
+*Project-code-v0.1
+*Robustness-diagrams-v0.2
+*Sequence-diagrams-v0.2
 
 ## Submit 4
-This folder contains materials related to the final submission of the project.
+This folder contains materials related to the final submission of the project. 
+All the files from the previous submissions are finalized and contained in this folder. 
 
 ## code
 This folder contains the project's source code. Here is a quick demonstration of the functionality we implemented: 
